@@ -1,0 +1,16 @@
+package company.app.employermanagement.repositories;
+
+import company.app.employermanagement.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, UUID> {
+
+    User save(User entity);
+    Boolean existsByUserName(String userName);
+    User findOneByUserName(String userName);
+    User findByUid(UUID uid);
+}
