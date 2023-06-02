@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -34,6 +35,12 @@ public class User {
     @NotNull
     String identification; //CCCD/CMND
     String bank;
+    @ManyToMany
+    @JoinTable(name = "shift_detail",
+            joinColumns = @JoinColumn(name = "user_uid"),
+            inverseJoinColumns = @JoinColumn(name = "shift_id")
+    )
+    private Set<Shift> shifts;
     @NotNull
     @Column(name = "role_name")
     private String roleName;

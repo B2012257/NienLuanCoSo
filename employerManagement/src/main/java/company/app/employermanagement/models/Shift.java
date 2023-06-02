@@ -1,27 +1,24 @@
 package company.app.employermanagement.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+
+import java.util.Set;
 
 @Entity
 public class Shift {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    @NotNull
-    String name;
-    @NotNull
-    String timeline;
-
-    public Shift(Long id, String name, String timeline) {
-        this.id = id;
-        this.name = name;
-        this.timeline = timeline;
-    }
-
-    public Shift() {
-
-    }
+    private Long id;
+    private String name;
+    @Column(name = "task_id")
+    private String taskId;
+    @ManyToMany(mappedBy = "shifts")
+    private Set<User> users;
+    @ManyToOne
+    @JoinColumn(name = "shiftListId", referencedColumnName = "id")
+    private ShiftList shiftList;
+    @OneToOne
+    @JoinColumn(name = "task_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Task task;
 
     public Long getId() {
         return id;
@@ -39,20 +36,36 @@ public class Shift {
         this.name = name;
     }
 
-    public String getTimeline() {
-        return timeline;
+    public String getTaskId() {
+        return taskId;
     }
 
-    public void setTimeline(String timeline) {
-        this.timeline = timeline;
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
-    @Override
-    public String toString() {
-        return "Shift{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", timeline='" + timeline + '\'' +
-                '}';
+    public Set<User> getUsers() {
+        return users;
     }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public ShiftList getShiftListId() {
+        return shiftList;
+    }
+
+    public void setShiftListId(ShiftList shiftListId) {
+        this.shiftList = shiftListId;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+// Other work attributes, getters, setters, and relationships
 }

@@ -1,6 +1,10 @@
 package company.app.employermanagement.controllers;
 
+import company.app.employermanagement.models.Shift;
+import company.app.employermanagement.models.ShiftList;
+import company.app.employermanagement.models.Shift;
 import company.app.employermanagement.models.User;
+import company.app.employermanagement.repositories.ShiftRepository;
 import company.app.employermanagement.responses.Response;
 import company.app.employermanagement.services.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class ManagerController {
     @Autowired
     private ManagerService managerService;
-
+    @Autowired
+    ShiftRepository shiftRepository;
     @PostMapping("/employee/add")
     public Response addEmployee(@RequestBody User employeeDetail) {
         /* redirect to register api */
@@ -46,8 +51,8 @@ public class ManagerController {
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */
     @PostMapping("/employee/schedule")
-    public void scheduleEmployee() {
-
+    public Shift scheduleEmployee(@RequestBody Shift shift) {
+        return this.managerService.scheduleEmployee(shift);
     }
 
     /*Chỉnh sửa lại lịch nếu như có thay đổi, ghi chú lại lý do thay đổi*/
@@ -61,5 +66,9 @@ public class ManagerController {
     public void cancelScheduleEmployee() {
 
     }
+    @PostMapping("/employee/schedule/createShift")
+    public ShiftList createShift(@RequestBody ShiftList shiftList) {
 
+            return this.shiftRepository.save(shiftList);
+    }
 }
