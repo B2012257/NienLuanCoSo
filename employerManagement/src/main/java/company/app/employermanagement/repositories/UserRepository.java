@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     User save(User entity);
     Boolean existsByUserName(String userName);
     User findOneByUserName(String userName);
-    User findByUid(UUID uid);
+    User findOneByUid(String uid);
 }

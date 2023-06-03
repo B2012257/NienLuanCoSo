@@ -1,22 +1,58 @@
 package company.app.employermanagement.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"shiftListId", "date"})})
 public class Shift {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "task_id")
-    private Task taskId;
-    @ManyToMany(mappedBy = "shifts")
-    private Set<User> users;
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "shiftListId", referencedColumnName = "id")
     private ShiftList shiftList;
+    private String task;
+    private String date;
+    @NotNull
+    @ManyToOne()
+    @JoinColumn(referencedColumnName = "uid")
+    private User schedule_by;
 
+    public Shift(Shift shift) {
+        this.id = shift.getId();
+        this.shiftList = shift.getShiftList();
+        this.task = shift.getTask();
+        this.date = shift.getDate();
+        this.schedule_by = shift.getSchedule_by();
+    }
+
+    public Shift(Long id, ShiftList shiftList, String task, String date, User schedule_by) {
+        this.id = id;
+        this.shiftList = shiftList;
+        this.task = task;
+        this.date = date;
+        this.schedule_by = schedule_by;
+    }
+
+    public Shift() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Shift{" +
+                "id=" + id +
+                ", shiftList=" + shiftList +
+                ", task='" + task + '\'' +
+                ", date='" + date + '\'' +
+                ", schedule_by=" + schedule_by +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -26,28 +62,41 @@ public class Shift {
         this.id = id;
     }
 
-    public Task getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Task taskId) {
-        this.taskId = taskId;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public ShiftList getShiftListId() {
+//    public List<String> getUsers() {
+//        return users;
+//    }
+//    public void setUsers(List<String> users) {
+//        this.users = users;
+//    }
+    public ShiftList getShiftList() {
         return shiftList;
     }
 
-    public void setShiftListId(ShiftList shiftListId) {
-        this.shiftList = shiftListId;
+    public void setShiftList(ShiftList shiftList) {
+        this.shiftList = shiftList;
     }
-    
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public User getSchedule_by() {
+        return schedule_by;
+    }
+
+    public void setSchedule_by(User schedule_by) {
+        this.schedule_by = schedule_by;
+    }
 }

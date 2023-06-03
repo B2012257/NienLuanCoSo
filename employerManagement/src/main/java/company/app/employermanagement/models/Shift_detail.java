@@ -1,25 +1,33 @@
 package company.app.employermanagement.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-//@IdClass(Shift_detailId.class)
+@Table(name = "shift_detail", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_uid", "shift_id"})})
 public class Shift_detail {
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        private Long id;
-        @ManyToOne
-        @JoinColumn(name = "user_uid")
-        private User user;
-        @ManyToOne
-        @JoinColumn(name = "shift_id")
-        private Shift shift;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "user_uid")
+    private User user;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "shift_id")
+    private Shift shift;
+    @NotNull
+    private int overtime;
+    @NotNull
+    String note;
+    @NotNull
+    int totalTime;
+    @NotNull
+    String start;
+    @NotNull
+    String end;
 
-        private int overtime;
-        String note;
-        int totalTime;
-        String start;
-        String end;
     public Long getId() {
         return id;
     }
@@ -54,6 +62,6 @@ public class Shift_detail {
     }
 
     // Constructors, getters, setters
-    }
+}
 
 

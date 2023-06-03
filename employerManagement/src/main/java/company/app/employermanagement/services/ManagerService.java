@@ -1,8 +1,12 @@
 package company.app.employermanagement.services;
 
 import company.app.employermanagement.models.Shift;
+import company.app.employermanagement.models.ShiftList;
+import company.app.employermanagement.models.Shift_detail;
 import company.app.employermanagement.models.User;
 import company.app.employermanagement.repositories.ShiftDetailRepository;
+import company.app.employermanagement.repositories.ShiftListRepository;
+import company.app.employermanagement.repositories.ShiftRepository;
 import company.app.employermanagement.repositories.UserRepository;
 import company.app.employermanagement.responses.ErrorResponse;
 import company.app.employermanagement.responses.Response;
@@ -24,9 +28,12 @@ import java.util.Date;
 public class ManagerService{
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     ShiftDetailRepository shiftDetailRepository;
+    @Autowired
+    ShiftRepository shiftRepository;
+    @Autowired
+    ShiftListRepository shiftListRepository;
     PasswordEncoder encoder;
 
     public ManagerService() {
@@ -77,13 +84,26 @@ public class ManagerService{
     public void deleteEmployee() {
 
     }
+    public Shift createShift( Shift shift) {
+        String userUid = shift.getSchedule_by().getUid();
+        Long shiftListId = shift.getShiftList().getId();
+
+        User us = userRepository.findOneByUid(userUid);
+        us.setPassword("");
+        ShiftList shiftLs = shiftListRepository.findOneById(shiftListId);
+        Shift shiftRes = new Shift(shift);
+        shiftRes.setShiftList(shiftLs);
+        shiftRes.setSchedule_by(us);
+//        System.out.println(shift);
+        return shiftRepository.save(shiftRes);
+    }
     /* sắp lịch làm (Dự kiến giao diện sẽ hiện ra danh sách các nhân viên,
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */
-    public Shift scheduleEmployee(Shift shift) {
+    public Shift_detail scheduleEmployee(Shift_detail shiftDetail) {
        //Tính toán thời gian bắt đầu và kết thúc
 
-        return this.shiftDetailRepository.save(shift);
+        return this.shiftDetailRepository.save(shiftDetail);
     }
     /*Chỉnh sửa lại lịch nếu như có thay đổi, ghi chú lại lý do thay đổi*/
     public void editScheduleEmployee() {

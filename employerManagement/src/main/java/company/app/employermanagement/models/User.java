@@ -1,5 +1,6 @@
 package company.app.employermanagement.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import company.app.employermanagement.untils.RandomIdUntil;
 import jakarta.annotation.Nonnull;
@@ -35,16 +36,17 @@ public class User {
     @NotNull
     String identification; //CCCD/CMND
     String bank;
-    @ManyToMany
-    @JoinTable(name = "shift_detail",
-            joinColumns = @JoinColumn(name = "user_uid"),
-            inverseJoinColumns = @JoinColumn(name = "shift_id")
-    )
-    private Set<Shift> shifts;
+//    @ManyToMany
+//    @JoinTable(name = "shift_detail",
+//            joinColumns = @JoinColumn(name = "user_uid"),
+//            inverseJoinColumns = @JoinColumn(name = "shift_id")
+//    )
+//    private Set<Shift> shifts;
     @NotNull
     @Column(name = "role_name")
     private String roleName;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="role_name",
             referencedColumnName = "name",
             insertable=false, updatable=false ) //Khoa ngoai tham chieu cot name trong Role
@@ -193,5 +195,21 @@ public class User {
 
     public void setContract_id(String contract_id) {
         this.contract_id = contract_id;
+    }
+
+//    public Set<Shift> getShifts() {
+//        return shifts;
+//    }
+//
+//    public void setShifts(Set<Shift> shifts) {
+//        this.shifts = shifts;
+//    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -14,7 +14,6 @@ public class Salary {
     long overtime;
     @NotNull
     long allowance; //Trợ cấp
-
     public Salary() {
     }
 

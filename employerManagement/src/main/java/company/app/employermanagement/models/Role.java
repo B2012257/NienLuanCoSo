@@ -9,7 +9,6 @@ import java.util.Collection;
 public class Role {
     @Id
     String name;
-
     @NotNull
     @OneToOne
     @JoinColumn(name = "salary_level",referencedColumnName = "level")
