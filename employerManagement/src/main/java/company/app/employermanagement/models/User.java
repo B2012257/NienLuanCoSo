@@ -19,10 +19,10 @@ public class User {
     @Id
     private String uid;
     @NotNull
-    @Column(name="user_name")
+    @Column(name = "user_name")
     String userName;
     @NotNull
-    @Column(name="full_name")
+    @Column(name = "full_name")
     String fullName;
     @NotNull
     String password;
@@ -31,12 +31,12 @@ public class User {
     String email;
     @NotNull
     String phone;
-    @Column(name="avatar_url")
+    @Column(name = "avatar_url")
     String avatarUrl;
     @NotNull
     String identification; //CCCD/CMND
     String bank;
-//    @ManyToMany
+    //    @ManyToMany
 //    @JoinTable(name = "shift_detail",
 //            joinColumns = @JoinColumn(name = "user_uid"),
 //            inverseJoinColumns = @JoinColumn(name = "shift_id")
@@ -47,11 +47,10 @@ public class User {
     private String roleName;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="role_name",
+    @JoinColumn(name = "role_name",
             referencedColumnName = "name",
-            insertable=false, updatable=false ) //Khoa ngoai tham chieu cot name trong Role
+            insertable = false, updatable = false) //Khoa ngoai tham chieu cot name trong Role
     private Role role; // Tham chiều tới trường roleName
-    String contract_id; // Hop dong lao dong
 
     public User() {
         this.uid = new RandomIdUntil().randomId();
@@ -68,7 +67,6 @@ public class User {
                 String email, String phone, String avatar_url,
                 String identification,
                 String role_name,
-                String contract_id,
                 String bank) {
         this.uid = uid;
         this.userName = user_name;
@@ -82,7 +80,6 @@ public class User {
         this.bank = bank;
         this.roleName = role_name;
 
-        this.contract_id = contract_id;
     }
 
     public User(User user) {
@@ -98,7 +95,6 @@ public class User {
         this.bank = user.getBank();
         this.roleName = user.getRoleName();
 
-        this.contract_id = user.getContract_id();
     }
 
     public String getUid() {
@@ -188,22 +184,6 @@ public class User {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-
-    public String getContract_id() {
-        return contract_id;
-    }
-
-    public void setContract_id(String contract_id) {
-        this.contract_id = contract_id;
-    }
-
-//    public Set<Shift> getShifts() {
-//        return shifts;
-//    }
-//
-//    public void setShifts(Set<Shift> shifts) {
-//        this.shifts = shifts;
-//    }
 
     public Role getRole() {
         return role;

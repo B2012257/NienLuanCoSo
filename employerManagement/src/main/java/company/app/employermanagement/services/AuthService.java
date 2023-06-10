@@ -36,7 +36,6 @@ public class AuthService {
         jwtTokenUtil = new JwtTokenUtil();
     }
 
-    @RoleRequired(value = {"Manager", "Director"})
     public ResponseEntity<Object> register(User userRequest) {
 
         String userNameRequest = userRequest.getUserName();

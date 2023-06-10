@@ -99,9 +99,9 @@ public class ManagerService {
         Shift shiftRes = new Shift(shift);
 
         //Kiểm tra có trùng ngày hay không
-        Boolean isExistByDate = shiftRepository.existsByDate(shift.getDate());
+//        Boolean isExistByDate = shiftRepository.existsByDate(shift.getDate());
         if (!this.shiftRepository.existsByShiftListIdAndDate(shiftListId, shift.getDate())) {
-            us.setPassword("");
+//            us.setPassword("");
             shiftRes.setShiftList(shiftLs);
             shiftRes.setSchedule_by(us);
             Shift rs = shiftRepository.save(shiftRes);
