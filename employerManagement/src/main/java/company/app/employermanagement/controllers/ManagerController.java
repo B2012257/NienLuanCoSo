@@ -6,8 +6,11 @@ import company.app.employermanagement.repositories.ShiftListRepository;
 import company.app.employermanagement.requests.ScheduleRequest;
 import company.app.employermanagement.responses.Response;
 import company.app.employermanagement.services.ManagerService;
+import company.app.employermanagement.untils.RoleRequired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //Yêu cầu role Nhân viên,
 //Yêu cầu đã đăng nhập mới được truy cập
@@ -19,6 +22,15 @@ public class ManagerController {
     @Autowired
     ShiftListRepository shiftListRepository;
 
+
+    @RoleRequired(value = {"Quan Ly"}) // Có 1 role là được truy cập
+    @GetMapping("/roles")
+    public List<Role> getRoles() {
+        /* redirect to register api */
+        return this.managerService.getRoles();
+    }
+
+    @RoleRequired(value = {"Quan Ly", "Admin"}) // Có 1 role là được truy cập
     @PostMapping("/employee/add")
     public Response addEmployee(@RequestBody User employeeDetail) {
         /* redirect to register api */

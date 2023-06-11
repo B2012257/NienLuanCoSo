@@ -1,13 +1,7 @@
 package company.app.employermanagement.services;
 
-import company.app.employermanagement.models.Shift;
-import company.app.employermanagement.models.ShiftList;
-import company.app.employermanagement.models.Shift_detail;
-import company.app.employermanagement.models.User;
-import company.app.employermanagement.repositories.ShiftDetailRepository;
-import company.app.employermanagement.repositories.ShiftListRepository;
-import company.app.employermanagement.repositories.ShiftRepository;
-import company.app.employermanagement.repositories.UserRepository;
+import company.app.employermanagement.models.*;
+import company.app.employermanagement.repositories.*;
 import company.app.employermanagement.requests.ScheduleRequest;
 import company.app.employermanagement.responses.ErrorResponse;
 import company.app.employermanagement.responses.Response;
@@ -36,6 +30,8 @@ public class ManagerService {
     ShiftRepository shiftRepository;
     @Autowired
     ShiftListRepository shiftListRepository;
+    @Autowired
+    RoleRepository roleRepository;
     PasswordEncoder encoder;
 
     public ManagerService() {
@@ -46,6 +42,9 @@ public class ManagerService {
                 2);
     }
 
+    public List<Role> getRoles() {
+        return this.roleRepository.findAll();
+    }
     public Response addEmployee(User employeeDetail) {
 
         if (employeeDetail != null) {

@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/auth")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class AuthController {
     @Autowired
     AuthService authService;
@@ -33,8 +33,8 @@ public class AuthController {
     }
 
     @LoginRequired // Yêu cầu phải đã đăng nhập
-    @RoleRequired(value = {"Manager", "Admin"}) // Có 1 role là được truy cập
-    @GetMapping(path = "/testCookie")
+    @RoleRequired(value = {"Quan Ly", "Admin"}) // Có 1 role là được truy cập
+        @GetMapping(path = "/testCookie")
     public ResponseEntity<Object> testCookie(HttpServletRequest request) {
         return this.authService.testCookie(request);
     }

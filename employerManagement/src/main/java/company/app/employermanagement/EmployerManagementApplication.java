@@ -2,8 +2,11 @@ package company.app.employermanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Description project: Use to manager employer in a small company
@@ -20,9 +23,13 @@ public class EmployerManagementApplication {
     public static void main(String[] args) {
         SpringApplication.run(EmployerManagementApplication.class, args);
     }
-    @GetMapping("/home")
-    public String home() {
-        return "Hi";
-    }
-
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**").allowedOrigins("http://localhost:5500", "http://127.0.0.1:5500");
+//            }
+//        };
+//    }
 }

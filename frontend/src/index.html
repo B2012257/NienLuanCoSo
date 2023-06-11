@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/index.css">
+    <title>Trang chu</title>
+</head>
+
+<body>
+    <h1>Trang chu</h1>
+    <input type="submit" value="TestCookie" id="cookie">
+    <input type="submit" value="Logout" , id="logout">
+
+
+    <header id="header"></header>
+    <main id="main_content">
+        <nav class="nav_left">
+            <ul>
+                <li class="add_employee">
+                    <a href="#">Thêm nhân viên</a>
+                </li>
+            </ul>
+        </nav>
+        <main class="main_content">
+            <div class="main_content_add_employee">
+
+                <h1>Thêm nhân viên</h1>
+                <input type="text" placeholder="Tên đầy đủ" name="fullName" class="fullName">
+                <input type="email" placeholder="email" name="" class="email">
+                <input type="text" placeholder="sdt" name="" class="phone">
+                <input type="text" placeholder="cccd" name="" class="identification">
+                <!-- <input type="text" placeholder="chức vụ" name=""> -->
+                <select name="lang" class="roleName" id="role-select">
+                    <option value="">Chọn chức vụ</option>
+
+                </select>
+                <input type="text" placeholder="STK" name="" class="bank">
+                <input type="date" placeholder="Ngày sinh" name="" class="birthday">
+
+                <input type="submit" value="Thêm" class="add">
+            </div>
+        </main>
+    </main>
+    <footer id="footer"></footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../assets/js/index.js"></script>
+
+</html>

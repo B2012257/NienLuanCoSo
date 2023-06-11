@@ -1,0 +1,12 @@
+.main_content {
+    margin-left: 200px;
+    display: block;
+}
+
+.main_content_add_employee {
+    display: none;
+}
+
+.show_block {
+    display: block;
+}

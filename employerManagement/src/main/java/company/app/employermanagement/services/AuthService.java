@@ -17,9 +17,9 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
-
 @Service
 public class AuthService {
     @Autowired
@@ -65,10 +65,9 @@ public class AuthService {
                 String token = jwtTokenUtil.generateToken(username, userDB.getRoleName());
 
                 ResponseCookie cookie = ResponseCookie.from("Authentication", token)
-                        //.maxAge(3600) // Thời gian sống của cookie (đơn vị: giây)
-                        .httpOnly(true) // Chỉ cho phép truy cập qua HTTP, không cho phép JavaScript truy cập
-                        //.secure(true) // Chỉ sử dụng cookie qua kết nối HTTPS
-                        .path("/") // Đường dẫn áp dụng cookie (ở đây áp dụng cho toàn bộ ứng dụng)
+                        .httpOnly(true)
+                        .sameSite("Lax")
+                        .path("/") // Đảm bảo cookie áp dụng cho toàn bộ ứng dụng
                         .build();
 
                 HttpHeaders headers = new HttpHeaders();
@@ -95,7 +94,7 @@ public class AuthService {
 
     public ResponseEntity<Object> testCookie(HttpServletRequest request) {
 
-        return ResponseEntity.ok("Hello World");
+        return ResponseEntity.ok("{\"message\": \"Hello World\"}");
     }
 
     public ResponseEntity<LogoutResponse> logout(HttpServletRequest request) {
