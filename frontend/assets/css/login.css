@@ -1,0 +1,39 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    /* vertical-align: middle; */
+}
+
+.content h1 {
+    margin: 4px 0;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.content #username {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 2px;
+}
+
+.content #password {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 2px;
+}
+
+.content #loginSubmit {
+    width: 100%;
+    padding: 10px 0;
+    display: block;
+    margin: auto;
+}

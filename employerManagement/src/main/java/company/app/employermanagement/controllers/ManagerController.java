@@ -31,7 +31,7 @@ public class ManagerController {
     }
 
     @RoleRequired(value = {"Quan Ly", "Admin"}) // Có 1 role là được truy cập
-    @PostMapping("/employee/add")
+    @PostMapping("/employee/add")   
     public Response addEmployee(@RequestBody User employeeDetail) {
         /* redirect to register api */
         return this.managerService.addEmployee(employeeDetail);

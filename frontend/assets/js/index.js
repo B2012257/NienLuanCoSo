@@ -1,6 +1,7 @@
 let cookieSubmit = document.querySelector("#cookie")
 let logoutSubmit = document.querySelector("#logout")
 
+if (!localStorage.getItem("info")) location.href = "http://localhost:5500/src/login.html"
 cookieSubmit.addEventListener("click", () => {
     fetch("http://localhost:8080/api/auth/testCookie", {
         method: "GET",
@@ -20,16 +21,15 @@ cookieSubmit.addEventListener("click", () => {
                 console.log(data.message);
                 return;
             }
-            // Xóa info trong localStorage
-
 
             alert(data.message)
             return;
 
-
-            console.log(data)
         });
 })
+
+
+//Đăng xuất
 logoutSubmit.addEventListener("click", () => {
     fetch("http://localhost:8080/api/auth/logout", {
         method: "POST",

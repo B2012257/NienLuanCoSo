@@ -5,17 +5,7 @@ let usernameInput = document.querySelector("#username")
 let passwordInput = document.querySelector("#password")
 
 loginBtn.addEventListener("click", (e) => {
-    // axios.post('http://localhost:8080/api/auth/login', {
-    //     userName: usernameInput.value,
-    //     password: passwordInput.value
-    // }, { withCredentials: true })
-    //     .then(function (response) {
-    //         //Thành công
-    //        
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error.response.data);
-    //     });
+
 
     fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
@@ -36,10 +26,17 @@ loginBtn.addEventListener("click", (e) => {
         })
         .then((response) => {
             let data = response;
-
-            //save data
-            localStorage.setItem("info", JSON.stringify(data))
-            location.href = "http://localhost:5500/src/index.html"
-            console.log(response)
-        });
+            if (data.status === "OK") {
+                //save data
+                localStorage.setItem("info", JSON.stringify(data))
+                location.href = "http://localhost:5500/src/index.html"
+                console.log(response)
+                return;
+            }
+            alert(data.message);
+            return;
+        })
+        .catch(err => {
+            if (err) alert("Có lỗi xảy ra")
+        })
 })
