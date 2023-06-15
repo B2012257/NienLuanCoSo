@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="../assets/css/index.css">
 
     <title>Trang chu</title>
@@ -55,7 +55,6 @@
                         <li class="shift_listOpen side_bar__item__list__item">Quản lý loại ca làm</li>
                         <li class="scheduleOpen side_bar__item__list__item">Lập lịch làm</li>
                         <li class="view_scheduleOpen side_bar__item__list__item">Xem lịch làm</li>
-                        <li class="timekeepingOpen side_bar__item__list__item">Chấm công</li>
 
                     </ul>
                 </div>
@@ -71,7 +70,6 @@
 
                     <ul class="side_bar__item__list">
                         <li class="salary_reportOpen side_bar__item__list__item">Báo cáo lương</li>
-                        <li class="work_reportOpen side_bar__item__list__item">Báo cáo làm việc</li>
                     </ul>
                 </div>
             </main>
@@ -110,6 +108,34 @@
                     <div class="body__overview__welcome">Xin chào!</div>
                     <p class="body__overview__full_name">Phạm Quang Thái</p>
                     <p>Have a nice day!</p>
+                    <div class="overview__widget">
+                        <div class="overview__employee">
+                            <div class="employee__total">
+                                <div class="">
+                                    <div>Tổng nhân sự
+                                        <span>15</span>
+                                    </div>
+                                    <div>Nhân sự mới trong tháng
+                                        <span>2</span>
+                                    </div>
+                                    <div>Đang trong ca
+                                        <span>7</span>
+                                    </div>
+                                    <div>Không trong ca
+                                        <span>8</span>
+                                    </div>
+
+
+                                </div>
+                                <div class="calendar">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart_right">
+                            <canvas style="width: 100%;" id="chart_right"></canvas>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="list_employee main_content__body__item main_content__body__list_employee hide">
@@ -138,7 +164,8 @@
                                 <th class="list_employee__table__phone">0915210966</th>
                                 <th class="list_employee__table__username">thaib1245</th>
                                 <th class="list_employee__table__password"><input type="password" name=""
-                                        value="1444355" id=""></th>
+                                        value="1444355" id="">
+                                </th>
                                 <th class="list_employee__table__status">Đang làm</th>
                             </tr>
                             <tr>
@@ -320,13 +347,11 @@
                     </table>
 
                 </div>
-                <div class="timekeeping main_content__body__item main_content__body__timekeeping hide">
-                    <p class="headerName">Quản lý chấm công</p>
-                </div>
+
                 <div class="schedule main_content__body__item main_content__body__schedule hide">
                     <p class="headerName">Lập lịch làm</p>
                     <div class="schedule_date">
-                        <input type="date" value="09-07-2023">
+                        <input type="date">
                     </div>
                     <div class="schedule__shift_type_list">
 
@@ -464,6 +489,7 @@
                                         <th class="" scope="col">Tăng ca (Giờ)</th>
                                         <th class="" scope="col">Tổng giờ</th>
                                         <th class="" scope="col">Ghi chú</th>
+                                        <th class="" scope="col">Chấm công</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -480,33 +506,110 @@
                                         <th class="schedule_list_employee__note">
                                             <textarea style="width: 100%;" rows="3"></textarea>
                                         </th>
+                                        <th class="schedule_list_employee__presentCheck" scope="col">
+                                            <input type="checkbox" name="" id="">
+                                        </th>
 
                                     </tr>
                                 </tbody>
                             </table>
-                            <button>Lưu lại</button>
+                            <button>Lưu chấm công</button>
                         </div>
                     </div>
                 </div>
 
-    </div>
-    <div class="salary_report main_content__body__item main_content__body__salary_report hide">
-        <p class="headerName">Báo cáo lương</p>
-    </div>
-    <div class="work_report main_content__body__item main_content__body__work_report hide">
-        <p class="headerName">Báo cáo công việc</p>
-    </div>
-    </main>
 
-    </main>
-    <footer id="footer"></footer>
+                <div class="salary_report main_content__body__item main_content__body__salary_report hide">
+                    <p class="headerName">Báo cáo lương tháng 5</p>
+
+                    <table class="table salary_employee__table table_fixed">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mã nhân viên</th>
+                                <th scope="col">Họ tên</th>
+                                <th scope="col">Chức vụ</th>
+                                <th scope="col">Ngày công</th>
+                                <th scope="col">Giờ công chính thức</th>
+                                <th scope="col">Giờ công tăng ca</th>
+                                <th scope="col">Tổng giờ công</th>
+                                <th scope="col">Mức lương cơ bản k/h</th>
+                                <th scope="col">Mức lương tăng ca k/h</th>
+                                <th scope="col">Thành tiền lương ca bản</th>
+                                <th scope="col">Thành tiền lương tăng ca</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th scope="col">Stk thanh toán</th>
+
+                                <th scope="col">Trạng thái thanh toán</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="list_employee__table__" scope="row">SB1245</th>
+                                <th class="list_employee__table__">Phạm Quang Thái</th>
+                                <th class="list_employee__table__">Phụ bếp</th>
+                                <th class="list_employee__table__">10</th>
+                                <th class="list_employee__table__">50</th>
+                                <th class="list_employee__table__">0</th>
+                                <th class="list_employee__table__">50</th>
+                                <th class="list_employee__table__">20</th>
+                                <th class="list_employee__table__">25</th>
+                                <th class="list_employee__table__">1.000.000</th>
+                                <th class="list_employee__table__">0</th>
+                                <th class="list_employee__table__">1.000.000</th>
+                                <th scope="col">75045504755</th>
+
+                                <th class="list_employee__table__ text_center">
+                                    Chưa thanh
+                                </th>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+
+        </main>
+
+
+        <footer id="footer"></footer>
     </div>
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
+
+<script>
+    const ctx2 = document.getElementById('chart_right')
+
+
+
+    const config2 = {
+        type: 'line',
+        data: {
+
+            labels: ["Thang 1", "Thang 2", "Thang 3", "Thang 4", "Thang 5", "Thang 6"],
+            datasets: [{
+                label: 'Tuyển nhân sự mới',
+                data: [12, 11, 3, 5, 2, 3],
+
+                borderWidth: 1
+            },
+            {
+                label: 'Nhân sự thôi việc',
+                data: [1, 10, 10, 4],
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 1
+            }
+            ]
+
+        }
+    };
+
+    new Chart(ctx2, config2);
+
+</script>
+<script src="../assets/bootstrap-5.3.0-dist/js/bootstrap.min.js"></script>
 <script src="../assets/js/index.js"></script>
 
 </html>

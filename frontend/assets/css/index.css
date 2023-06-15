@@ -251,6 +251,34 @@ p {
     font-style: italic;
 }
 
+.overview__widget {
+    margin-top: 10px;
+    width: 100%;
+    height: 20px;
+    /* background-color: #066aff; */
+    /* display: grid; */
+}
+
+.overview__widget .overview__employee {
+    display: inline-block;
+}
+
+.overview__widget .overview__employee {
+    border: 1px solid #7296c8;
+    padding: 20px;
+    border-radius: 4px;
+    width: 39%;
+    float: left;
+}
+
+.overview__widget .chart_right {
+    border: 1px solid #7296c8;
+    padding: 20px;
+    border-radius: 4px;
+    width: 60%;
+    float: right;
+}
+
 .employee__search {
     margin: 10px 0;
     border-radius: 4px;
