@@ -20,7 +20,7 @@
             </nav>
             <main>
                 <div class="side_bar__item">
-                    <a class="side_bar__item__link" href="#">Tổng quan
+                    <a class="overviewOpen side_bar__item__list__item active" href="#">Tổng quan
 
                     </a>
 
@@ -36,8 +36,8 @@
                     </a>
 
                     <ul class="side_bar__item__list">
-                        <li class="side_bar__item__list__item">Danh sách nhân viên</li>
-                        <li class="side_bar__item__list__item">Cập nhật nhân viên</li>
+                        <li class="list_employeeOpen side_bar__item__list__item">Danh sách nhân viên</li>
+                        <li class="update_employeeOpen side_bar__item__list__item">Cập nhật nhân viên</li>
                     </ul>
                 </div>
 
@@ -52,9 +52,11 @@
                     </a>
 
                     <ul class="side_bar__item__list">
-                        <li class="side_bar__item__list__item">Quản lý loại ca làm</li>
-                        <li class="side_bar__item__list__item">Lập lịch làm</li>
-                        <li class="side_bar__item__list__item">Xem lịch làm</li>
+                        <li class="shift_listOpen side_bar__item__list__item">Quản lý loại ca làm</li>
+                        <li class="scheduleOpen side_bar__item__list__item">Lập lịch làm</li>
+                        <li class="view_scheduleOpen side_bar__item__list__item">Xem lịch làm</li>
+                        <li class="timekeepingOpen side_bar__item__list__item">Chấm công</li>
+
                     </ul>
                 </div>
                 <div class="side_bar__item">
@@ -68,8 +70,8 @@
                     </a>
 
                     <ul class="side_bar__item__list">
-                        <li class="side_bar__item__list__item">Báo cáo lương</li>
-                        <li class="side_bar__item__list__item">Báo cáo làm việc</li>
+                        <li class="salary_reportOpen side_bar__item__list__item">Báo cáo lương</li>
+                        <li class="work_reportOpen side_bar__item__list__item">Báo cáo làm việc</li>
                     </ul>
                 </div>
             </main>
@@ -82,13 +84,14 @@
 
         <main id="main_content" class="col">
             <header id="header" class="">
-                <div class="left">Tên chức năng</div>
+                <div class="left">Tổng quan</div>
                 <div class="right">
                     <div class="right_item">
                     </div>
+                    <div class="overplay hide"></div>
 
                     <img class="right_item avatar" src="https://tairo.cssninja.io/img/avatars/2.svg" alt="">
-                    <div class="right_info_menu">
+                    <div class="right_info_menu hide">
                         <img class="right_item avatar_info" src="https://tairo.cssninja.io/img/avatars/2.svg" alt="">
                         <p class="full_name">Pham Quang Thái</p>
                         <p class="role_name">Quản Lý</p>
@@ -100,7 +103,8 @@
             </header>
 
             <main class="main_content__body ">
-                <div class="main_content__body__overview hide">
+                <div class="overview main_content__body__item main_content__body__overview">
+                    <p class="headerName">Tổng quan</p>
                     <img class="overview__avatar" src="https://tairo.cssninja.io/img/avatars/2.svg" alt="">
 
                     <div class="body__overview__welcome">Xin chào!</div>
@@ -108,10 +112,10 @@
                     <p>Have a nice day!</p>
                 </div>
 
-                <div class="main_content__body__list_employee">
-                    <p>Danh sách các nhân viên</p>
+                <div class="list_employee main_content__body__item main_content__body__list_employee hide">
+                    <p class="headerName">Danh sách nhân viên</p>
                     <input type="search" name="" class="employee__search" placeholder="Tìm theo tên">
-                    <table class="table list_employee__table">
+                    <table class="table list_employee__table table_fixed">
                         <thead>
                             <tr>
                                 <th scope="col">Mã nhân viên</th>
@@ -127,32 +131,33 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">SB1245</th>
-                                <td>Phạm Quang Thái</td>
-                                <td>Quản Lý</td>
-                                <td>Nam</td>
-                                <td>0915210966</td>
-                                <td>thaib1245</td>
-                                <td><input type="password" name="" value="1444355" id=""></td>
-                                <td>Đang làm</td>
+                                <th class="list_employee__table__uid" scope="row">SB1245</th>
+                                <th class="list_employee__table__fullname">Phạm Quang Thái</th>
+                                <th class="list_employee__table__role">Quản Lý</th>
+                                <th class="list_employee__table__gender">Nam</th>
+                                <th class="list_employee__table__phone">0915210966</th>
+                                <th class="list_employee__table__username">thaib1245</th>
+                                <th class="list_employee__table__password"><input type="password" name=""
+                                        value="1444355" id=""></th>
+                                <th class="list_employee__table__status">Đang làm</th>
                             </tr>
                             <tr>
                                 <th scope="row">SB1246</th>
-                                <td>Phạm Quang Hà</td>
-                                <td>Phụ Bếp</td>
-                                <td>Nam</td>
-                                <td>0915210966</td>
-                                <td>hasb1246</td>
-                                <td><input type="password" name="" value="1444355" id=""></td>
-                                <td>Nghỉ</td>
+                                <th>Phạm Quang Hà</th>
+                                <th>Phụ Bếp</th>
+                                <th>Nam</th>
+                                <th>0915210966</th>
+                                <th>hasb1246</th>
+                                <th><input type="password" name="" value="1444355" id=""></th>
+                                <th>Nghỉ</th>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="main_content__body__update_employee hide">
-                    <p>Chức năng cập nhật nhân viên</p>
-                    <input type="search" class="employee__search" placeholder="Tìm theo tên">
+                <div class="update_employee main_content__body__item main_content__body__update_employee hide">
+                    <p class="headerName">Cập nhật nhân viên</p>
+                    <input type="search" class="employee__search" placeholder="Tìm tên để chỉnh sửa">
                     <button class="add_employee">Thêm nhân viên mới</button>
 
                     <div class="main_content_add_employee hide">
@@ -200,7 +205,7 @@
 
                     </div>
 
-                    <table class="table list_employee__table">
+                    <table class="table search__list_employee__table table_fixed">
                         <thead>
                             <tr>
                                 <th scope="col">Mã nhân viên</th>
@@ -219,10 +224,10 @@
 
 
                     <p>Danh sách nhân viên vừa cập nhật</p>
-                    <table class="table list_employee__table">
+                    <table class="table edit__list_employee__table table_fixed">
                         <thead>
                             <tr>
-                                <th scope="col">Mã nhân viên</th>
+                                <th scope=" col">Mã nhân viên</th>
                                 <th scope="col">Họ tên</th>
                                 <th scope="col">Chức vụ</th>
                                 <th scope="col">Giới tính</th>
@@ -235,33 +240,266 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">SB1245</th>
-                                <td>Phạm Quang Thái</td>
-                                <td>Quản Lý</td>
-                                <td>Nam</td>
-                                <td>0915210966</td>
-                                <td>thaib1245</td>
-                                <td><input type="password" name="" value="1444355" id=""></td>
-                                <td>Đang làm</td>
+                                <th class="edit__list_employee__uid" scope="row">SB1245</th>
+                                <td class="edit__list_employee__fullname">Phạm Quang Thái</td>
+                                <td class="edit__list_employee__role">Quản Lý</td>
+                                <td class="edit__list_employee__gender">Nam</td>
+                                <td class="edit__list_employee__phone">0915210966</td>
+                                <th class="edit__list_employee__username">thaib1245</th>
+                                <td class="edit__list_employee__password"><input type="password" name="" value="1444355"
+                                        id=""></td>
+                                <th class="edit__list_employee__status">Đang làm</th>
                             </tr>
                             <tr>
-                                <th scope="row">SB1246</th>
-                                <td>Phạm Quang Hà</td>
-                                <td>Phụ Bếp</td>
-                                <td>Nam</td>
-                                <td>0915210966</td>
-                                <td>hasb1246</td>
-                                <td><input type="password" name="" value="1444355" id=""></td>
-                                <td>Nghỉ</td>
+                                <th class="edit__list_employee__uid" scope="row">SB1246</th>
+                                <td class="edit__list_employee__fullname">Phạm Quang Hà</td>
+                                <td class="edit__list_employee__role">Phụ Bếp</td>
+                                <td class="edit__list_employee__gender">Nam</td>
+                                <td class="edit__list_employee__phone">0915210966</td>
+                                <th class="edit__list_employee__username">hasb1246</th>
+                                <td class="edit__list_employee__password"><input type="password" name="" value="1444355"
+                                        id=""></td>
+                                <th class="edit__list_employee__status">Nghỉ</th>
                             </tr>
                         </tbody>
                     </table>
+                    <button class="saveChange hide">Lưu thay đổi</button>
+                </div>
+                <div class="shift_list main_content__body__item main_content__body__shift_list hide">
+                    <p class="headerName">Quản lý loại ca</p>
+                    <p>Các loại ca có sẵn</p>
+                    <table class="table shift__list_employee__table table_fixed">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mã loại ca</th>
+                                <th scope="col">Tên</th>
+                                <th scope="col">Khoảng thời gian</th>
+                                <th scope="col">Số giờ</th>
+                                <th scope="col">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="shiftTypeListBody">
+                                <th class="shift_type__id" scope="row">1</th>
+                                <td class="shift_type__name">Sáng</td>
+                                <td class="shift_type__timeline">7-12</td>
+                                <th class="shift_type__time">5</th>
+                                <th><button class="shift_type__delete">Xóa</button></th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <button class="saveChangeShiftType">Lưu chỉnh sửa</button>
+                    <button class="create_shift_type">Tạo ca mới</button>
+                    <table class="hide table add__shift__list_employee__table table_fixed"
+                        style="width: 600px;transform: translateX(50%);">
+                        <thead>
+                            <tr>
+                                <!-- <th scope="col">Mã loại ca</th> -->
+                                <th scope="col">Tên</th>
+                                <th scope="col">Khoảng thời gian
+                                    (h-h)
+                                    vd: 7-12
+                                </th>
+                                <th scope="col">Số giờ (h)</th>
+                                <th scope="col">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <!-- <th scope="row">1</th> -->
+                                <td class="shift_type__create__name"></td>
+                                <td class="shift_type__create__timeline"></td>
+                                <th class="shift_type__create__time">
+                                    hệ thống tự tính
+                                </th>
+                                <th><button class="shift_type__create__save">Lưu</button></th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="timekeeping main_content__body__item main_content__body__timekeeping hide">
+                    <p class="headerName">Quản lý chấm công</p>
+                </div>
+                <div class="schedule main_content__body__item main_content__body__schedule hide">
+                    <p class="headerName">Lập lịch làm</p>
+                    <div class="schedule_date">
+                        <input type="date" value="09-07-2023">
+                    </div>
+                    <div class="schedule__shift_type_list">
+
+                        <p class="schedule__shift_type active">Ca sáng 7-12
+                            <span class="shift_type_id hide">id</span>
+                        </p>
+                        <p class="schedule__shift_type">Ca chiều (12-17)
+                            <span class="shift_type_id hide">id</span>
+
+                        </p>
+
+                        <p class="schedule__shift_type">Ca tối (17-22)
+                            <span class="shift_type_id hide">id</span>
+
+                        </p>
+
+                    </div>
+
+                    <div class="schedule__shift_type_table">
+                        <div class="create_shift">
+                            <p>Chưa có ca làm! Vui lòng tạo</p>
+                            <textarea placeholder="Mời thêm các công việc cần làm" class="shift_task" name="task" id=""
+                                cols="30" rows="4"></textarea>
+                            <button>Tạo</button>
+                        </div>
+
+
+
+                        <div class="availablleToSchedule hide">
+                            <p>Danh sách nhân viên có thể lập lịch</p>
+                            <table class="table list_employee__table_available table_fixed">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Mã nhân viên</th>
+                                        <th scope="col">Họ tên</th>
+                                        <th scope="col">Chức vụ</th>
+                                        <th scope="col">Giới tính</th>
+                                        <th scope="col">Số điện thoại</th>
+                                        <th scope="col">Trạng thái làm việc</th>
+                                        <th scope="col">Tháo tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">SB1246</th>
+                                        <th>Phạm Quang Hà</th>
+                                        <th>Phụ Bếp</th>
+                                        <th>Nam</th>
+                                        <th>0915210966</th>
+                                        <th>Nghỉ</th>
+                                        <th><button>Thêm vào ca</button></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="schedule_employee hide">
+                            <p class="">Bảng phân công nhân viên</p>
+                            <table class="table schedule_list_employee__table table_fixed">
+                                <thead>
+                                    <tr>
+                                        <th class="" scope="col">Mã ca làm</th>
+                                        <th class="" scope="col">Mã nhân viên</th>
+                                        <th class="" scope="col">Họ tên</th>
+                                        <th class="" scope="col">Chức vụ</th>
+                                        <th class="" scope="col">Giới tính</th>
+                                        <th class="" style="text-align: center;" scope="col">Bắt đầu từ (Giờ)</th>
+                                        <th class="" scope="col">Kết thúc (Giờ)</th>
+                                        <th class="" scope="col">Tăng ca (Giờ)</th>
+                                        <th class="" scope="col">Tổng giờ</th>
+                                        <th class="" scope="col">Ghi chú</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="schedule_list_employee__shift_id" scope="row">1</th>
+                                        <th class="schedule_list_employee__user_uid">thaisb1245</th>
+                                        <th class="schedule_list_employee__fullname">Pham Quang Thai</th>
+                                        <th class="schedule_list_employee__gender">Nam</th>
+                                        <th class="schedule_list_employee__role">Phụ Bếp</th>
+                                        <th class="schedule_list_employee__start text_center">7</th>
+                                        <th class="schedule_list_employee__end text_center">12</th>
+                                        <th class="schedule_list_employee__overtime text_center">0</th>
+                                        <th class="schedule_list_employee__totaltime">5</th>
+                                        <th class="schedule_list_employee__note">
+                                            <textarea style="width: 100%;" rows="3"></textarea>
+                                        </th>
+                                        <th class="schedule_list_employee__action">
+                                            <button>Xóa</button>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="view_schedule main_content__body__item main_content__body__view_schedule hide">
+                    <p class="headerName">Xem lịch làm</p>
+                    <div class="schedule_date">
+                        <input type="date">
+                    </div>
+                    <div class="schedule__shift_type_list">
+
+                        <p class="view_schedule_shift_type active">Ca sáng 7-12
+                            <span class="shift_type_id hide">id</span>
+                        </p>
+                        <p class="view_schedule_shift_type">Ca chiều (12-17)
+                            <span class="shift_type_id hide">id</span>
+
+                        </p>
+
+                        <p class="view_schedule_shift_type">Ca tối (17-22)
+                            <span class="shift_type_id hide">id</span>
+
+                        </p>
+
+                    </div>
+
+                    <div class="schedule__shift_type_table">
+                        <!-- <p>Chưa có ca làm hôm nay</p> -->
+
+                        <div class="schedule_employee">
+                            <p class="">Bảng phân công hôm nay</p>
+                            <table class="table schedule_list_employee__table table_fixed">
+                                <thead>
+                                    <tr>
+                                        <th class="" scope="col">Mã ca làm</th>
+                                        <th class="" scope="col">Mã nhân viên</th>
+                                        <th class="" scope="col">Họ tên</th>
+                                        <th class="" scope="col">Chức vụ</th>
+                                        <th class="" scope="col">Giới tính</th>
+                                        <th class="" style="text-align: center;" scope="col">Bắt đầu từ (Giờ)</th>
+                                        <th class="" scope="col">Kết thúc (Giờ)</th>
+                                        <th class="" scope="col">Tăng ca (Giờ)</th>
+                                        <th class="" scope="col">Tổng giờ</th>
+                                        <th class="" scope="col">Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="schedule_list_employee__shift_id" scope="row">1</th>
+                                        <th class="schedule_list_employee__user_uid">thaisb1245</th>
+                                        <th class="schedule_list_employee__fullname">Pham Quang Thai</th>
+                                        <th class="schedule_list_employee__gender">Nam</th>
+                                        <th class="schedule_list_employee__role">Phụ Bếp</th>
+                                        <th class="schedule_list_employee__start text_center">7</th>
+                                        <th class="schedule_list_employee__end text_center">12</th>
+                                        <th class="schedule_list_employee__overtime text_center">0</th>
+                                        <th class="schedule_list_employee__totaltime">5</th>
+                                        <th class="schedule_list_employee__note">
+                                            <textarea style="width: 100%;" rows="3"></textarea>
+                                        </th>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button>Lưu lại</button>
+                        </div>
+                    </div>
                 </div>
 
-            </main>
+    </div>
+    <div class="salary_report main_content__body__item main_content__body__salary_report hide">
+        <p class="headerName">Báo cáo lương</p>
+    </div>
+    <div class="work_report main_content__body__item main_content__body__work_report hide">
+        <p class="headerName">Báo cáo công việc</p>
+    </div>
+    </main>
 
-        </main>
-        <footer id="footer"></footer>
+    </main>
+    <footer id="footer"></footer>
     </div>
 
 </body>
