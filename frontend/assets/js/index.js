@@ -239,13 +239,13 @@ addEmployeeBtn.addEventListener("click", () => {
 
 //Chức năng tổng quan
 function setUpOverView() {
-    alert("Gọi chức năng tổng quan")
+    console.log("Gọi chức năng tổng quan")
 }
 
 //Danh sách nhân viên
 function setUpListEmployee() {
     let apiUrl = "http://localhost:8080/api/manager/employees";
-    alert("Gọi chức năng danh sách nhân viên")
+    console.log("Gọi chức năng danh sách nhân viên")
     let tbodyListEmployeeTable = document.querySelector(".list_employee__table .list_employee__table__body")
     let dataToShow = [];
 
@@ -293,7 +293,7 @@ function setUpListEmployee() {
 }
 //Cập nhật và chỉnh sửa nhân viên
 function setUpEditEmployee() {
-    alert("Gọi chức năng cập nhật nv")
+    console.log("Gọi chức năng cập nhật nv")
     //Thêm nhân viên
     let updateEmployee = document.querySelector(".main_content__body__update_employee")
     let formAddEmployee = document.querySelector(".add_employee_popup_wrapper")
@@ -394,7 +394,6 @@ function setUpEditEmployee() {
     })
 
 
-
     //Khi nhấn xác nhận
     //Lấy dữ liệu từ form
     submitAddEmployee.addEventListener("click", () => {
@@ -485,7 +484,7 @@ function deleteShiftTypeEvent(thisItem) {
 }
 //Chức năng quản lý loại ca làm
 function setUpShiftTypeManagement() {
-    alert("Gọi chức năng quản lý loại ca làm")
+    console.log("Gọi chức năng quản lý loại ca làm")
     let shiftListTypeTable = document.querySelector(".shift__list_employee__table")
     let tbodyShiftListTypeTable = shiftListTypeTable.querySelector("tbody")
     let apiUrl = "http://localhost:8080/api/manager/shiftTypes"
@@ -508,6 +507,8 @@ function setUpShiftTypeManagement() {
             if (data) {
                 console.log(data);
                 data.forEach(item => {
+                    //render và tính toán số giờ
+
                     let timeline = item.timeline
                     let timelineStart = timeline.split("-")[0].trim()
                     let timelineEnd = timeline.split("-")[1].trim()
@@ -524,7 +525,6 @@ function setUpShiftTypeManagement() {
                             </tr>`
 
                 })
-                //render và tính toán số giờ
 
             }
 
@@ -532,12 +532,13 @@ function setUpShiftTypeManagement() {
         .catch(err => {
             if (err) console.log("Có lỗi xảy ra")
         })
+
     //Chức năng tạo ca làm
     let shiftTypeCreateSave = document.querySelector(".shift_type__create__save")
+    //Lấy các trường dữ liệu trong dòng
+    let name = shiftTypeCreateSave.parentElement.parentElement.querySelector(".shift_type__create__name")
+    let timeline = shiftTypeCreateSave.parentElement.parentElement.querySelector(".shift_type__create__timeline")
     shiftTypeCreateSave.addEventListener("click", () => {
-        //Lấy các trường dữ liệu trong dòng
-        let name = shiftTypeCreateSave.parentElement.parentElement.querySelector(".shift_type__create__name")
-        let timeline = shiftTypeCreateSave.parentElement.parentElement.querySelector(".shift_type__create__timeline")
         let timelineStart = timeline.innerHTML.split("-")[0].trim()
         let timelineEnd = timeline.innerHTML.split("-")[1].trim()
         let timeNumber = timelineEnd - timelineStart
@@ -580,12 +581,102 @@ function setUpShiftTypeManagement() {
 
 //Chức năng báo cáo lương
 function setUpSalaryReport() {
-    alert("Gọi chức năng báo cáo lương")
+    console.log("Gọi chức năng báo cáo lương")
 
 }
+
+//Lấy về thông tin lịch làm trong ngày đang chọn
+function getShiftOfThisDay(shiftTypeId, date) {
+
+}
+//Tạo 1 ca cho ngày này
+function createShiftOfDay(shiftTypeId, task, date) {
+    let apiUrl = "http://localhost:8080/api/manager/shift/create";
+    console.log("Gọi chức năng tạo ca trong ngày")
+
+    //Gọi api và đổ dữ liệu
+    fetch(apiUrl, {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            shiftList: {
+                id: shiftTypeId
+            },
+            task: task,
+            date: date,
+            schedule_by: {
+                uid: userInfo.user.uid
+            }
+        })
+    })
+        .then(res => {
+            return res.json()
+        })
+        .then((response) => {
+            let data = response;
+            return data
+            //save data
+
+        })
+        .catch(err => {
+            if (err) alert("Có lỗi xảy ra")
+            return []
+        })
+}
+//Thêm hiệu ứng chuyển tab && Khi chuyển thì gọi api kiểm tra ngày đó đã sắp lịch làm chưa. Nếu chưa có thì hiển thị 2 bảng ra để sắp lịch. 
+//Sắp lịch xong bấm lưu thì lần lượt gọi api tạo ca làm cho ngày hôm đó và thêm các thông tin nhân viên vào
+function addSwitchShiftTypeEvent() {
+    let scheduleShiftType = document.querySelectorAll(".schedule__shift_type")
+    let availableEmployeeTable = document.querySelector(".availablleToSchedule")
+    let scheduleEmployeeTable = document.querySelector(".schedule_employee")
+    let creaftShiftForm = document.querySelector(".create_shift")
+    let mainContentSchedule = document.querySelector(".main_content__body__schedule")
+    let createShift = mainContentSchedule.querySelector(".create_shift")
+    let createShiftBtn = createShift.querySelector(".create_shift button")
+    let taskEl = createShift.querySelector(".shift_task")
+    //Bắt sự kiện bấm nút tạo ca
+    createShiftBtn.addEventListener("click", () => {
+        //Lấy nội dung nhiệm vụ
+        let task = taskEl;
+        let shiftList = document.querySelector(".schedule__shift_type.active")
+        let shiftListId = shiftList.querySelector(".shift_type_id ").innerHTML
+        console.log(shiftListId);
+    })
+    //Khi bấm chuyển qua 1 loại ca khác
+    scheduleShiftType.forEach(type => {
+        type.addEventListener("click", (e) => {
+            scheduleShiftType.forEach(item => {
+                if (item.classList.contains("active")) {
+                    //Khi bấm vào 1 ca khác với ca hiện tại đang active
+                    if (item !== e.target) {
+                        item.classList.remove("active")
+                        e.target.classList.add("active")
+                        //re render
+                        //Gọi api
+
+                        availableEmployeeTable.classList.add("hide")
+                        scheduleEmployeeTable.classList.add("hide")
+                        creaftShiftForm.classList.remove("hide")
+                    }
+                } else {
+                    //Gọi api khi lần đầu bấm 1 tab
+
+                    e.target.classList.add("active")
+                    document.querySelector(".schedule__shift_type_table").classList.remove("hide")
+                }
+            })
+        })
+    })
+}
+
 //Chức năng lập lịch
 function setUpShedule() {
-    alert("Gọi chức năng lập lịch")
+    let apiUrl = "http://localhost:8080/api/manager/shiftTypes"
+    console.log("Gọi chức năng lập lịch")
 
     let chooseDate = document.querySelector(".schedule_date input")
 
@@ -604,21 +695,49 @@ function setUpShedule() {
     let availableEmployeeTable = document.querySelector(".availablleToSchedule")
     let scheduleEmployeeTable = document.querySelector(".schedule_employee")
 
-    //Đầu tiên kiểm tra ca đang active hiện tại có được tạo ca chưa
+
+
+    //Gọi api và hiển thị các loại ca
+    //Lấy các ca đang có
+    fetch(apiUrl, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => {
+            return res.json()
+        })
+        .then((response) => {
+            let shiftTypeList = document.querySelector(".schedule__shift_type_list")
+            //Nhận được các ca + timeline
+            let data = response;
+            //save data
+
+            if (data) {
+                shiftTypeList.innerHTML = ""
+                console.log(data);
+                data.forEach(item => {
+                    shiftTypeList.innerHTML += `
+                            <p class="schedule__shift_type">${item.name + " " + item.timeline}
+                                <span class="shift_type_id hide">${item.id}</span>
+                            </p>`
+                })
+
+                //Thêm sự kiện khi bấm 1 tab thì gọi api
+                addSwitchShiftTypeEvent()
+            }
+
+        })
+        .catch(err => {
+            if (err) console.log("Có lỗi xảy ra")
+        })
+
     //Gọi api tìm id_shift_type trong ngày này có trong bảng shift hay k
     // Nếu có thì render 2 bảng ra để sắp lịch
     //Nếu không thì hiện giao diện tạo ca
-
-    let shiftActive;
-
-    //Lấy ra ca đang chọn lần đầu
-    scheduleShiftType.forEach(item => {
-        if (item.classList.contains("active")) {
-            console.log("Gọi tìm xem ca trong ngày này đã có chưa");
-            shiftActive = item
-            console.log(shiftActive);
-        }
-    })
 
     function showCreateShiftForm() {
         console.log("Gọi hàm hiển thị tạo ca");
@@ -637,171 +756,53 @@ function setUpShedule() {
         creaftShiftForm.classList.add("hide")
     })
 
-    //Khi bấm chuyển qua 1 loại ca khác
-    scheduleShiftType.forEach(type => {
-        type.addEventListener("click", (e) => {
-            scheduleShiftType.forEach(item => {
-                if (item.classList.contains("active")) {
-                    if (item !== e.target) {
-                        item.classList.remove("active")
-                        e.target.classList.add("active")
 
-                        //re render
 
-                        availableEmployeeTable.classList.add("hide")
-                        scheduleEmployeeTable.classList.add("hide")
-                        creaftShiftForm.classList.remove("hide")
+    //Chức năng xem lịch làm
+    function setUpViewShedule() {
+        console.log("Gọi chức năng xem lịch làm")
+
+        let chooseDate = document.querySelector(".view_schedule .schedule_date input")
+        let viewScheduleShiftType = document.querySelectorAll(".view_schedule_shift_type")
+        let dateNow = new Date()
+        let year = dateNow.getFullYear();
+        let month = String(dateNow.getMonth() + 1).padStart(2, '0');
+        let day = String(dateNow.getDate()).padStart(2, '0');
+
+        let shiftActive;
+
+        let formattedDate = year + "-" + month + "-" + day;
+        chooseDate.value = formattedDate
+
+        viewScheduleShiftType.forEach(item => {
+            if (item.classList.contains("active")) {
+                shiftActive = item;
+                console.log("Goi api lần đầu"); //Cho ca mặc định
+            }
+        })
+
+        console.log(viewScheduleShiftType);
+        viewScheduleShiftType.forEach(type => {
+            type.addEventListener("click", (e) => {
+                viewScheduleShiftType.forEach(item => {
+                    if (item.classList.contains("active")) {
+                        //lấy ra ca element đang active
+                        if (item !== e.target) {
+                            //Gọi api để đổ dữ liệu mới cho e.target
+                            console.log(e.target);
+
+                            console.log("Gọi api để đổ dữ liệu mới");
+                            item.classList.remove("active")
+                            e.target.classList.add("active")
+
+                            //re render
+
+
+                        }
                     }
-                }
+                })
             })
         })
-    })
+    }
+
 }
-
-//Chức năng xem lịch làm
-function setUpViewShedule() {
-    alert("Gọi chức năng xem lịch làm")
-
-    let chooseDate = document.querySelector(".view_schedule .schedule_date input")
-    let viewScheduleShiftType = document.querySelectorAll(".view_schedule_shift_type")
-    let dateNow = new Date()
-    let year = dateNow.getFullYear();
-    let month = String(dateNow.getMonth() + 1).padStart(2, '0');
-    let day = String(dateNow.getDate()).padStart(2, '0');
-
-    let shiftActive;
-
-    let formattedDate = year + "-" + month + "-" + day;
-    chooseDate.value = formattedDate
-
-    viewScheduleShiftType.forEach(item => {
-        if (item.classList.contains("active")) {
-            shiftActive = item;
-            console.log("Goi api lần đầu"); //Cho ca mặc định
-        }
-    })
-
-    console.log(viewScheduleShiftType);
-    viewScheduleShiftType.forEach(type => {
-        type.addEventListener("click", (e) => {
-            viewScheduleShiftType.forEach(item => {
-                if (item.classList.contains("active")) {
-                    //lấy ra ca element đang active
-                    if (item !== e.target) {
-                        //Gọi api để đổ dữ liệu mới cho e.target
-                        console.log(e.target);
-
-                        console.log("Gọi api để đổ dữ liệu mới");
-                        item.classList.remove("active")
-                        e.target.classList.add("active")
-
-                        //re render
-
-
-                    }
-                }
-            })
-        })
-    })
-}
-
-
-
-
-
-
-// //Chức năng thêm nhân viên
-// let add_employee_nav = document.querySelector(".add_employee")
-// let add_employee_content = document.querySelector(".main_content_add_employee")
-// let fullName = document.querySelector(".fullName")
-// let email = document.querySelector(".email")
-
-// let phone = document.querySelector(".phone")
-
-// let id = document.querySelector(".identification")
-
-// let role = document.querySelector(".roleName")
-
-// let bank = document.querySelector(".bank")
-
-// let birthday = document.querySelector(".birthday")
-
-// let add_btn = document.querySelector(".add")
-
-// add_employee_nav.addEventListener("click", (e) => {
-
-
-//     //Check
-//     if (!add_employee_content.classList.contains("show_block")) {
-//         add_employee_content.classList.add("show_block")
-//         //Lấy về danh sách role
-//         fetch("http://localhost:8080/api/manager/roles", {
-//             method: "GET",
-//             mode: "cors",
-//             credentials: "include",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             }
-//         })
-//             .then(res => {
-//                 return res.json()
-//             })
-//             .then((response) => {
-//                 let data = response;
-
-//                 data.forEach(element => {
-//                     let newOption = document.createElement("option");
-//                     newOption.value = element.name
-//                     newOption.text = element.name
-//                     role.appendChild(newOption);
-//                 });
-//             }).catch(err => {
-//                 alert("Có lỗi xảy ra! Không lấy được danh sách chức vụ");
-//             })
-//     }
-
-//     return;
-
-// })
-
-// //post api
-
-// add_btn.addEventListener("click", () => {
-//     let employee = {
-//         fullName: fullName.value,
-//         email: email.value,
-//         phone: phone.value,
-//         identification: id.value,
-//         roleName: role.selectedOptions[0].innerText,
-//         bank: bank.value,
-//         birthday: birthday.value,
-//     }
-//     console.log(employee);
-
-//     //PHẢI CÓ 1 DÒNG CHECK RỖNG NỮA NHE --------------
-//     fetch("http://localhost:8080/api/manager/employee/add", {
-//         method: "POST",
-//         mode: "cors",
-//         credentials: "include",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(employee)
-//     })
-//         .then(res => {
-//             return res.json()
-//         })
-//         .then((response) => {
-//             let data = response;
-
-//             if (data.status !== "OK") {
-//                 alert(data.message)
-//                 return;
-//             }
-//             //save data
-//             console.log(data)
-//         }).catch(err => {
-//             alert(err.message)
-//         })
-
-// })
