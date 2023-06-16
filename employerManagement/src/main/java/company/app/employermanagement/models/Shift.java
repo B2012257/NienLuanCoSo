@@ -2,7 +2,10 @@ package company.app.employermanagement.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +25,27 @@ public class Shift {
     @ManyToOne()
     @JoinColumn(referencedColumnName = "uid")
     private User schedule_by;
+    @CreationTimestamp
+    private LocalDateTime createdDateTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedDateTime;
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
+    }
+
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
+    }
 
     public Shift(Shift shift) {
         this.id = shift.getId();

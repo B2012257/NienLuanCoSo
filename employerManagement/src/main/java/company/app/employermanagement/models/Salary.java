@@ -3,6 +3,10 @@ package company.app.employermanagement.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class Salary {
@@ -12,6 +16,32 @@ public class Salary {
     long base;
     @NotNull
     long overtime;
+    @CreationTimestamp
+    private LocalDateTime createdDateTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedDateTime;
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
+    }
+
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
+    }
+
     @NotNull
     long allowance; //Trợ cấp
     public Salary() {

@@ -91,8 +91,10 @@
                     <img class="right_item avatar" src="https://tairo.cssninja.io/img/avatars/2.svg" alt="">
                     <div class="right_info_menu hide">
                         <img class="right_item avatar_info" src="https://tairo.cssninja.io/img/avatars/2.svg" alt="">
-                        <p class="full_name">Pham Quang Thái</p>
-                        <p class="role_name">Quản Lý</p>
+                        <p class="full_name">Ten</p>
+                        <p class="email" style="line-height: 12px;">mail@mail</p>
+
+                        <p class="role_name">Chuc vu</p>
                         <a href="#" class="infomation">Thông tin cá nhân</a>
 
                         <a href="#" class="logout" id="logout"> Đăng xuất</a>
@@ -147,16 +149,18 @@
                                 <th scope="col">Mã nhân viên</th>
                                 <th scope="col">Họ tên</th>
                                 <th scope="col">Chức vụ</th>
+                                <th scope="col">Năm sinh</th>
                                 <th scope="col">Giới tính</th>
                                 <th scope="col">Số điện thoại</th>
                                 <th scope="col">Tài khoản</th>
                                 <th scope="col">Mật khẩu</th>
+                                <th scope="col">Ngày vào làm</th>
                                 <th scope="col">Trạng thái làm việc</th>
 
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
+                        <tbody class="list_employee__table__body">
+                            <!-- <tr>
                                 <th class="list_employee__table__uid" scope="row">SB1245</th>
                                 <th class="list_employee__table__fullname">Phạm Quang Thái</th>
                                 <th class="list_employee__table__role">Quản Lý</th>
@@ -167,17 +171,7 @@
                                         value="1444355" id="">
                                 </th>
                                 <th class="list_employee__table__status">Đang làm</th>
-                            </tr>
-                            <tr>
-                                <th scope="row">SB1246</th>
-                                <th>Phạm Quang Hà</th>
-                                <th>Phụ Bếp</th>
-                                <th>Nam</th>
-                                <th>0915210966</th>
-                                <th>hasb1246</th>
-                                <th><input type="password" name="" value="1444355" id=""></th>
-                                <th>Nghỉ</th>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -195,8 +189,8 @@
                             <span>Giới tính</span>
 
                             <select name="lang" class="gender" id="gener-select">
-                                <option value="male">Nam</option>
-                                <option value="female">Nu</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nu">Nu</option>
 
                             </select>
                             <span>Email</span>
@@ -242,11 +236,15 @@
                                 <th scope="col">Số điện thoại</th>
                                 <th scope="col">Tài khoản</th>
                                 <th scope="col">Mật khẩu</th>
-                                <th scope="col">Trạng thái làm việc</th>
+                                <th scope="col">Ngày vào làm</th>
 
                             </tr>
                         </thead>
+                        <tbody>
+
+                        </tbody>
                     </table>
+                    <button class="saveChange hide">Lưu thay đổi</button>
 
 
 
@@ -261,36 +259,15 @@
                                 <th scope="col">Số điện thoại</th>
                                 <th scope="col">Tài khoản</th>
                                 <th scope="col">Mật khẩu</th>
-                                <th scope="col">Trạng thái làm việc</th>
+                                <th scope="col">Ngày vào làm việc</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th class="edit__list_employee__uid" scope="row">SB1245</th>
-                                <td class="edit__list_employee__fullname">Phạm Quang Thái</td>
-                                <td class="edit__list_employee__role">Quản Lý</td>
-                                <td class="edit__list_employee__gender">Nam</td>
-                                <td class="edit__list_employee__phone">0915210966</td>
-                                <th class="edit__list_employee__username">thaib1245</th>
-                                <td class="edit__list_employee__password"><input type="password" name="" value="1444355"
-                                        id=""></td>
-                                <th class="edit__list_employee__status">Đang làm</th>
-                            </tr>
-                            <tr>
-                                <th class="edit__list_employee__uid" scope="row">SB1246</th>
-                                <td class="edit__list_employee__fullname">Phạm Quang Hà</td>
-                                <td class="edit__list_employee__role">Phụ Bếp</td>
-                                <td class="edit__list_employee__gender">Nam</td>
-                                <td class="edit__list_employee__phone">0915210966</td>
-                                <th class="edit__list_employee__username">hasb1246</th>
-                                <td class="edit__list_employee__password"><input type="password" name="" value="1444355"
-                                        id=""></td>
-                                <th class="edit__list_employee__status">Nghỉ</th>
-                            </tr>
+
+
                         </tbody>
                     </table>
-                    <button class="saveChange hide">Lưu thay đổi</button>
                 </div>
                 <div class="shift_list main_content__body__item main_content__body__shift_list hide">
                     <p class="headerName">Quản lý loại ca</p>

@@ -9,6 +9,7 @@ let saveChange = document.querySelector(".saveChange")
 let saveChangeShiftType = document.querySelector(".saveChangeShiftType")
 let creaftShiftType = document.querySelector(".create_shift_type")
 let addShiftTypeTable = document.querySelector(".add__shift__list_employee__table")
+let userInfo = JSON.parse(localStorage.getItem("info"));
 //Thêm sự kiện ẩn hiên menu khi ấn vào avatar
 avatar.addEventListener("click", (e) => {
     avatarMenu.classList.toggle("hide")
@@ -20,14 +21,27 @@ avatar.addEventListener("click", (e) => {
     })
 })
 
-
 //Thêm sự kiện hiện form tạo loại ca làm mới
 creaftShiftType.addEventListener("click", (e) => {
     addShiftTypeTable.classList.remove("hide")
 })
-// if (!localStorage.getItem("info")) location.href = "http://localhost:5500/src/login.html";
+if (!userInfo) location.href = "http://localhost:5500/src/login.html";
+setUpHeaderInfo()
 
+//Đổ dữ liệu vào thông tin header
+function setUpHeaderInfo() {
+    let rightMenu = document.querySelector(".right_info_menu")
+    let avatar = rightMenu.querySelector(".avatar_info")
+    let email = rightMenu.querySelector(".email")
+    let fullName = rightMenu.querySelector(".full_name")
+    let roleName = rightMenu.querySelector(".role_name")
 
+    fullName.innerHTML = userInfo.user.fullName
+    email.innerHTML = userInfo.user.email
+    roleName.innerHTML = userInfo.user.roleName
+
+    // console.log(userInfo.user);
+}
 
 function setHeaderName(name) {
     let headerNameElement = document.querySelector("#header .left")
@@ -109,6 +123,23 @@ nav_items.forEach(nav_item => {
 
                                     //Kiểm tra để gọi hàm tương ứng
                                     switch (classNameToQuery) {
+                                        case "overview":
+                                            setUpOverView()
+
+                                            break;
+                                        case "list_employee":
+                                            setUpListEmployee()
+
+                                            break;
+                                        case "update_employee":
+                                            setUpEditEmployee()
+
+                                            break;
+                                        case "shift_list":
+                                            setUpShiftTypeManagement()
+
+                                            break;
+
                                         case "schedule":
                                             setUpShedule()
 
@@ -117,7 +148,12 @@ nav_items.forEach(nav_item => {
                                             setUpViewShedule()
 
                                             break;
+                                        case "salary_report":
+                                            setUpSalaryReport()
+
+                                            break;
                                         default:
+                                            setUpOverView()
                                             break;
                                     }
                                     // setUpViewShedule()
@@ -199,10 +235,237 @@ addEmployeeBtn.addEventListener("click", () => {
         addEmployeeForm.classList.add("hide")
     })
 })
+// Set up các chức năng ------------------------------------
 
+//Chức năng tổng quan
+function setUpOverView() {
+    alert("Gọi chức năng tổng quan")
+}
+
+//Danh sách nhân viên
+function setUpListEmployee() {
+    let apiUrl = "http://localhost:8080/api/manager/employees";
+    alert("Gọi chức năng danh sách nhân viên")
+    let tbodyListEmployeeTable = document.querySelector(".list_employee__table .list_employee__table__body")
+    let dataToShow = [];
+
+    //Gọi api và đổ dữ liệu
+    fetch(apiUrl, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => {
+            return res.json()
+        })
+        .then((response) => {
+            let data = response;
+            console.log(data);
+            //save data
+            dataToShow = [...data]
+            tbodyListEmployeeTable.innerHTML = ""
+            dataToShow.forEach(item => {
+                let trHtmlTemplate = `<tr>
+                                <th class="list_employee__table__uid" scope="row">${item.uid}</th>
+                                <th class="list_employee__table__fullname">${item.fullName}</th>
+                                <th class="list_employee__table__role">${item.roleName}</th>
+                                <th class="list_employee__table__birthday">${item.birthday}</th>
+
+                                <th class="list_employee__table__gender">${item.gender || "Nam"}</th>
+                                <th class="list_employee__table__phone">${item.phone}</th>
+                                <th class="list_employee__table__username">${item.userName}</th>
+                                <th class="list_employee__table__password"><input type="password" name=""
+                                        value=${item.password}" id="">
+                                </th>
+                                <th class="list_employee__table__startWorkFromDay">${item.startWorkFromDay || ""}</th>
+                                <th class="list_employee__table__status">${item.status || "none"}</th>
+                            </tr>`
+                tbodyListEmployeeTable.innerHTML += trHtmlTemplate
+            })
+        })
+        .catch(err => {
+            if (err) alert("Có lỗi xảy ra")
+        })
+
+}
+//Cập nhật và chỉnh sửa nhân viên
+function setUpEditEmployee() {
+    alert("Gọi chức năng cập nhật nv")
+    //Thêm nhân viên
+    let updateEmployee = document.querySelector(".main_content__body__update_employee")
+    let formAddEmployee = document.querySelector(".add_employee_popup_wrapper")
+    let submitAddEmployee = formAddEmployee.querySelector(".add") // Nút xác nhận thêm nhân viên
+    let fullName = formAddEmployee.querySelector(".fullName")
+    let gender = formAddEmployee.querySelector(".gender")
+    let email = formAddEmployee.querySelector(".email")
+    let phone = formAddEmployee.querySelector(".phone")
+    let identification = formAddEmployee.querySelector(".identification")
+    let roleName = formAddEmployee.querySelector(".roleName")
+    let bank = formAddEmployee.querySelector(".bank")
+    let birthday = formAddEmployee.querySelector(".birthday")
+    let workStartDay = formAddEmployee.querySelector(".workStartDay")
+    let addEmployeeUrl = "http://localhost:8080/api/manager/employee/add"
+    let employeeJustAdd = document.querySelector(".edit__list_employee__table")
+    let tBodyEmployeeJustAdd = employeeJustAdd.querySelector("tbody")
+    let searchEmployeeTable = document.querySelector(".search__list_employee__table")
+    let tbodySearchEmployeeTable = searchEmployeeTable.querySelector("tbody")
+    //Gọi api lấy các chức vụ
+    //Lấy về danh sách role
+    fetch("http://localhost:8080/api/manager/roles", {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => {
+            return res.json()
+        })
+        .then((response) => {
+            let data = response;
+
+            data.forEach(element => {
+                let newOption = document.createElement("option");
+                newOption.value = element.name
+                newOption.text = element.name
+                roleName.appendChild(newOption);
+            });
+        }).catch(err => {
+            alert("Có lỗi xảy ra! Không lấy được danh sách chức vụ");
+        })
+
+    //Set up chức năng tìm kiếm nhân viên
+    //Lấy giá trị của ô input search
+    let inputSearch = updateEmployee.querySelector(".employee__search")
+
+    inputSearch.addEventListener("input", () => {
+        let apiSearchUrl = `http://localhost:8080/api/manager/employees/search?name=${inputSearch.value}`
+        if (inputSearch.value !== "") {
+            //delay 1s
+            setTimeout(() => {
+                //Call api
+                fetch(apiSearchUrl, {
+                    method: "GET",
+                    mode: "cors",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(res => {
+                        return res.json()
+                    })
+                    .then((response) => {
+                        let data = response;
+                        //render ra man hinh
+                        tbodySearchEmployeeTable.innerHTML = ""
+                        data.forEach(item => {
+                            tbodySearchEmployeeTable.innerHTML +=
+                                ` <tr>
+                                <th class="edit__list_employee__uid" scope="row">${item.uid}</th>
+                                <td onclick="convertToInput(this)" class="edit__list_employee__fullname">${item.fullName}</td>
+                                <td onclick="convertToInput(this)" class="edit__list_employee__role">${item.roleName}</td>
+                                <td onclick="convertToInput(this)" class="edit__list_employee__gender">${item.gender}</td>
+                                <td onclick="convertToInput(this)" class="edit__list_employee__phone">${item.phone}</td>
+                                <th class="edit__list_employee__username">${item.userName}</th>
+                                <td class="edit__list_employee__password"><input type="password" name="" value="${item.password}"
+                                        id=""></td>
+                                <th onclick="convertToInput(this)" class="edit__list_employee__startWorkFromDay"> ${item.startWorkFromDay}</th>
+
+                            </tr>
+                        `
+                        })
+                        updateEmployee.querySelector(".saveChange").classList.remove("hide")
+                        return;
+                    })
+
+
+            }, 500)
+        } else {
+            tbodySearchEmployeeTable.innerHTML = ""
+            updateEmployee.querySelector(".saveChange").classList.add("hide")
+
+        }
+
+    })
+
+
+
+    //Khi nhấn xác nhận
+    //Lấy dữ liệu từ form
+    submitAddEmployee.addEventListener("click", () => {
+        let formData = {
+            fullName: fullName.value,
+            email: email.value,
+            phone: phone.value,
+            identification: identification.value,
+            roleName: "Phu Bep" || roleName.value,
+            bank: bank.value,
+            birthday: birthday.value,
+            avatarUrl: "",
+            gender: gender.value,
+            startWorkFromDay: workStartDay.value
+        }
+        console.log(formData);
+
+        fetch(addEmployeeUrl, {
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(res => {
+                return res.json()
+            })
+            .then((response) => {
+                let data = response;
+                console.log(data);
+                if (data.status === "OK") {
+                    //Thêm 1 trường vào bảng nhân viên mới thêm
+                    let trTemplate = `<tr>
+                                <th class="just__list_employee__uid" scope="row">${data.user.uid}</th>
+                                <td class="just__list_employee__fullname">${data.user.fullName}</td>
+                                <td class="just__list_employee__role">${data.user.roleName} </td>
+                                <td class="just__list_employee__gender">${data.user.gender}</td>
+                                <td class="just__list_employee__phone">${data.user.phone}</td>
+                                <th class="just__list_employee__username">${data.user.userName}</th>
+                                <td class="just__list_employee__password"><input type="text" name="" value="${data.user.password}"
+                                        id=""></td>
+                                <th class="just__list_employee__startWorkFromDay">${data.user.startWorkFromDay} </th>
+                            </tr>`
+                    tBodyEmployeeJustAdd.innerHTML += trTemplate
+                }
+                //save data
+
+            })
+            .catch(err => {
+                if (err) alert("Có lỗi xảy ra")
+            })
+    })
+}
+
+//Chức năng quản lý loại ca làm
+function setUpShiftTypeManagement() {
+    alert("Gọi chức năng quản lý loại ca làm")
+    //Lấy các ca đang có
+
+}
+
+//Chức năng báo cáo lương
+function setUpSalaryReport() {
+    alert("Gọi chức năng báo cáo lương")
+
+}
 //Chức năng lập lịch
-//Khi bấm nút tạo ca trong ngày
 function setUpShedule() {
+    alert("Gọi chức năng lập lịch")
 
     let chooseDate = document.querySelector(".schedule_date input")
 
@@ -228,7 +491,7 @@ function setUpShedule() {
 
     let shiftActive;
 
-    //Lấy ra ca đang chọn
+    //Lấy ra ca đang chọn lần đầu
     scheduleShiftType.forEach(item => {
         if (item.classList.contains("active")) {
             console.log("Gọi tìm xem ca trong ngày này đã có chưa");
@@ -275,8 +538,10 @@ function setUpShedule() {
     })
 }
 
-
+//Chức năng xem lịch làm
 function setUpViewShedule() {
+    alert("Gọi chức năng xem lịch làm")
+
     let chooseDate = document.querySelector(".view_schedule .schedule_date input")
     let viewScheduleShiftType = document.querySelectorAll(".view_schedule_shift_type")
     let dateNow = new Date()

@@ -7,7 +7,10 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -36,12 +39,6 @@ public class User {
     @NotNull
     String identification; //CCCD/CMND
     String bank;
-    //    @ManyToMany
-//    @JoinTable(name = "shift_detail",
-//            joinColumns = @JoinColumn(name = "user_uid"),
-//            inverseJoinColumns = @JoinColumn(name = "shift_id")
-//    )
-//    private Set<Shift> shifts;
     @NotNull
     @Column(name = "role_name")
     private String roleName;
@@ -51,6 +48,43 @@ public class User {
             referencedColumnName = "name",
             insertable = false, updatable = false) //Khoa ngoai tham chieu cot name trong Role
     private Role role; // Tham chiều tới trường roleName
+    String gender;
+    @CreationTimestamp
+    private LocalDateTime createdDateTime;
+    String startWorkFromDay;
+    @UpdateTimestamp
+    private LocalDateTime updatedDateTime;
+    public String getGender() {
+        return gender;
+    }
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public String getStartWorkFromDay() {
+        return startWorkFromDay;
+    }
+
+    public void setStartWorkFromDay(String startWorkFromDay) {
+        this.startWorkFromDay = startWorkFromDay;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
+    }
+
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public User() {
         this.uid = new RandomIdUntil().randomId();
@@ -67,7 +101,7 @@ public class User {
                 String email, String phone, String avatar_url,
                 String identification,
                 String role_name,
-                String bank) {
+                String bank, LocalDateTime updatedDateTime, LocalDateTime createdDateTime, String startWorkFromDay) {
         this.uid = uid;
         this.userName = user_name;
         this.fullName = full_name;
@@ -79,7 +113,9 @@ public class User {
         this.identification = identification;
         this.bank = bank;
         this.roleName = role_name;
-
+        this.createdDateTime = createdDateTime;
+        this.updatedDateTime = updatedDateTime;
+        this.startWorkFromDay = startWorkFromDay;
     }
 
     public User(User user) {
@@ -94,7 +130,9 @@ public class User {
         this.identification = user.getIdentification();
         this.bank = user.getBank();
         this.roleName = user.getRoleName();
-
+        this.startWorkFromDay = user.getStartWorkFromDay();
+        this.createdDateTime = user.getCreatedDateTime();
+        this.updatedDateTime = user.getUpdatedDateTime();
     }
 
     public String getUid() {

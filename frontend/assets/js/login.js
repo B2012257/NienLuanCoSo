@@ -37,8 +37,6 @@ loginBtn.addEventListener("click", (e) => {
             return;
         })
         .catch(err => {
-            location.href = "http://localhost:5500/src/index.html"
-
             if (err) alert("Có lỗi xảy ra")
         })
 })

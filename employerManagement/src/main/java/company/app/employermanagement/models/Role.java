@@ -2,7 +2,10 @@ package company.app.employermanagement.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -13,6 +16,27 @@ public class Role {
     @OneToOne
     @JoinColumn(name = "salary_level",referencedColumnName = "level")
     Salary salary;
+    @CreationTimestamp
+    private LocalDateTime createdDateTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedDateTime;
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
+    }
+
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
+    }
 
     public Salary getSalary() {
         return salary;

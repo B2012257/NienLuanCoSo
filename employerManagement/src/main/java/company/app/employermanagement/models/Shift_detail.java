@@ -3,6 +3,10 @@ package company.app.employermanagement.models;
 import company.app.employermanagement.requests.ScheduleRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "shift_detail", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_uid", "shift_id"})})
@@ -29,7 +33,27 @@ public class Shift_detail {
     @NotNull
     int end;
 
+    @CreationTimestamp
+    private LocalDateTime createdDateTime;
 
+    @UpdateTimestamp
+    private LocalDateTime updatedDateTime;
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
+    }
+
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
+    }
 
     public Long getId() {
         return id;

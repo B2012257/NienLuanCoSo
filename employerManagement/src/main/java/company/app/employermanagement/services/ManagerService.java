@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,15 +74,22 @@ public class ManagerService {
     }
 
     /* Danh sách các nhân viên kèm 1 số thông tin cơ bản, có thể xem chi tiết nhân viên */
-    public void allEmployee() {
-
+    public List<User> allEmployee() {
+        return userRepository.findAll();
     }
+    public List<User> searchEmployeeByName( String name) {
+        if(name != null)
+            return userRepository.findAllByFullNameContains(name);
 
+        return new ArrayList<>();
+    }
     //Thông tin chi tiết của 1 nhân viên
     public void detailEmployee(String id) {
 
     }
-
+    public List<ShiftList> getShiftTypes() {
+        return shiftListRepository.findAll();
+    }
     public void editEmployee() {
 
     }
