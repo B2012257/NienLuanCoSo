@@ -51,6 +51,12 @@ public class ManagerController {
     public List<User> searchEmployeeByName(@RequestParam(name = "name") String name) {
         return this.managerService.searchEmployeeByName(name);
     }
+    @DeleteMapping("/shiftType/delete")
+    @LoginRequired
+    @RoleRequired({"Quan Ly"})
+    public Response DeleteShiftTypes(@RequestParam(name = "id") Long id) {
+        return this.managerService.DeleteShiftTypes(id);
+    }
 
     @GetMapping("/shiftTypes")
     @LoginRequired

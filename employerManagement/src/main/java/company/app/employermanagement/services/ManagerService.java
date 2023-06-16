@@ -90,6 +90,11 @@ public class ManagerService {
     public List<ShiftList> getShiftTypes() {
         return shiftListRepository.findAll();
     }
+
+    public Response DeleteShiftTypes(Long id) {
+        shiftListRepository.deleteById(id);
+            return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công");
+    }
     public void editEmployee() {
 
     }

@@ -451,10 +451,130 @@ function setUpEditEmployee() {
     })
 }
 
+
+function deleteShiftTypeEvent(thisItem) {
+    let id = thisItem.parentElement.parentElement.querySelector(".shift_type__id").innerHTML
+    let trDelete = thisItem.parentElement.parentElement;
+    let apiUrl = `http://localhost:8080/api/manager/shiftType/delete?id=${id}`
+    console.log(id);
+    fetch(apiUrl, {
+        method: "DELETE",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+    })
+        .then(res => {
+            return res.json()
+        })
+        .then(res => {
+            let data = res;
+            if (data.status === "OK") {
+                alert(data.message)
+                trDelete.remove();
+            }
+            else
+                alert("Xóa không thành công")
+        })
+        .catch(err => {
+            console.log(alert("Xoa không thành công"));
+        })
+
+}
 //Chức năng quản lý loại ca làm
 function setUpShiftTypeManagement() {
     alert("Gọi chức năng quản lý loại ca làm")
+    let shiftListTypeTable = document.querySelector(".shift__list_employee__table")
+    let tbodyShiftListTypeTable = shiftListTypeTable.querySelector("tbody")
+    let apiUrl = "http://localhost:8080/api/manager/shiftTypes"
     //Lấy các ca đang có
+    fetch(apiUrl, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => {
+            return res.json()
+        })
+        .then((response) => {
+            let data = response;
+            //save data
+            tbodyShiftListTypeTable.innerHTML = ""
+            if (data) {
+                console.log(data);
+                data.forEach(item => {
+                    let timeline = item.timeline
+                    let timelineStart = timeline.split("-")[0].trim()
+                    let timelineEnd = timeline.split("-")[1].trim()
+                    let timeNumber = timelineEnd - timelineStart
+                    console.log(timeNumber);
+                    tbodyShiftListTypeTable.innerHTML +=
+                        `
+                            <tr class="shiftTypeListBody">
+                                <th class="shift_type__id" scope="row">${item.id}</th>
+                                <td class="shift_type__name">${item.name}</td>
+                                <td class="shift_type__timeline">${timeline}</td>
+                                <th class="shift_type__time">${timeNumber}</th>
+                                <th><button onclick="deleteShiftTypeEvent(this)" class="shift_type__delete">Xóa</button></th>
+                            </tr>`
+
+                })
+                //render và tính toán số giờ
+
+            }
+
+        })
+        .catch(err => {
+            if (err) console.log("Có lỗi xảy ra")
+        })
+    //Chức năng tạo ca làm
+    let shiftTypeCreateSave = document.querySelector(".shift_type__create__save")
+    shiftTypeCreateSave.addEventListener("click", () => {
+        //Lấy các trường dữ liệu trong dòng
+        let name = shiftTypeCreateSave.parentElement.parentElement.querySelector(".shift_type__create__name")
+        let timeline = shiftTypeCreateSave.parentElement.parentElement.querySelector(".shift_type__create__timeline")
+        let timelineStart = timeline.innerHTML.split("-")[0].trim()
+        let timelineEnd = timeline.innerHTML.split("-")[1].trim()
+        let timeNumber = timelineEnd - timelineStart
+        console.log(name.innerHTML);
+        if (name.innerHTML !== "" && timeline.innerHTML !== "") {
+            fetch("http://localhost:8080/api/manager/employee/schedule/createShift", {
+                method: "POST",
+                mode: "cors",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name.innerHTML,
+                    timeline: timeline.innerHTML
+                })
+            })
+                .then(res => {
+                    return res.json()
+                })
+                .then(res => {
+                    let data = res;
+                    tbodyShiftListTypeTable.innerHTML +=
+                        `
+                            <tr class="shiftTypeListBody">
+                                <th class="shift_type__id" scope="row">${data.id}</th>
+                                <td class="shift_type__name">${data.name}</td>
+                                <td class="shift_type__timeline">${data.timeline}</td>
+                                <th class="shift_type__time">${timeNumber}</th>
+                                <th><button onclick="deleteShiftTypeEvent(this)" class="shift_type__delete">Xóa</button></th>
+                            </tr>`
+                })
+                .catch(err => {
+                    console.log(alert("Tạo ca không thành công"));
+                })
+        }
+    })
 
 }
 

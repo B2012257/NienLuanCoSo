@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface ShiftListRepository extends JpaRepository<ShiftList, Long> {
     ShiftList save(ShiftList shiftList);
     ShiftList findOneById(Long id);
+
+
+    void deleteById(Long id);
 }
