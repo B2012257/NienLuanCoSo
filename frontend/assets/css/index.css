@@ -44,9 +44,10 @@ p {
 
 .main_wrapper {
     background-color: #f1f5f9;
-    height: 100vh;
     color: #1e293b;
     font-family: sans-serif;
+    min-height: 100vh;
+    max-width: auto;
 }
 
 #main_content {
@@ -120,7 +121,8 @@ p {
 #header .left {
     display: inline-block;
     margin-left: 12px;
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: 700;
 }
 
 #header .right {
@@ -368,7 +370,7 @@ p {
 
 .schedule__shift_type.active,
 .view_schedule_shift_type.active {
-    background-color: #94a3b8;
+    background-color: #13de7f;
 }
 
 .create_shift {
@@ -395,6 +397,7 @@ p {
     text-align: center;
     border-radius: 12px;
     background-color: #e3e4ed;
+    margin: 10px 0;
 }
 
 .schedule_date input {
@@ -409,4 +412,12 @@ p {
     border: 1px solid #82cdff;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.function_title {
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: underline;
+    color: #363636;
 }

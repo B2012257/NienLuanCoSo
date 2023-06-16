@@ -200,19 +200,25 @@ nav_items.forEach(nav_item => {
 //test
 function convertToInput(thisItem) {
     let input = document.createElement("input");
+    let currentValue = thisItem.innerText;
     input.type = "text";
-    input.value = thisItem.innerHTML;
+    input.value = currentValue
+    thisItem.innerText = ""
     input.style.width = "100%"
+    input.style.margin = "2px 0"
+
+    console.log([thisItem]);
+    thisItem.appendChild(input);
+    input.focus();
     input.onblur = function () {
-        thisItem.innerHTML = input.value;
+        thisItem.innerText = input.value;
+        return;
     };
     input.oninput = function () {
         //hiển thị nút lưu thay đổi
         saveChange.classList.remove("hide")
     };
-    thisItem.innerHTML = "";
-    thisItem.appendChild(input);
-    input.focus();
+
 }
 let tdEdit = document.querySelectorAll(".table td")
 tdEdit.forEach(item => {
@@ -248,7 +254,7 @@ function setUpListEmployee() {
     console.log("Gọi chức năng danh sách nhân viên")
     let tbodyListEmployeeTable = document.querySelector(".list_employee__table .list_employee__table__body")
     let dataToShow = [];
-
+    let erData
     //Gọi api và đổ dữ liệu
     fetch(apiUrl, {
         method: "GET",
@@ -264,6 +270,7 @@ function setUpListEmployee() {
         .then((response) => {
             let data = response;
             console.log(data);
+            erData = data
             //save data
             dataToShow = [...data]
             tbodyListEmployeeTable.innerHTML = ""
@@ -287,7 +294,7 @@ function setUpListEmployee() {
             })
         })
         .catch(err => {
-            if (err) alert("Có lỗi xảy ra")
+            if (err) alert(erData.message)
         })
 
 }
@@ -368,7 +375,7 @@ function setUpEditEmployee() {
                                 ` <tr>
                                 <th class="edit__list_employee__uid" scope="row">${item.uid}</th>
                                 <td onclick="convertToInput(this)" class="edit__list_employee__fullname">${item.fullName}</td>
-                                <td onclick="convertToInput(this)" class="edit__list_employee__role">${item.roleName}</td>
+                                <td class="edit__list_employee__role">${item.roleName}</td>
                                 <td onclick="convertToInput(this)" class="edit__list_employee__gender">${item.gender}</td>
                                 <td onclick="convertToInput(this)" class="edit__list_employee__phone">${item.phone}</td>
                                 <th class="edit__list_employee__username">${item.userName}</th>
@@ -402,7 +409,7 @@ function setUpEditEmployee() {
             email: email.value,
             phone: phone.value,
             identification: identification.value,
-            roleName: "Phu Bep" || roleName.value,
+            roleName: roleName.value,
             bank: bank.value,
             birthday: birthday.value,
             avatarUrl: "",
@@ -440,7 +447,9 @@ function setUpEditEmployee() {
                                 <th class="just__list_employee__startWorkFromDay">${data.user.startWorkFromDay} </th>
                             </tr>`
                     tBodyEmployeeJustAdd.innerHTML += trTemplate
-                }
+                    alert("Thêm thành công")
+                    return;
+                } return;
                 //save data
 
             })
@@ -585,7 +594,8 @@ function setUpSalaryReport() {
 
 }
 
-//Lấy về thông tin lịch làm trong ngày đang chọn
+//Lấy về thông tin lịch làm trong ngày đang chọn và kiểm tra -> nếu có thì hiện bảng phân công nếu chưa thì hiện tạo ca,
+// Khi bấm chuyển ngày thì cũng gọi hàm này luôn
 function getShiftOfThisDay(shiftTypeId, date) {
 
 }
@@ -627,6 +637,124 @@ function createShiftOfDay(shiftTypeId, task, date) {
             return []
         })
 }
+
+
+
+function getAllEmployeeAndContinue() {
+    let data = []
+    let apiUrl = "http://localhost:8080/api/manager/employees";
+    //Gọi api và đổ dữ liệu
+    fetch(apiUrl, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => {
+            return res.json()
+        })
+        .then((response) => {
+            data = response;
+            showToAvailableEmployeeTable(data)
+        })
+        .catch(err => {
+            if (err) alert("Có lỗi xảy ra")
+        })
+}
+
+function showToAvailableEmployeeTable(data) {
+    let list_employee__table_available = document.querySelector(".list_employee__table_available")
+    let tbodyList_employee__table_available = list_employee__table_available.querySelector("tbody")
+    tbodyList_employee__table_available.innerHTML = ""
+    data.forEach(item => {
+        tbodyList_employee__table_available.innerHTML += `      
+                                    <tr>
+                                        <th class="employee_availlable__uid" scope="row">${item.uid}</th>
+                                        <th class="employee_availlable__fullName">${item.fullName}</th>
+                                        <th class="employee_availlable__roleName">${item.roleName}</th>
+                                        <th class="employee_availlable__gender">${item.gender}</th>
+                                        <th class="employee_availlable__phone">${item.phone}</th>
+                                        <th class="employee_availlable__startWorkFromDay">${item.startWorkFromDay}</th>
+                                        <th onclick="copyElementPutToSchuduleTable(this)"><button>Thêm vào ca</button></th>
+                                    </tr>`
+    })
+}
+
+//Xóa cha của nó, thường là thẻ tr (1 hàng)
+function removeParentElement(thisElement) {
+    //Xóa khỏi bảng xếp lịch
+    thisElement.parentElement.parentElement.remove()
+    //Hiển thị lại nút thêm vào ca
+    let uid = thisElement.parentElement.parentElement.querySelector(".schedule_list_employee__user_uid").innerHTML
+    console.log(uid);
+    let list_employee__table_available = document.querySelector(".list_employee__table_available")
+    let trToShowAddScheduleButton = list_employee__table_available.querySelectorAll(".employee_availlable__uid")
+    console.log(trToShowAddScheduleButton);
+    trToShowAddScheduleButton.forEach(element => {
+        if (element.innerHTML === uid) {
+
+            element.parentElement.querySelector(".employee_availlable__startWorkFromDay").removeAttribute("colspan")
+            let thTag = document.createElement("th")
+            let buttonTag = document.createElement("button")
+            buttonTag.innerHTML = "Thêm vào ca"
+            thTag.setAttribute("onclick", "copyElementPutToSchuduleTable(this)")
+            thTag.appendChild(buttonTag)
+            // `<th onclick="copyElementPutToSchuduleTable(this)"><button>Thêm vào ca</button></th>`
+            element.parentElement.appendChild(thTag)
+        }
+
+    })
+}
+function copyElementPutToSchuduleTable(thisElement) {
+    //Hàng cần copy vào bảng phân công
+    let elementToPut = thisElement.parentElement //<tr> </tr> tag
+    let uid = elementToPut.querySelector(".employee_availlable__uid").innerHTML
+    let fullName = elementToPut.querySelector(".employee_availlable__fullName").innerHTML
+    let roleName = elementToPut.querySelector(".employee_availlable__roleName").innerHTML
+    let gender = elementToPut.querySelector(".employee_availlable__gender").innerHTML
+    let shiftTypeActive = document.querySelector(".schedule__shift_type.active")
+    let shiftTypeIdActive = shiftTypeActive.querySelector(".shift_type_id ").innerHTML
+    //Lấy ra timeline
+    let timelineArr = shiftTypeActive.innerText.split(" ")
+    let timeline = timelineArr[timelineArr.length - 1]
+    let timelineStart = timeline.split("-")[0].trim()
+    let timelineEnd = timeline.split("-")[1].trim()
+    let timeNumber = timelineEnd - timelineStart
+    console.log(uid, fullName, roleName, gender);
+    //Lấy ra các thông tin cần copy
+    try {
+        let tbodySchedule_list_employee__table = document.querySelector(".schedule_list_employee__table tbody")
+        console.log(tbodySchedule_list_employee__table);
+        tbodySchedule_list_employee__table.innerHTML +=
+            `<tr>
+                <th class="schedule_list_employee__shift_id" scope="row">${shiftTypeIdActive}</th>
+                <th class="schedule_list_employee__user_uid">${uid}</th>
+                <th class="schedule_list_employee__fullname">${fullName}</th>
+                <th class="schedule_list_employee__gender">${gender}</th>
+                <th class="schedule_list_employee__role">${roleName}</th>
+                <th class="schedule_list_employee__start text_center">${timelineStart}</th>
+                <th class="schedule_list_employee__end text_center">${timelineEnd}</th>
+                <td onclick="convertToInput(this)" class="schedule_list_employee__overtime text_center">0</td>
+                <th class="schedule_list_employee__totaltime">${timeNumber}</th>
+                <td class="schedule_list_employee__note">
+                <textarea style="width: 100%;" rows="3"></textarea>
+                </td>
+                <th class="schedule_list_employee__action">
+                    <button onClick="removeParentElement(this)">Xóa</button>
+                </th>
+            </tr>`
+    } catch (error) {
+        console.log(error);
+    }
+
+    thisElement.remove()
+    elementToPut.querySelector(".employee_availlable__startWorkFromDay").setAttribute("colspan", "2");
+
+    //Cho cốt trước nó colspan = 2 để đẹp
+    // thisElement.previousElementSibling.setAttribute("colspan", "2");
+}
 //Thêm hiệu ứng chuyển tab && Khi chuyển thì gọi api kiểm tra ngày đó đã sắp lịch làm chưa. Nếu chưa có thì hiển thị 2 bảng ra để sắp lịch. 
 //Sắp lịch xong bấm lưu thì lần lượt gọi api tạo ca làm cho ngày hôm đó và thêm các thông tin nhân viên vào
 function addSwitchShiftTypeEvent() {
@@ -639,12 +767,33 @@ function addSwitchShiftTypeEvent() {
     let createShiftBtn = createShift.querySelector(".create_shift button")
     let taskEl = createShift.querySelector(".shift_task")
     //Bắt sự kiện bấm nút tạo ca
-    createShiftBtn.addEventListener("click", () => {
+    createShiftBtn.addEventListener("click", async () => {
         //Lấy nội dung nhiệm vụ
-        let task = taskEl;
+        let task = taskEl.value;
         let shiftList = document.querySelector(".schedule__shift_type.active")
         let shiftListId = shiftList.querySelector(".shift_type_id ").innerHTML
-        console.log(shiftListId);
+        let dayNow = document.querySelector(".schedule_date input").value
+        // createShiftOfDay(shiftListId, task, dayNow)
+
+        if (task !== "") {
+            //Hiển thị nhân viên có thể làm trong ca đó
+            //Tạm thời đổ tất cả nhân viên vào
+            availableEmployeeTable.classList.remove("hide")
+            getAllEmployeeAndContinue()
+
+
+            //Bắt sự kiện khi lưu bảng phân công
+            let saveScheduleBtn = scheduleEmployeeTable.querySelector("button")
+            //Kiểm tra bảng phân công. nếu hợp lệ thì lưu
+            console.log(saveScheduleBtn);
+
+
+
+            scheduleEmployeeTable.classList.remove("hide")
+            creaftShiftForm.classList.add("hide")
+        }
+
+        //
     })
     //Khi bấm chuyển qua 1 loại ca khác
     scheduleShiftType.forEach(type => {
@@ -655,8 +804,13 @@ function addSwitchShiftTypeEvent() {
                     if (item !== e.target) {
                         item.classList.remove("active")
                         e.target.classList.add("active")
+
                         //re render
                         //Gọi api
+                        //Sau này gọi api thì xóa 2 dòng này
+                        let tbodySchedule_list_employee__table = document.querySelector(".schedule_list_employee__table tbody")
+                        tbodySchedule_list_employee__table.innerHTML = ""
+
 
                         availableEmployeeTable.classList.add("hide")
                         scheduleEmployeeTable.classList.add("hide")
@@ -689,11 +843,11 @@ function setUpShedule() {
     let formattedDate = year + "-" + month + "-" + day;
     chooseDate.value = formattedDate
 
-    let scheduleShiftType = document.querySelectorAll(".schedule__shift_type")
-    let creaftShiftForm = document.querySelector(".create_shift")
-    let createShiftBtn = document.querySelector(".create_shift button")
-    let availableEmployeeTable = document.querySelector(".availablleToSchedule")
-    let scheduleEmployeeTable = document.querySelector(".schedule_employee")
+    // let scheduleShiftType = document.querySelectorAll(".schedule__shift_type")
+    // let creaftShiftForm = document.querySelector(".create_shift")
+    // let createShiftBtn = document.querySelector(".create_shift button")
+    // let availableEmployeeTable = document.querySelector(".availablleToSchedule")
+    // let scheduleEmployeeTable = document.querySelector(".schedule_employee")
 
 
 
@@ -749,60 +903,59 @@ function setUpShedule() {
 
     }
 
-    //Khi nhấn tạo ca trong ngày
-    createShiftBtn.addEventListener("click", () => {
-        availableEmployeeTable.classList.remove("hide")
-        scheduleEmployeeTable.classList.remove("hide")
-        creaftShiftForm.classList.add("hide")
-    })
+    // //Khi nhấn tạo ca trong ngày
+    // createShiftBtn.addEventListener("click", () => {
+
+    // })
 
 
 
     //Chức năng xem lịch làm
-    function setUpViewShedule() {
-        console.log("Gọi chức năng xem lịch làm")
-
-        let chooseDate = document.querySelector(".view_schedule .schedule_date input")
-        let viewScheduleShiftType = document.querySelectorAll(".view_schedule_shift_type")
-        let dateNow = new Date()
-        let year = dateNow.getFullYear();
-        let month = String(dateNow.getMonth() + 1).padStart(2, '0');
-        let day = String(dateNow.getDate()).padStart(2, '0');
-
-        let shiftActive;
-
-        let formattedDate = year + "-" + month + "-" + day;
-        chooseDate.value = formattedDate
-
-        viewScheduleShiftType.forEach(item => {
-            if (item.classList.contains("active")) {
-                shiftActive = item;
-                console.log("Goi api lần đầu"); //Cho ca mặc định
-            }
-        })
-
-        console.log(viewScheduleShiftType);
-        viewScheduleShiftType.forEach(type => {
-            type.addEventListener("click", (e) => {
-                viewScheduleShiftType.forEach(item => {
-                    if (item.classList.contains("active")) {
-                        //lấy ra ca element đang active
-                        if (item !== e.target) {
-                            //Gọi api để đổ dữ liệu mới cho e.target
-                            console.log(e.target);
-
-                            console.log("Gọi api để đổ dữ liệu mới");
-                            item.classList.remove("active")
-                            e.target.classList.add("active")
-
-                            //re render
 
 
-                        }
+}
+function setUpViewShedule() {
+    console.log("Gọi chức năng xem lịch làm")
+
+    let chooseDate = document.querySelector(".view_schedule .schedule_date input")
+    let viewScheduleShiftType = document.querySelectorAll(".view_schedule_shift_type")
+    let dateNow = new Date()
+    let year = dateNow.getFullYear();
+    let month = String(dateNow.getMonth() + 1).padStart(2, '0');
+    let day = String(dateNow.getDate()).padStart(2, '0');
+
+    let shiftActive;
+
+    let formattedDate = year + "-" + month + "-" + day;
+    chooseDate.value = formattedDate
+
+    viewScheduleShiftType.forEach(item => {
+        if (item.classList.contains("active")) {
+            shiftActive = item;
+            console.log("Goi api lần đầu"); //Cho ca mặc định
+        }
+    })
+
+    console.log(viewScheduleShiftType);
+    viewScheduleShiftType.forEach(type => {
+        type.addEventListener("click", (e) => {
+            viewScheduleShiftType.forEach(item => {
+                if (item.classList.contains("active")) {
+                    //lấy ra ca element đang active
+                    if (item !== e.target) {
+                        //Gọi api để đổ dữ liệu mới cho e.target
+                        console.log(e.target);
+
+                        console.log("Gọi api để đổ dữ liệu mới");
+                        item.classList.remove("active")
+                        e.target.classList.add("active")
+
+                        //re render
+
+
                     }
-                })
+                }
             })
         })
-    }
-
+    })
 }

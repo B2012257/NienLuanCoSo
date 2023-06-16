@@ -24,14 +24,14 @@ public class ManagerController {
     ShiftListRepository shiftListRepository;
 
 
-    @RoleRequired(value = {"Quan Ly"}) // Có 1 role là được truy cập
+    @RoleRequired(value = {"Quản lý"}) // Có 1 role là được truy cập
     @GetMapping("/roles")
     public List<Role> getRoles() {
         /* redirect to register api */
         return this.managerService.getRoles();
     }
 
-    @RoleRequired(value = {"Quan Ly", "Admin"}) // Có 1 role là được truy cập
+    @RoleRequired(value = {"Quản lý"}) // Có 1 role là được truy cập
     @PostMapping("/employee/add")
     public Response addEmployee(@RequestBody User employeeDetail) {
         /* redirect to register api */
@@ -41,26 +41,26 @@ public class ManagerController {
     /* Danh sách các nhân viên kèm 1 số thông tin cơ bản, có thể xem chi tiết nhân viên */
     @GetMapping("/employees")
     @LoginRequired
-    @RoleRequired({"Quan Ly"})
+    @RoleRequired({"Quản lý"})
     public List<User> allEmployee() {
         return this.managerService.allEmployee();
     }
     @GetMapping("/employees/search")
     @LoginRequired
-    @RoleRequired({"Quan Ly"})
+    @RoleRequired({"Quản lý"})
     public List<User> searchEmployeeByName(@RequestParam(name = "name") String name) {
         return this.managerService.searchEmployeeByName(name);
     }
     @DeleteMapping("/shiftType/delete")
     @LoginRequired
-    @RoleRequired({"Quan Ly"})
+    @RoleRequired({"Quản lý"})
     public Response DeleteShiftTypes(@RequestParam(name = "id") Long id) {
         return this.managerService.DeleteShiftTypes(id);
     }
 
     @GetMapping("/shiftTypes")
     @LoginRequired
-    @RoleRequired({"Quan Ly"})
+    @RoleRequired({"Quản lý"})
     public List<ShiftList> getShiftTypes() {
         return this.managerService.getShiftTypes();
     }
