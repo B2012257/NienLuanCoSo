@@ -38,6 +38,23 @@ public class Shift_detail {
 
     @UpdateTimestamp
     private LocalDateTime updatedDateTime;
+    boolean isPresent = false;
+
+    public Shift getShift() {
+        return shift;
+    }
+
+    public void setShift(Shift shift) {
+        this.shift = shift;
+    }
+
+    public boolean isPresent() {
+        return isPresent;
+    }
+
+    public void setPresent(boolean present) {
+        isPresent = present;
+    }
 
     public LocalDateTime getCreatedDateTime() {
         return createdDateTime;

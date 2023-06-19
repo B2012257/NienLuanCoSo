@@ -1,5 +1,6 @@
 package company.app.employermanagement.services;
 
+import company.app.employermanagement.Dto.UserDto;
 import company.app.employermanagement.models.*;
 import company.app.employermanagement.repositories.*;
 import company.app.employermanagement.requests.ScheduleRequest;
@@ -129,12 +130,9 @@ public class ManagerService {
     /* sắp lịch làm (Dự kiến giao diện sẽ hiện ra danh sách các nhân viên,
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */
-    public Object scheduleEmployee(Shift_detail shiftRq) {
+    public List<Shift_detail> scheduleEmployee(List<Shift_detail> shiftDetails) {
+        return this.shiftDetailRepository.saveAllAndFlush(shiftDetails);
 
-        if (shiftDetailRepository.save(shiftRq) != null) {
-            return new SuccessfulResponse(HttpStatus.OK, "Thành công");
-        }
-        return new ErrorResponse(HttpStatus.NOT_ACCEPTABLE, "Có lỗi xảy ra vui lòng thử lại");
     }
 
     //Hiển thị danh sách nhân viên làm trong ngày

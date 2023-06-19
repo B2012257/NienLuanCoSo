@@ -90,7 +90,7 @@ public class ManagerController {
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */
     @PostMapping("/employee/schedule")
-    public Object scheduleEmployee(@RequestBody Shift_detail shiftDetail) {
+    public List<Shift_detail> scheduleEmployee(@RequestBody List<Shift_detail> shiftDetail) {
         return this.managerService.scheduleEmployee(shiftDetail);
     }
 
