@@ -16,4 +16,6 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
     Boolean existsByShiftListId(Long id);
     Boolean existsByShiftListIdAndDate(Long shiftListId, String date);
     List<Shift> findAllByDate(String date);
+    Shift findAllByDateAndShiftListId(String date, Long id);
+
 }

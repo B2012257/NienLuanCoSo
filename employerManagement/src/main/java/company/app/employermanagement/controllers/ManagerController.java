@@ -85,7 +85,16 @@ public class ManagerController {
 
         return managerService.createShift(shift);
     }
+    @GetMapping("/shifts")
+    public Shift getShiftOfDay(@RequestParam(name = "date" ) String date, @RequestParam(name = "id" ) Long id) {
 
+        return managerService.getShiftOfDay(date, id);
+    }
+    @GetMapping("/shiftsSchedules")
+    public Object getShiftScheduleOfDay(@RequestParam(name = "date" ) String date, @RequestParam(name = "id" ) Long id) {
+
+        return this.managerService.getShiftScheduleOfDay(date, id);
+    }
     /* sắp lịch làm (Dự kiến giao diện sẽ hiện ra danh sách các nhân viên,
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */

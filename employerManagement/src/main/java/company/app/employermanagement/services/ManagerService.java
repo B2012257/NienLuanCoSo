@@ -134,7 +134,21 @@ public class ManagerService {
         return this.shiftDetailRepository.saveAllAndFlush(shiftDetails);
 
     }
+    public Shift getShiftOfDay(String date, Long typeId) {
+        System.out.println(typeId);
+    return this.shiftRepository.findAllByDateAndShiftListId(date, typeId);
 
+    }
+
+    public Object getShiftScheduleOfDay(String date, Long typeId) {
+        System.out.println(typeId);
+        Shift shift =  this.shiftRepository.findAllByDateAndShiftListId(date, typeId);
+        if(shift != null) {
+            Long shift_id = shift.getId();
+            return this.shiftDetailRepository.findAllByShift_id(shift_id);
+        }
+        return  new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy thông tin ca làm");
+    }
     //Hiển thị danh sách nhân viên làm trong ngày
     public Object getAllScheduleInfo(String date) {
         //Lấy ra các ca trong ngày

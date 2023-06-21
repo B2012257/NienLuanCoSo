@@ -343,8 +343,8 @@
 
                     </div>
 
-                    <div class="schedule__shift_type_table hide">
-                        <div class="create_shift">
+                    <div class="schedule__shift_type_table">
+                        <div class="create_shift hide">
                             <p>Chưa có ca làm! Vui lòng tạo</p>
                             <textarea placeholder="Mời thêm các công việc cần làm" class="shift_task" name="task" id=""
                                 cols="30" rows="4"></textarea>
@@ -369,13 +369,14 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">SB1246</th>
-                                        <th>Phạm Quang Hà</th>
-                                        <th>Phụ Bếp</th>
-                                        <th>Nam</th>
-                                        <th>0915210966</th>
-                                        <th>Nghỉ</th>
-                                        <th><button>Thêm vào ca</button></th>
+                                        <th class="employee_availlable__uid" scope="row">${item.uid}</th>
+                                        <th class="employee_availlable__fullName">${item.fullName}</th>
+                                        <th class="employee_availlable__roleName">${item.roleName}</th>
+                                        <th class="employee_availlable__gender">${item.gender}</th>
+                                        <th class="employee_availlable__phone">${item.phone}</th>
+                                        <th class="employee_availlable__startWorkFromDay">${item.startWorkFromDay}</th>
+                                        <th onclick="copyElementPutToSchuduleTable(this)"><button>Thêm vào ca</button>
+                                        </th>
                                     </tr>
                                 </tbody>
                             </table>

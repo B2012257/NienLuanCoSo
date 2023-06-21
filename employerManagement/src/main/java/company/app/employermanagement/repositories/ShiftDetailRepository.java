@@ -11,4 +11,6 @@ import java.util.List;
 public interface ShiftDetailRepository extends JpaRepository<Shift_detail, String> {
     Shift_detail save(Shift shiftDetail);
     List<Shift_detail> findAllByShiftIn(List<Shift> shifts);
+    List<Shift_detail> findAllByShift_id(Long id);
+
 }
