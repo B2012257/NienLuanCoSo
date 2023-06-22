@@ -1,11 +1,22 @@
-let previousFunction = localStorage.getItem("previousFunction")//Lưu thông tin chức năng trước khi reload
-if (previousFunction) {
-    console.log(document.querySelector(`.${previousFunction}`));
-    // document.querySelector(`.${previousFunction}`).classList.remove("hide")
-} else {
-    localStorage.setItem("previousFunction", "overview")
+let userInfo = JSON.parse(localStorage.getItem("info"));
 
-}
+// let previousFunction = localStorage.getItem("previousFunction")//Lưu thông tin chức năng trước khi reload
+// if (previousFunction) {
+//     console.log(document.querySelector(`.${previousFunction}`));
+//     // document.querySelector(`.${previousFunction}`).classList.add("active")
+//     document.querySelector(".view_scheduleOpen").click()
+//     document.querySelector(`.${previousFunction}`).classList.remove("hide")
+//     // setUpHeaderInfo()
+
+// } else {
+//     localStorage.setItem("previousFunction", "overview")
+//     document.querySelector(".overviewOpen").click()
+//     document.querySelector(`.overview`).classList.remove("hide")
+
+
+// }
+
+
 let cookieSubmit = document.querySelector("#cookie")
 let logoutSubmit = document.querySelector("#logout")
 let addEmployeeBtn = document.querySelector(".main_content__body__update_employee .add_employee")
@@ -17,7 +28,6 @@ let saveChange = document.querySelector(".saveChange")
 let saveChangeShiftType = document.querySelector(".saveChangeShiftType")
 let creaftShiftType = document.querySelector(".create_shift_type")
 let addShiftTypeTable = document.querySelector(".add__shift__list_employee__table")
-let userInfo = JSON.parse(localStorage.getItem("info"));
 //Thêm sự kiện ẩn hiên menu khi ấn vào avatar
 avatar.addEventListener("click", (e) => {
     avatarMenu.classList.toggle("hide")
@@ -254,6 +264,8 @@ addEmployeeBtn.addEventListener("click", () => {
 //Chức năng tổng quan
 function setUpOverView() {
     console.log("Gọi chức năng tổng quan")
+    localStorage.setItem("previousFunction", "overview")
+
 }
 
 //Danh sách nhân viên
@@ -1226,8 +1238,59 @@ function setUpViewShedule() {
     //         })
     //     })
     // })
+
+
+    //Chấm công
+    let presentCheck = document.querySelector(".presentCheckBtn")
+    presentCheck.addEventListener("click", presentCheckHandler)
+    //Khi bấm lưu chấm công thì lấy các id shiftDetail check
 }
 
+//Xử lý khi lưu chấm công
+function presentCheckHandler(e) {
+    console.log("xử lí lưu chấm công");
+    //Lấy ra cái id đang check
+    let idChecking = []
+
+    let checkBox = document.querySelectorAll(".presentCheck")
+    checkBox.forEach(check => {
+        if (check.checked) {
+            let checkid = check.parentElement.parentElement.querySelector(".view__schedule_list_employee__shift_id").innerText
+            console.log(checkid);
+            idChecking.push(Number(checkid))
+        }
+    })
+    console.log("Danh sach id ", idChecking);
+    //Goi api
+    console.log("Goi api cập nhật chấm công");
+    if (idChecking.length > 0) {
+        fetch("http://localhost:8080/api/manager/employee/updatePresent", {
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: idChecking,
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                if (res.status == "OK") {
+                    alert(res.message)
+                    location.reload()
+                } else {
+                    alert("Chấm công không thành công")
+                }
+            })
+    }
+
+
+
+    e.target.removeEventListener("click", presentCheckHandler)
+}
 //Thêm sự kiện đổi ngày xem lịch
 let toDayElement = document.querySelector(".view_schedule .schedule_date input")
 toDayElement.addEventListener("change", (e) => {
@@ -1287,10 +1350,10 @@ async function getScheduleInfoOfDay(date, shiftListId) {
             dataToShow.forEach(item => {
                 tbody.innerHTML +=
                     ` <tr>
-                                        <th class="view__schedule_list_employee__shift_id" scope="row">${item.shift.id}</th>
+                                        <th class="view__schedule_list_employee__shift_id" scope="row">${item.id}</th>
                                         <th class="view__schedule_list_employee__fullname">${item.user_uid.fullName}</th>
-                                        <th class="view__schedule_list_employee__gender">${item.user_uid.gender}</th>
                                         <th class="view__schedule_list_employee__role">${item.user_uid.roleName}</th>
+                                        <th class="view__schedule_list_employee__gender">${item.user_uid.gender}</th>
                                         <th class="view__schedule_list_employee__phone">${item.user_uid.phone}</th>
 
                                         <th class="view__schedule_list_employee__start text_center">${item.start}</th>
@@ -1301,11 +1364,13 @@ async function getScheduleInfoOfDay(date, shiftListId) {
                                             <textarea style="width: 100%;" rows="3">${item.note}</textarea>
                                         </th>
                                         <th class="view__schedule_list_employee__presentCheck" scope="col">
-                                            <input class="presentCheck" type="checkbox" name="" id="">
+                                            <input class="presentCheck" type="checkbox" ${item.present ? 'checked' : ''} name="" id="">
                                         </th>
 
                                     </tr> `
             })
+
+
         } else {
             tbody.innerHTML = `<tr>
             <th class="text_center" colspan="11">Không có lịch cho ca này </th>

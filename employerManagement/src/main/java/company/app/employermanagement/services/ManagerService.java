@@ -4,6 +4,7 @@ import company.app.employermanagement.Dto.UserDto;
 import company.app.employermanagement.models.*;
 import company.app.employermanagement.repositories.*;
 import company.app.employermanagement.requests.ScheduleRequest;
+import company.app.employermanagement.requests.UpdatePresent;
 import company.app.employermanagement.responses.ErrorResponse;
 import company.app.employermanagement.responses.Response;
 import company.app.employermanagement.responses.SuccessfulResponse;
@@ -21,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ManagerService {
@@ -159,6 +161,19 @@ public class ManagerService {
         return shiftDetails;
     }
 
+    //Chấm công
+    public Response updatePresent(UpdatePresent shiftDetail_id) {
+        List<Long> idList = shiftDetail_id.getId();
+        //Lấy ra id cần cập nhật
+        List<Shift_detail> shiftDetails = this.shiftDetailRepository.findAllById(idList);
+        for (Shift_detail shiftDetail : shiftDetails) {
+            System.out.println(shiftDetail);
+            shiftDetail.setPresent(true);
+        }
+
+        this.shiftDetailRepository.saveAllAndFlush(shiftDetails);
+        return new SuccessfulResponse(HttpStatus.OK, "Chấm công thành công", shiftDetails);
+    }
     /*Chỉnh sửa lại lịch nếu như có thay đổi, ghi chú lại lý do thay đổi*/
     public void editScheduleEmployee() {
 

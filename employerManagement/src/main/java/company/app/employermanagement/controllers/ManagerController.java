@@ -4,6 +4,7 @@ import company.app.employermanagement.models.*;
 import company.app.employermanagement.models.Shift;
 import company.app.employermanagement.repositories.ShiftListRepository;
 import company.app.employermanagement.requests.ScheduleRequest;
+import company.app.employermanagement.requests.UpdatePresent;
 import company.app.employermanagement.responses.Response;
 import company.app.employermanagement.services.ManagerService;
 import company.app.employermanagement.untils.LoginRequired;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 //Yêu cầu role Nhân viên,
 //Yêu cầu đã đăng nhập mới được truy cập
@@ -106,6 +108,11 @@ public class ManagerController {
     @GetMapping("/employee/schedules")
     public Object getAllScheduleInfo(@RequestParam("date") String date) {
         return this.managerService.getAllScheduleInfo(date);
+    }
+
+    @PostMapping("/employee/updatePresent")
+    public Object updatePresent(@RequestBody UpdatePresent shiftDT_id) {
+        return this.managerService.updatePresent(shiftDT_id);
     }
 
     /*Chỉnh sửa lại lịch nếu như có thay đổi, ghi chú lại lý do thay đổi*/
