@@ -186,34 +186,16 @@ nav_items.forEach(nav_item => {
                                 }
                             }
 
-                        } return;
+                        }
                     })
                 }
 
             }
         })
 
-
-        // overview
-        // list_employee
-        // update_employee
-        // shift_list
-        // schedule
-        // view_schedule
-        // salary_report
-        // work_report
-
-        //Thêm sự kiện khi click thì mở giao diện chức năng tương ứng
-
-        //Thêm gạch cho item click
-        /* Kiểm tra nếu item đang có class active khác với item
-         đang click thì clear class và active cho item đang click 
-        */
-
-        // item.classList.add("active")
-
     })
 })
+setUpOverView()
 
 //test
 function convertToInput(thisItem) {
@@ -262,10 +244,139 @@ addEmployeeBtn.addEventListener("click", () => {
 // Set up các chức năng ------------------------------------
 
 //Chức năng tổng quan
-function setUpOverView() {
+async function setUpOverView() {
     console.log("Gọi chức năng tổng quan")
     localStorage.setItem("previousFunction", "overview")
+    //Goi api tìm tổng nhân sự
+    let api = "http://localhost:8080/api/manager/employee/total"
+    try {
+        let totalNumberRes = await getTotalEmployee(api)
+        if (totalNumberRes.status === "OK") {
+            let total = totalNumberRes.data
 
+            //render
+            document.querySelector(".overview__employee .employee__total .totalEm span").innerText = total
+        } else {
+            alert("Không lấy được tổng nhân sự")
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    //Gọi api tìm nhân sự đang làm việc hiện tại
+
+}
+async function getTotalEmployee(apiUrl) {
+    let data
+    data = await fetch(apiUrl, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => res.json())
+        .then(response => {
+            if (response) {
+                return response;
+
+            }
+        })
+    return (data);
+}
+
+
+async function getEmployeeDetail(apiUrl) {
+
+    let data
+    data = await fetch(apiUrl, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => res.json())
+        .then(response => {
+            if (response) {
+                return response;
+
+            }
+        })
+    return data;
+}
+
+async function showDetailEmployee(thisElement) {
+    let detailElement = document.querySelector(".main_content__body__list_employee .details")
+    let idToGetDetail = thisElement.querySelector(".list_employee__table__uid").innerText
+    console.log(idToGetDetail);
+
+    let url = `http://localhost:8080/api/manager/employee/detail?uid=${idToGetDetail}`
+    //call api
+    try {
+        let resData = await getEmployeeDetail(url)
+        if (resData.status === "OK") {
+            console.log(resData.data);
+            let data = resData.data
+            //Đổ data
+            let details__description_wrapper = document.querySelector(".details__description_wrapper")
+            let uid = details__description_wrapper.querySelector(".uid")
+            let full_name = details__description_wrapper.querySelector("#fullName")
+            let gender = details__description_wrapper.querySelector("#gender")
+
+            let birthday = details__description_wrapper.querySelector("#birthday")
+
+            let role_name = details__description_wrapper.querySelector("#role")
+
+            let phone = details__description_wrapper.querySelector("#phone")
+
+            let email = details__description_wrapper.querySelector("#email")
+
+            let identification = details__description_wrapper.querySelector("#identification")
+
+            let startWork = details__description_wrapper.querySelector("#startWork")
+
+            let username = details__description_wrapper.querySelector("#username")
+            let password = details__description_wrapper.querySelector("#password")
+
+            let bank = details__description_wrapper.querySelector("#bank")
+
+            uid.innerHTML = data.uid
+            full_name.value = data.fullName
+            gender.value = data.gender
+            birthday.value = data.birthday
+            role_name.value = data.roleName
+            phone.value = data.phone
+            email.value = data.email
+            identification.value = data.identification
+            startWork.value = data.startWorkFromDay ? data.startWorkFromDay : ""
+            username.value = data.userName
+            bank.value = data.bank
+            password.value = (data.userName === "root") ? "" : "nv123123"
+            detailElement.classList.remove("hide")
+
+        } else {
+            alert(resData.message)
+        }
+    } catch (error) {
+        alert(error);
+    }
+
+
+
+    //Thêm sự kiện nhấn nút tắt details
+    let closeFormBtn = document.querySelector(".detail_close")
+    closeFormBtn.addEventListener("click", handleCloseForm)
+
+}
+function handleCloseForm(e) {
+    let detailElement = document.querySelector(".main_content__body__list_employee .details")
+    detailElement.classList.add("hide")
+
+
+    e.target.removeEventListener("click", handleCloseForm)
 }
 
 //Danh sách nhân viên
@@ -296,7 +407,7 @@ function setUpListEmployee() {
             dataToShow = [...data]
             tbodyListEmployeeTable.innerHTML = ""
             dataToShow.forEach(item => {
-                let trHtmlTemplate = `<tr>
+                let trHtmlTemplate = `<tr title="Xem thông tin chi tiết" onclick="showDetailEmployee(this)">
                                 <th class="list_employee__table__uid" scope="row">${item.uid}</th>
                                 <th class="list_employee__table__fullname">${item.fullName}</th>
                                 <th class="list_employee__table__role">${item.roleName}</th>
@@ -304,10 +415,7 @@ function setUpListEmployee() {
 
                                 <th class="list_employee__table__gender">${item.gender || "Nam"}</th>
                                 <th class="list_employee__table__phone">${item.phone}</th>
-                                <th class="list_employee__table__username">${item.userName}</th>
-                                <th class="list_employee__table__password"><input type="password" name=""
-                                        value=${item.password}" id="">
-                                </th>
+                                
                                 <th class="list_employee__table__startWorkFromDay">${item.startWorkFromDay || ""}</th>
                                 <th class="list_employee__table__status">${item.status || "none"}</th>
                             </tr>`
@@ -318,8 +426,99 @@ function setUpListEmployee() {
             if (err) alert(erData.message)
         })
 
+
+    //set up chức năng tìm kiếm
+    let searchInput = document.querySelector(".main_content__body__list_employee .employee__search")
+    searchInput.addEventListener("input", handleSearchEmployeeByName)
 }
+function handleSearchEmployeeByName(e) {
+    let searchInput = document.querySelector(".main_content__body__list_employee .employee__search")
+
+    let apiSearchUrl = `http://localhost:8080/api/manager/employees/search?name=${searchInput.value}`
+    if (searchInput.value !== "") {
+        //delay 1s
+        setTimeout(() => {
+            //Call api
+            fetch(apiSearchUrl, {
+                method: "GET",
+                mode: "cors",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => {
+                    return res.json()
+                })
+                .then((response) => {
+                    let data = response;
+                    let list_employee__table_tbody = document.querySelector(".list_employee__table tbody")
+                    if (data.length > 0) {
+                        //render ra man hinh
+                        list_employee__table_tbody.innerHTML = ""
+                        data.forEach(item => {
+                            list_employee__table_tbody.innerHTML +=
+                                `<tr title="Xem thông tin chi tiết" onclick="showDetailEmployee(this)">
+                                <th class="list_employee__table__uid" scope="row">${item.uid}</th>
+                                <th class="list_employee__table__fullname">${item.fullName}</th>
+                                <th class="list_employee__table__role">${item.roleName}</th>
+                                <th class="list_employee__table__birthday">${item.birthday}</th>
+
+                                <th class="list_employee__table__gender">${item.gender}</th>
+                                <th class="list_employee__table__phone">${item.phone}</th>
+
+                                <th class="list_employee__table__startWorkFromDay">${item.uid}</th>
+                                <th class="list_employee__table__status">none</th>
+                            </tr>
+                            `
+                        })
+                    } else {
+
+                    }
+
+                    // updateEmployee.querySelector(".saveChange").classList.remove("hide")
+                    // return;
+                })
+
+
+        }, 500)
+
+
+        // e.target.removeEventListener("input", handleSearchEmployeeByName)
+    }
+
+
+}
+
 //Cập nhật và chỉnh sửa nhân viên
+let formAddEmployee = document.querySelector(".add_employee_popup_wrapper")
+
+let roleName = formAddEmployee.querySelector(".roleName")
+
+fetch("http://localhost:8080/api/manager/roles", {
+    method: "GET",
+    mode: "cors",
+    credentials: "include",
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
+    .then(res => {
+        return res.json()
+    })
+    .then((response) => {
+        let data = response;
+        console.log(data);
+        data.forEach(element => {
+            let newOption = document.createElement("option");
+            newOption.value = element.name
+            newOption.text = element.name
+            roleName.appendChild(newOption);
+        });
+    }).catch(err => {
+        console.log(err);
+        alert("Có lỗi xảy ra! Không lấy được danh sách chức vụ");
+    })
 function setUpEditEmployee() {
     console.log("Gọi chức năng cập nhật nv")
     localStorage.setItem("previousFunction", "update_employee")
@@ -344,29 +543,7 @@ function setUpEditEmployee() {
     let tbodySearchEmployeeTable = searchEmployeeTable.querySelector("tbody")
     //Gọi api lấy các chức vụ
     //Lấy về danh sách role
-    fetch("http://localhost:8080/api/manager/roles", {
-        method: "GET",
-        mode: "cors",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-        .then(res => {
-            return res.json()
-        })
-        .then((response) => {
-            let data = response;
 
-            data.forEach(element => {
-                let newOption = document.createElement("option");
-                newOption.value = element.name
-                newOption.text = element.name
-                roleName.appendChild(newOption);
-            });
-        }).catch(err => {
-            alert("Có lỗi xảy ra! Không lấy được danh sách chức vụ");
-        })
 
     //Set up chức năng tìm kiếm nhân viên
     //Lấy giá trị của ô input search
@@ -459,15 +636,15 @@ function setUpEditEmployee() {
                 if (data.status === "OK") {
                     //Thêm 1 trường vào bảng nhân viên mới thêm
                     let trTemplate = `<tr>
-                                <th class="just__list_employee__uid" scope="row">${data.user.uid}</th>
-                                <td class="just__list_employee__fullname">${data.user.fullName}</td>
-                                <td class="just__list_employee__role">${data.user.roleName} </td>
-                                <td class="just__list_employee__gender">${data.user.gender}</td>
-                                <td class="just__list_employee__phone">${data.user.phone}</td>
-                                <th class="just__list_employee__username">${data.user.userName}</th>
-                                <td class="just__list_employee__password"><input type="text" name="" value="${data.user.password}"
+                                <th class="just__list_employee__uid" scope="row">${data.data.uid}</th>
+                                <td class="just__list_employee__fullname">${data.data.fullName}</td>
+                                <td class="just__list_employee__role">${data.data.roleName} </td>
+                                <td class="just__list_employee__gender">${data.data.gender}</td>
+                                <td class="just__list_employee__phone">${data.data.phone}</td>
+                                <th class="just__list_employee__username">${data.data.userName}</th>
+                                <td class="just__list_employee__password"><input type="text" name="" value="${data.data.password}"
                                         id=""></td>
-                                <th class="just__list_employee__startWorkFromDay">${data.user.startWorkFromDay} </th>
+                                <th class="just__list_employee__startWorkFromDay">${data.data.startWorkFromDay} </th>
                             </tr>`
                     tBodyEmployeeJustAdd.innerHTML += trTemplate
                     alert("Thêm thành công")
@@ -477,7 +654,7 @@ function setUpEditEmployee() {
 
             })
             .catch(err => {
-                if (err) alert("Có lỗi xảy ra")
+                if (err) console.log(err);
             })
     })
 }
@@ -1000,112 +1177,114 @@ function setUpShedule() {
 
 
 
-    //Bắt sự kiện khi lưu bảng phân công
-    let saveScheduleBtn = scheduleEmployeeTable.querySelector("button")
-    let ScheduleTable = scheduleEmployeeTable.querySelector("table")
-    let ScheduleTbody = ScheduleTable.querySelector("tbody")
 
-    console.log(saveScheduleBtn);
-    //Kiểm tra bảng phân công. nếu hợp lệ thì lưu
-    saveScheduleBtn.addEventListener("click", () => {
-        let listScheduleEmployee = []
-        let shiftList = document.querySelector(".schedule__shift_type.active")
-        let shiftTypeId = shiftList.querySelector(".shift_type_id ").innerHTML
-        let dayNow = document.querySelector(".schedule .schedule_date input").value
-
-        let tr = ScheduleTbody.querySelectorAll("tr")
-
-
-        tr.forEach(eachItem => {
-            console.log(eachItem);
-            if (eachItem) {
-                let shift_type_id = eachItem.querySelector(".schedule_list_employee__shift_id").innerText
-                let employee_id = eachItem.querySelector(".schedule_list_employee__user_uid").innerText
-                let totaltime = eachItem.querySelector(".schedule_list_employee__totaltime").innerText
-                let start = eachItem.querySelector(".schedule_list_employee__start").innerText
-                let end = eachItem.querySelector(".schedule_list_employee__end").innerText
-                let overtime = eachItem.querySelector(".schedule_list_employee__overtime").innerText
-                let note = eachItem.querySelector(".schedule_list_employee__note textarea").value
-                console.log(note);
-                let data = {
-                    "user_uid": {
-                        "uid": employee_id
-                    },
-                    "overtime": overtime,
-                    "note": note,
-                    "totalTime": totaltime, //Front end tự tính r gữi đi cái này
-                    "start": start, //Front end tự tính r gữi đi cái này
-                    "end": end //Front end tự tính r gữi đi cái này
-                }
-                if (data) {
-                    listScheduleEmployee.push(data)
-
-                    // //Gọi tạo 1 ca trong ngày sau đó gọi sắp lịch cho danh sách nhân viên
-                    // createShiftOfDay(shiftTypeId, task, dayNow)
-
-                }
-            }
-
-        })
-        if (listScheduleEmployee.length !== 0) {
-            let shiftId
-            //Gọi tạo 1 ca trong ngày sau đó gọi sắp lịch cho danh sách nhân viên
-            console.log(listScheduleEmployee);
-            alert("Tao 1 ca")
-            createShiftOfDay(shiftTypeId, task, dayNow)
-                .then(res => {
-                    if (!res.status) {
-                        shiftId = res.id
-                        console.log(res);
-
-                        let dataChange = [...listScheduleEmployee]
-                        let dataToPost = []
-                        console.log(dataChange);
-                        dataChange.forEach(data => {
-                            data.shift_id = {
-                                id: shiftId
-                            }
-                        })
-
-                        console.log(dataChange);
-                        let apiAddEmployeeToScheduleUrl = "http://localhost:8080/api/manager/employee/schedule"
-                        fetch(apiAddEmployeeToScheduleUrl, {
-                            method: "POST",
-                            mode: "cors",
-                            credentials: "include",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(dataChange)
-                        })
-                            .then(res => {
-                                return res.json()
-                            })
-                            .then((response) => {
-                                //Nhận được các ca + timeline
-                                let data = response;
-                                //save data
-
-                                if (data) {
-                                    alert("Thành công");
-                                }
-
-                            })
-                            .catch(err => {
-                                if (err) console.log("Có lỗi xảy ra khi phân công")
-                            })
-                    } else {
-                        alert(res.message)
-                    }
-                })
-            // .catch(err => console.log(err.message))
-            // console.log(data);
-
-        }
-    })
 
 }
+//Bắt sự kiện khi lưu bảng phân công
+let scheduleEmployeeTable = document.querySelector(".schedule_employee")
 
+let saveScheduleBtn = scheduleEmployeeTable.querySelector("button")
+let ScheduleTable = scheduleEmployeeTable.querySelector("table")
+let ScheduleTbody = ScheduleTable.querySelector("tbody")
+
+console.log(saveScheduleBtn);
+//Kiểm tra bảng phân công. nếu hợp lệ thì lưu
+saveScheduleBtn.addEventListener("click", () => {
+    let listScheduleEmployee = []
+    let shiftList = document.querySelector(".schedule__shift_type.active")
+    let shiftTypeId = shiftList.querySelector(".shift_type_id ").innerHTML
+    let dayNow = document.querySelector(".schedule .schedule_date input").value
+
+    let tr = ScheduleTbody.querySelectorAll("tr")
+
+
+    tr.forEach(eachItem => {
+        console.log(eachItem);
+        if (eachItem) {
+            let shift_type_id = eachItem.querySelector(".schedule_list_employee__shift_id").innerText
+            let employee_id = eachItem.querySelector(".schedule_list_employee__user_uid").innerText
+            let totaltime = eachItem.querySelector(".schedule_list_employee__totaltime").innerText
+            let start = eachItem.querySelector(".schedule_list_employee__start").innerText
+            let end = eachItem.querySelector(".schedule_list_employee__end").innerText
+            let overtime = eachItem.querySelector(".schedule_list_employee__overtime").innerText
+            let note = eachItem.querySelector(".schedule_list_employee__note textarea").value
+            console.log(note);
+            let data = {
+                "user_uid": {
+                    "uid": employee_id
+                },
+                "overtime": overtime,
+                "note": note,
+                "totalTime": totaltime, //Front end tự tính r gữi đi cái này
+                "start": start, //Front end tự tính r gữi đi cái này
+                "end": end //Front end tự tính r gữi đi cái này
+            }
+            if (data) {
+                listScheduleEmployee.push(data)
+
+                // //Gọi tạo 1 ca trong ngày sau đó gọi sắp lịch cho danh sách nhân viên
+                // createShiftOfDay(shiftTypeId, task, dayNow)
+
+            }
+        }
+
+    })
+    if (listScheduleEmployee.length !== 0) {
+        let shiftId
+        //Gọi tạo 1 ca trong ngày sau đó gọi sắp lịch cho danh sách nhân viên
+        console.log(listScheduleEmployee);
+        alert("Tao 1 ca")
+        createShiftOfDay(shiftTypeId, task, dayNow)
+            .then(res => {
+                if (!res.status) {
+                    shiftId = res.id
+                    console.log(res);
+
+                    let dataChange = [...listScheduleEmployee]
+                    let dataToPost = []
+                    console.log(dataChange);
+                    dataChange.forEach(data => {
+                        data.shift_id = {
+                            id: shiftId
+                        }
+                    })
+
+                    console.log(dataChange);
+                    let apiAddEmployeeToScheduleUrl = "http://localhost:8080/api/manager/employee/schedule"
+                    fetch(apiAddEmployeeToScheduleUrl, {
+                        method: "POST",
+                        mode: "cors",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(dataChange)
+                    })
+                        .then(res => {
+                            return res.json()
+                        })
+                        .then((response) => {
+                            //Nhận được các ca + timeline
+                            let data = response;
+                            //save data
+
+                            if (data) {
+                                alert("Thành công");
+                            }
+
+                        })
+                        .catch(err => {
+                            if (err) console.log("Có lỗi xảy ra khi phân công")
+                        })
+                } else {
+                    alert(res.message)
+                }
+            })
+        // .catch(err => console.log(err.message))
+        // console.log(data);
+
+    }
+})
 //Lấy về thông tin lịch làm trong ngày đang chọn và kiểm tra -> nếu có thì hiện bảng phân công nếu chưa thì hiện tạo ca,
 // Khi bấm chuyển ngày thì cũng gọi hàm này luôn
 

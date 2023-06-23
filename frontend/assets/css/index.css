@@ -377,6 +377,79 @@ p {
     background-color: #13de7f;
 }
 
+.list_employee__table__body tr:hover th {
+    cursor: pointer;
+    background-color: #cdd2da;
+}
+
+.main_content__body__list_employee .details .details__avatar img {
+    /* position: relative; */
+    width: 8rem;
+    height: 8rem;
+    border-radius: 4px;
+
+}
+
+.main_content__body__list_employee .details .details__avatar {
+    margin-bottom: 10px;
+}
+
+/* Thông tin chi tiết 1 user */
+
+.main_content__body__list_employee .details .wrapper {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    overflow-y: scroll;
+    padding: 20px 10px;
+    max-width: 350px;
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.main_content__body__list_employee .details .details__description_wrapper {
+    text-align: left;
+}
+
+.detail_save,
+.detail_close,
+.detail_delete {
+    display: inline-block;
+    margin-top: 4px !important;
+    padding: 4px 6px;
+    margin: 0 6px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.detail_save {
+    background-color: #73c124;
+}
+
+.detail_close {
+    background-color: #cac0c0;
+}
+
+.detail_delete {
+    background-color: #e35050;
+    color: #ffffff;
+}
+
+.main_content__body__list_employee .details .details__description_wrapper label,
+.main_content__body__list_employee .details .details__description_wrapper input::placeholder {
+    font-size: 14px;
+}
+
+.main_content__body__list_employee .details .details__description_wrapper input {
+    margin-bottom: 6px;
+    padding: 4px;
+}
+
 .create_shift {
     text-align: center;
 }

@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, String> {
     User findOneByUserName(String userName);
     User findOneByUid(String uid);
     List<User> findAllByFullNameContains(String name);
+    Boolean deleteByUid(String uid);
 }

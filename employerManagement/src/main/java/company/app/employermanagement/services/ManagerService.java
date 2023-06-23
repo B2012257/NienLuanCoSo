@@ -59,8 +59,8 @@ public class ManagerService {
             int firstNameIndex = employeeDetail.getFullName().lastIndexOf(" ");
             String firstName = fullName.substring(firstNameIndex + 1);
             String userName = firstName.toLowerCase() + uid.toLowerCase();
-            String password = new PasswordGenerator().generateRandomPassword();
-
+//            String password = new PasswordGenerator().generateRandomPassword();
+            String password = "nv123123";
             employeeDetail.setUserName(userName);
             employeeDetail.setPassword(encoder.encode(password));
             User userResponse = this.userRepository.save(employeeDetail);
@@ -80,6 +80,10 @@ public class ManagerService {
     public List<User> allEmployee() {
         return userRepository.findAll();
     }
+
+    public Response totalEmployee() {
+        return new SuccessfulResponse(HttpStatus.OK, "Lấy thành công tổng nhân sự", userRepository.count()) ;
+    }
     public List<User> searchEmployeeByName( String name) {
         if(name != null)
             return userRepository.findAllByFullNameContains(name);
@@ -87,8 +91,13 @@ public class ManagerService {
         return new ArrayList<>();
     }
     //Thông tin chi tiết của 1 nhân viên
-    public void detailEmployee(String id) {
-
+    public Response detailEmployee(String uid) {
+        User userDb = this.userRepository.findOneByUid(uid);
+        if(userDb != null) {
+            return new SuccessfulResponse(HttpStatus.OK, "Lấy thông tin nhân viên thành công!", userDb);
+        }else {
+            return new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy thông tin nhân viên này!");
+        }
     }
     public List<ShiftList> getShiftTypes() {
         return shiftListRepository.findAll();
@@ -102,8 +111,9 @@ public class ManagerService {
 
     }
 
-    public void deleteEmployee() {
-
+    public Response deleteEmployee(String uid) {
+        this.userRepository.deleteByUid(uid);
+        return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công");
     }
 
     public Object createShift(Shift shift) {

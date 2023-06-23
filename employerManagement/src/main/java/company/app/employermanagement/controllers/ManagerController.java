@@ -47,12 +47,14 @@ public class ManagerController {
     public List<User> allEmployee() {
         return this.managerService.allEmployee();
     }
+
     @GetMapping("/employees/search")
     @LoginRequired
     @RoleRequired({"Quản lý"})
     public List<User> searchEmployeeByName(@RequestParam(name = "name") String name) {
         return this.managerService.searchEmployeeByName(name);
     }
+
     @DeleteMapping("/shiftType/delete")
     @LoginRequired
     @RoleRequired({"Quản lý"})
@@ -66,10 +68,12 @@ public class ManagerController {
     public List<ShiftList> getShiftTypes() {
         return this.managerService.getShiftTypes();
     }
-    //Thông tin chi tiết của 1 nhân viên
-    @GetMapping("/employee/detail/{uuid}")
-    public void detailEmployee() {
 
+    //Thông tin chi tiết của 1 nhân viên
+    @LoginRequired
+    @GetMapping("/employee/detail")
+    public Response detailEmployee(@RequestParam(name = "uid") String uid) {
+        return this.managerService.detailEmployee(uid);
     }
 
     @PostMapping("/employee/edit/{uid}")
@@ -82,29 +86,37 @@ public class ManagerController {
 
     }
 
+    @LoginRequired
     @PostMapping("/shift/create")
     public Object createShift(@RequestBody Shift shift) {
 
         return managerService.createShift(shift);
     }
+
+    @LoginRequired
     @GetMapping("/shifts")
-    public Shift getShiftOfDay(@RequestParam(name = "date" ) String date, @RequestParam(name = "id" ) Long id) {
+    public Shift getShiftOfDay(@RequestParam(name = "date") String date, @RequestParam(name = "id") Long id) {
 
         return managerService.getShiftOfDay(date, id);
     }
+
+    @LoginRequired
     @GetMapping("/shiftsSchedules")
-    public Object getShiftScheduleOfDay(@RequestParam(name = "date" ) String date, @RequestParam(name = "id" ) Long id) {
+    public Object getShiftScheduleOfDay(@RequestParam(name = "date") String date, @RequestParam(name = "id") Long id) {
 
         return this.managerService.getShiftScheduleOfDay(date, id);
     }
+
     /* sắp lịch làm (Dự kiến giao diện sẽ hiện ra danh sách các nhân viên,
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */
+    @LoginRequired
     @PostMapping("/employee/schedule")
     public List<Shift_detail> scheduleEmployee(@RequestBody List<Shift_detail> shiftDetail) {
         return this.managerService.scheduleEmployee(shiftDetail);
     }
 
+    @LoginRequired
     @GetMapping("/employee/schedules")
     public Object getAllScheduleInfo(@RequestParam("date") String date) {
         return this.managerService.getAllScheduleInfo(date);
@@ -116,17 +128,26 @@ public class ManagerController {
     }
 
     /*Chỉnh sửa lại lịch nếu như có thay đổi, ghi chú lại lý do thay đổi*/
+    @LoginRequired
     @PostMapping("/employee/schedule/edit")
     public void editScheduleEmployee() {
 
     }
 
+    @LoginRequired
     /*Hủy lịch của 1 nhân viên, ghi chú lại lý do thay đổi*/
     @PostMapping("/employee/schedule/cancel")
     public void cancelScheduleEmployee() {
 
     }
 
+    @LoginRequired
+    @GetMapping("/employee/total")
+    public Response totalEmployee() {
+        return this.managerService.totalEmployee();
+    }
+
+    @LoginRequired
     @PostMapping("/employee/schedule/createShift")
     public ShiftList createShift(@RequestBody ShiftList shiftList) {
 

@@ -114,16 +114,14 @@
                         <div class="overview__employee">
                             <div class="employee__total">
                                 <div class="">
-                                    <div>Tổng nhân sự
+                                    <div class="totalEm">Tổng nhân sự:
+                                        <span style="font-size: 14px;">-</span>
+                                    </div>
+
+                                    <div class="working">Đang trong ca
                                         <span>-</span>
                                     </div>
-                                    <div>Nhân sự mới trong tháng
-                                        <span>-</span>
-                                    </div>
-                                    <div>Đang trong ca
-                                        <span>-</span>
-                                    </div>
-                                    <div>Không trong ca
+                                    <div class="notWorking">Không trong ca
                                         <span>-</span>
                                     </div>
 
@@ -152,8 +150,12 @@
                                 <th scope="col">Năm sinh</th>
                                 <th scope="col">Giới tính</th>
                                 <th scope="col">Số điện thoại</th>
-                                <th scope="col">Tài khoản</th>
+                                <!-- <th scope="col">Tài khoản</th>
                                 <th scope="col">Mật khẩu</th>
+
+                                <th class="list_employee__table__username">${item.userName}</th>
+                                <th class="list_employee__table__password"><input type="password" name="" value=${item.password}" id="">
+                                </th> -->
                                 <th scope="col">Ngày vào làm</th>
                                 <th scope="col">Trạng thái làm việc</th>
 
@@ -174,6 +176,48 @@
                             </tr> -->
                         </tbody>
                     </table>
+
+
+
+                    <div class="details hide">
+                        <div class="wrapper">
+                            <div class="details__avatar"><img src="https://tairo.cssninja.io/img/avatars/2.svg" alt="">
+                            </div>
+                            <div class="details__description_wrapper">
+                                <label>Mã nhân viên: </label> <span class="uid">#</span>
+                                <br />
+                                <label for="fullName">Họ tên:</label>
+                                <input type="text" placeholder="Ho va ten" name="fullName" id="fullName">
+                                <label for="gender">Giới tính:</label>
+                                <select id="gender">
+                                    <option value="Nam" selected>Nam</option>
+                                    <option value="Nu">Nữ</option>
+                                </select>
+                                <br />
+                                <label for="birthday">Ngày tháng năm sinh:</label>
+                                <input type="text" placeholder="Ngày sinh" id="birthday">
+                                <label for="role">Chức vụ:</label>
+                                <input type="text" placeholder="Chức vụ" id="role">
+                                <label for="phone">Điện thoại liên lạc:</label>
+                                <input type="text" placeholder="Số điện thoại" id="phone">
+                                <label for="email">Email:</label>
+                                <input type="email" placeholder="Mail" id="email">
+                                <label for="identification">CCCD/CMND:</label>
+                                <input type="text" placeholder="cmnd/cccd" id="identification">
+                                <label for="startWork">Ngày vào làm:</label>
+                                <input type="date" placeholder="Ngày vào" id="startWork">
+                                <label for="username">Tên tài khoản:</label>
+                                <input type="text" placeholder="Tài khoản" id="username">
+                                <label for="password">Mật khẩu:</label>
+                                <input type="text" placeholder="Mật khẩu" id="password" value="nv123123">
+                                <label for="bank">Banking</label>
+                                <input type="text" placeholder="Stk" id="bank">
+                            </div>
+                            <span class="detail_save">Lưu </span>
+                            <span class="detail_delete">Nghỉ việc </span>
+                            <span class="detail_close">Đóng</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="update_employee main_content__body__item main_content__body__update_employee hide">

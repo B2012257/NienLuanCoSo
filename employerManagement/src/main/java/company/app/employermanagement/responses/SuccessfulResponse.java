@@ -20,7 +20,7 @@ public class SuccessfulResponse extends Response {
 //        super(status, message);
 //        this.datalist = datalist;
 //    }
-    
+
     public Object getData() {
         return data;
     }

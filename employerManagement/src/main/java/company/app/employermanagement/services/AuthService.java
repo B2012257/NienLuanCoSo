@@ -41,7 +41,6 @@ public class AuthService {
         String userNameRequest = userRequest.getUserName();
         String passwordRequest = userRequest.getPassword();
         String encodedPassword = encoder.encode(passwordRequest);
-
         if (userRepository.existsByUserName(userNameRequest)) {
             return ResponseEntity.ok("Đã tồn tại");
         }
