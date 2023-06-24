@@ -220,12 +220,12 @@ function convertToInput(thisItem) {
     };
 
 }
-let tdEdit = document.querySelectorAll(".table td")
-tdEdit.forEach(item => {
-    item.addEventListener("click", (e) => {
-        convertToInput(e.target)
-    })
-})
+// let tdEdit = document.querySelectorAll(".table td")
+// tdEdit.forEach(item => {
+//     item.addEventListener("click", (e) => {
+//         convertToInput(e.target)
+//     })
+// })
 
 
 
