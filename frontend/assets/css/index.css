@@ -498,3 +498,51 @@ p {
     text-decoration: underline;
     color: #363636;
 }
+
+.view_schedule__new_tr .schedule_col .timeline {
+    background-color: #13de7f;
+    max-width: 100px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 4px auto;
+    cursor: pointer;
+}
+
+.view_schedule__new_tr .schedule_col {
+    text-align: center;
+
+}
+
+.view_schedule_date_new {
+    position: relative;
+
+}
+
+.view_schedule_date_new .down_week_btn {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.view_schedule_date_new .up_week_btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    cursor: pointer;
+
+}
+
+.sttOfWeek p {
+    font-size: 12px;
+    font-weight: 200;
+    font-style: italic;
+}
+
+.startToEndDay {
+    font-size: 20px;
+}

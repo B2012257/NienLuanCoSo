@@ -140,6 +140,11 @@ public class ManagerController {
     public void cancelScheduleEmployee() {
 
     }
+    @LoginRequired
+    @GetMapping("/schedule/dayToDay")
+    public Response getScheduleFromDayToDay(@RequestParam(name = "start") String startDay, @RequestParam(name = "end") String endDay){
+        return this.managerService.getScheduleFromDayToDay(startDay, endDay);
+    }
 
     @LoginRequired
     @GetMapping("/employee/total")

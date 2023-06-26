@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../assets/css/index.css">
-
     <title>Trang chu</title>
 </head>
 
@@ -491,168 +492,335 @@
                         </p> -->
 
                     </div>
-                    <div class="container">
-                        <div class="timetable-img text-center">
+                    <div class="view_schedule_new_wrapper">
+                        <div class="text-center">
                             <img src="img/content/timetable.png" alt="">
                         </div>
+                        <p>Xem theo tuần</p>
                         <div class="table-responsive">
                             <table class="table table-bordered text-center">
                                 <thead>
                                     <tr class="bg-light-gray">
                                         <th></th>
-                                        <th class="text-center" colspan="8">
-                                           Ngay 1-6 -> ngay7-6
+                                        <th class="view_schedule_date_new text-center" colspan="8">
+                                            <i class="fa-solid fa-chevron-left down_week_btn"></i>
+                                            <i class="fa-solid fa-chevron-right up_week_btn"></i>
+                                            <h4 class="weekNumberOfMonth"></h4>
+                                            <p class="startToEndDay">
+
+                                            </p>
+
                                         </th>
-                                        
-                                    </tr>
-                                    <tr class="bg-light-gray">
-                                        <th class="">Ca lam
-                                        </th>
-                                        <th class="">Thu 2</th>
-                                        <th class="">Thu 3 </th>
-                                        <th class="">Thu 4</th>
-                                        <th class="">Thu 5</th>
-                                        <th class="">Thu 6</th>
-                                        <th class="">Thu 6</th>
-                                        <th class="">Thu 7</th>
-                                        <th class="">Chu nhat</th>
 
                                     </tr>
-                                    
+                                    <tr class="bg-light-gray text-center">
+                                        <th class="">Ca làm
+                                        </th>
+                                        <th class="sttOfWeek">Thứ 2
+                                            <p></p>
+                                        </th>
+                                        <th class="sttOfWeek">Thứ 3
+                                            <p></p>
+                                        </th>
+                                        <th class="sttOfWeek">Thứ 4
+                                            <p></p>
+                                        </th>
+                                        <th class="sttOfWeek">Thứ 5
+                                            <p></p>
+                                        </th>
+                                        <th class="sttOfWeek">Thứ 6
+                                            <p></p>
+                                        </th>
+                                        <th class="sttOfWeek">Thứ 7
+                                            <p></p>
+                                        </th>
+                                        <th class="sttOfWeek">Chủ nhật
+                                            <p></p>
+                                        </th>
+
+                                    </tr>
+
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="align-middle">
-                                            <p>Ca sang</p>
-                                            <p>(7-12)</p></td>
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">Dance</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
+                                    <tr class="morning_shift view_schedule__new_tr">
+                                        <td class="align-middle shift_col">
+                                            <p>Sáng</p>
+                                            <p>(7-12)</p>
                                         </td>
-                                        <td>
-                                            <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">Marta Healy</div>
+                                        <td class="monday_col schedule_col">
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <!-- <div class="font-size13 text-light-gray">Ivana Wong</div> -->
                                         </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
+                                        <td class="tuesday_col schedule_col">
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
                                         </td>
-                                        <td>
-                                            <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
+                                        <td class="wednesday_col schedule_col">
+
+
+
                                         </td>
-                                        <td>
-                                            <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Dance</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong</div>
+                                        <td class="thusday_col schedule_col">
+
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+
                                         </td>
-                                        <td>
-                                            <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Art</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">Kate Alley</div>
+                                        <td class="priday_col schedule_col">
+
+
+
                                         </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
+                                        <td class="saturday_col schedule_col">
+
+
+
                                         </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
+                                        <td class="sunday_col schedule_col">
+
+
+
                                         </td>
+
                                     </tr>
-        
-                                    <tr>
-                                        <td class="align-middle">
-                                            <p>Ca chieu</p>
-                                            <p>12-17</p>
-                                        </td>
-                                        
-                                        <td>
-                                            <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>
-                                            <div class="margin-10px-top font-size14">10:00-11:00</div>
-                                            <div class="font-size13 text-light-gray">Ivana Wong Ivana WongIvana </div>
-                                        </td>
-                                        <td class="bg-light-gray">
-        
-                                        </td>
-                                        <td>
-                                            <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Art</span>
-                                            <div class="margin-10px-top font-size14">10:00-11:00</div>
-                                            <div class="font-size13 text-light-gray">Kate Alley</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>
-                                            <div class="margin-10px-top font-size14">10:00-11:00</div>
-                                            <div class="font-size13 text-light-gray">Marta Healy</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">10:00-11:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
-                                        </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
-                                        </td>
-                                        <td class="bg-light-gray">
-        
-                                        </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
-                                        </td>
-                                    </tr>
-        
-                                    <tr>
-                                        <td class="align-middle">
-                                            <p>Ca toi</p>
+
+                                    <tr class="afternoon_shift view_schedule__new_tr">
+                                        <td class="align-middle shift_col">
+                                            <p>Chiều</p>
                                             <p>(12-17)</p>
                                         </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
+                                        <td class="monday_col schedule_col">
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <!-- <div class="font-size13 text-light-gray">Ivana Wong</div> -->
                                         </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
+                                        <td class="tuesday_col schedule_col">
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
                                         </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
+                                        <td class="wednesday_col schedule_col">
+
+
+
                                         </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
+                                        <td class="thusday_col schedule_col">
+
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+
                                         </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
+                                        <td class="priday_col schedule_col">
+
+
+
                                         </td>
-                                        <td>
-                                            <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>
-                                            <div class="margin-10px-top font-size14">11:00-12:00</div>
+                                        <td class="saturday_col schedule_col">
+
+
+
                                         </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
+                                        <td class="sunday_col schedule_col">
+
+
+
                                         </td>
-                                        <td>
-                                            <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>
-                                            <div class="margin-10px-top font-size14">9:00-10:00</div>
-                                            <div class="font-size13 text-light-gray">James Smith</div>
-                                        </td>
+
                                     </tr>
-        
-                                    
+                                    <tr class="evening_shift view_schedule__new_tr">
+                                        <td class="align-middle shift_col">
+                                            <p>Tối</p>
+                                            <p>(17-22)</p>
+                                        </td>
+                                        <td class="monday_col schedule_col">
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <!-- <div class="font-size13 text-light-gray">Ivana Wong</div> -->
+                                        </td>
+                                        <td class="tuesday_col schedule_col">
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                        </td>
+                                        <td class="wednesday_col schedule_col">
+
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+
+                                        </td>
+                                        <td class="thusday_col schedule_col">
+
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+
+                                        </td>
+                                        <td class="priday_col schedule_col">
+
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+
+                                        </td>
+                                        <td class="saturday_col schedule_col">
+
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+
+                                        </td>
+                                        <td class="sunday_col schedule_col">
+
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+                                            <div class="margin-10px-top font-size14 timeline_uid timeline">9:00-10:00
+                                                <p class="uid_fullName fullName">Pham Quang Thai</p>
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -797,7 +965,9 @@
     new Chart(ctx2, config2);
 
 </script>
+
 <script src="../assets/bootstrap-5.3.0-dist/js/bootstrap.min.js"></script>
 <script src="../assets/js/index.js"></script>
+<script src="../assets/js/view_schedule.js"></script>
 
 </html>

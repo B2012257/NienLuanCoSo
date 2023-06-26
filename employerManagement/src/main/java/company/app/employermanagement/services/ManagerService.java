@@ -49,6 +49,7 @@ public class ManagerService {
     public List<Role> getRoles() {
         return this.roleRepository.findAll();
     }
+
     public Response addEmployee(User employeeDetail) {
 
         if (employeeDetail != null) {
@@ -82,31 +83,35 @@ public class ManagerService {
     }
 
     public Response totalEmployee() {
-        return new SuccessfulResponse(HttpStatus.OK, "Lấy thành công tổng nhân sự", userRepository.count()) ;
+        return new SuccessfulResponse(HttpStatus.OK, "Lấy thành công tổng nhân sự", userRepository.count());
     }
-    public List<User> searchEmployeeByName( String name) {
-        if(name != null)
+
+    public List<User> searchEmployeeByName(String name) {
+        if (name != null)
             return userRepository.findAllByFullNameContains(name);
 
         return new ArrayList<>();
     }
+
     //Thông tin chi tiết của 1 nhân viên
     public Response detailEmployee(String uid) {
         User userDb = this.userRepository.findOneByUid(uid);
-        if(userDb != null) {
+        if (userDb != null) {
             return new SuccessfulResponse(HttpStatus.OK, "Lấy thông tin nhân viên thành công!", userDb);
-        }else {
+        } else {
             return new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy thông tin nhân viên này!");
         }
     }
+
     public List<ShiftList> getShiftTypes() {
         return shiftListRepository.findAll();
     }
 
     public Response DeleteShiftTypes(Long id) {
         shiftListRepository.deleteById(id);
-            return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công");
+        return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công");
     }
+
     public void editEmployee() {
 
     }
@@ -146,21 +151,38 @@ public class ManagerService {
         return this.shiftDetailRepository.saveAllAndFlush(shiftDetails);
 
     }
+
     public Shift getShiftOfDay(String date, Long typeId) {
         System.out.println(typeId);
-    return this.shiftRepository.findAllByDateAndShiftListId(date, typeId);
+        return this.shiftRepository.findAllByDateAndShiftListId(date, typeId);
 
+    }
+
+    public Response getScheduleFromDayToDay(String dayStart, String dayEnd) {
+        // Tìm id ca từ ngày start đến ngày end
+        //từ id lấy ra details ca
+        //Trả về
+        List<Shift> shifts = this.shiftRepository.findByDateBetween(dayStart, dayEnd);
+        if(shifts.size() ==0) {
+            return new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy ca!");
+        }else {
+            //Lấy các shift Detail từ các bản shift
+            List<Shift_detail> shiftDetails = this.shiftDetailRepository.findAllByShiftIn(shifts);
+            return new SuccessfulResponse(HttpStatus.OK, "Thành công", shiftDetails);
+
+        }
     }
 
     public Object getShiftScheduleOfDay(String date, Long typeId) {
         System.out.println(typeId);
-        Shift shift =  this.shiftRepository.findAllByDateAndShiftListId(date, typeId);
-        if(shift != null) {
+        Shift shift = this.shiftRepository.findAllByDateAndShiftListId(date, typeId);
+        if (shift != null) {
             Long shift_id = shift.getId();
             return this.shiftDetailRepository.findAllByShift_id(shift_id);
         }
-        return  new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy thông tin ca làm");
+        return new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy thông tin ca làm");
     }
+
     //Hiển thị danh sách nhân viên làm trong ngày
     public Object getAllScheduleInfo(String date) {
         //Lấy ra các ca trong ngày
@@ -184,6 +206,7 @@ public class ManagerService {
         this.shiftDetailRepository.saveAllAndFlush(shiftDetails);
         return new SuccessfulResponse(HttpStatus.OK, "Chấm công thành công", shiftDetails);
     }
+
     /*Chỉnh sửa lại lịch nếu như có thay đổi, ghi chú lại lý do thay đổi*/
     public void editScheduleEmployee() {
 
