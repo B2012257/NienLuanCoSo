@@ -204,6 +204,7 @@ function renderDataToScheduleColumn(listShiftDetail) {
 
         //tìm tr có shiftList_id bằng với shiftList id của response
         let trElement = document.querySelectorAll(".view_schedule__new_tr")
+        console.log(trElement);
         trElement.forEach((one) => {
             let shiftListIdShowed = one.querySelector(".shift_list_id")
             if (Number(shiftListIdShowed.innerText) === shiftList_id) {
