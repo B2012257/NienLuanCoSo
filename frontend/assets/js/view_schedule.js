@@ -42,16 +42,12 @@ async function callApi(method, url, body) {
         })
             .then(res => res.json())
             .then(res => {
-                if (res.status === "OK") {
-                    return res;
-                }
-                return console.log(res.message);
+                return res;
             })
             .catch(err => {
                 console.log(err);
             })
-    }
-    return fetch(url, {
+    }else {return fetch(url, {
         method: method,
         mode: "cors",
         credentials: "include",
@@ -59,7 +55,8 @@ async function callApi(method, url, body) {
             "Content-Type": "application/json"
         },
         body: body ? JSON.stringify(body) : ""
-    })
+    })}
+    
 }
 
 
@@ -290,6 +287,7 @@ async function downWeekHandler(e) {
     renderDataToScheduleColumn(data.data)
 }
 
+//Hiển thị ca làm ngày hiện tại 
 async function showScheduleNow() {
     let weekList = getWeekList(new Date())
     let dayStart = formatDateString(weekList[0].day)
@@ -300,8 +298,35 @@ async function showScheduleNow() {
     let data = await callApi("GET", apiUrl)
     console.log(data);
     renderDataToScheduleColumn(data.data)
+
 }
-showScheduleNow()
+
+//Thêm loại ca làm và id loại ca làm vào bảng 
+async function showShiftList() {
+    let apiUrl = "http://localhost:8080/api/manager/shiftTypes"
+    let shiftTypesResponse = await callApi("GET", apiUrl)
+    
+    console.log(shiftTypesResponse);
+    if(shiftTypesResponse) {
+        //Hiển thị tên ca và id 
+        let td_shift_col = document.querySelectorAll(".view_schedule__new_tr .shift_col")
+        console.log(td_shift_col[0] , shiftTypesResponse[0]);
+        for (let index = 0; index < shiftTypesResponse.length; index++) {
+            td_shift_col[index].innerHTML =`
+                                    <p>${shiftTypesResponse[index].name}</p>
+                                        <span class="hide shift_list_id">${shiftTypesResponse[index].id}</span>
+                                    <p>(${shiftTypesResponse[index].timeline})</p>
+            `
+            
+        }
+
+    showScheduleNow()
+
+    }else 
+    return alert("Không lấy được danh sách loại ca làm")
+   
+}
+showShiftList()
 // Thêm sự kiện tăng tuần
 let up_week_btn = document.querySelector(".up_week_btn")
 up_week_btn.addEventListener("click", upWeekHandler)

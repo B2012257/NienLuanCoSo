@@ -52,6 +52,7 @@ p {
 
 #main_content {
     margin-left: 256px;
+    overflow-x: scroll;
 }
 
 .side_bar {
@@ -544,4 +545,17 @@ p {
 
 .startToEndDay {
     font-size: 20px;
+}
+.view_schedule_onday {
+    overflow-x: scroll !important;
+}
+.view_schedule_onday table{
+}
+.view_schedule_onday .time_line .sttOfHour, 
+.view_schedule_onday .time_line .employee_title{
+    min-width: 150px;
+    vertical-align: middle;
+}
+.bg_lightBlue {
+    background-color: lightblue !important;
 }
