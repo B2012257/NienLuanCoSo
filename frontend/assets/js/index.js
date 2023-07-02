@@ -1071,7 +1071,7 @@ async function fetchApiAndCheck(thisElement) {
         // let shiftListId = shiftList.querySelector(".shift_type_id ").innerHTML
         // createShiftOfDay(shiftListId, task, dayNow)
 
-        if (task !== "") {
+        if (true) {
             //Hiển thị nhân viên có thể làm trong ca đó
             //Tạm thời đổ tất cả nhân viên vào
             availableEmployeeTable.classList.remove("hide")
@@ -1345,7 +1345,7 @@ function setUpViewShedule() {
     let toDayElement = document.querySelector(".view_schedule .schedule_date input")
     console.log("Gọi chức năng xem lịch làm")
 
-    let chooseDate = document.querySelector(".view_schedule .schedule_date input")
+    // let chooseDate = document.querySelector(".view_schedule .schedule_date input")
     let viewScheduleShiftType = document.querySelectorAll(".view_schedule_shift_type")
     let dateNow = new Date()
     let year = dateNow.getFullYear();
@@ -1353,8 +1353,8 @@ function setUpViewShedule() {
     let day = String(dateNow.getDate()).padStart(2, '0');
     let shiftActive;
 
-    let formattedDate = year + "-" + month + "-" + day;
-    chooseDate.value = formattedDate
+    // let formattedDate = year + "-" + month + "-" + day;
+    // chooseDate.value = formattedDate
 
     fetch("http://localhost:8080/api/manager/shiftTypes", {
         method: "GET",
@@ -1368,22 +1368,22 @@ function setUpViewShedule() {
             return res.json()
         })
         .then((response) => {
-            let shiftTypeList = document.querySelector(".view_schedule__shift_type_list")
-            //Nhận được các ca + timeline
-            let data = response;
-            //save data
-            console.log(shiftTypeList);
-            if (data) {
-                shiftTypeList.innerHTML = ""
-                console.log(data);
-                data.forEach(item => {
-                    shiftTypeList.innerHTML += `
-                            <p onclick="showAndFetchApi(this)" class="view_schedule_shift_type">${item.name + " " + item.timeline}
-                                <span class="view_schedule_shift_type_id hide">${item.id}</span>
-                            </p>`
-                })
-            }
-            let toDay = toDayElement.value
+            // let shiftTypeList = document.querySelector(".view_schedule__shift_type_list")
+            // //Nhận được các ca + timeline
+            // let data = response;
+            // //save data
+            // console.log(shiftTypeList);
+            // if (data) {
+            //     shiftTypeList.innerHTML = ""
+            //     console.log(data);
+            //     data.forEach(item => {
+            //         shiftTypeList.innerHTML += `
+            //                 <p onclick="showAndFetchApi(this)" class="view_schedule_shift_type">${item.name + " " + item.timeline}
+            //                     <span class="view_schedule_shift_type_id hide">${item.id}</span>
+            //                 </p>`
+            //     })
+            // }
+            // let toDay = toDayElement.value
 
             // getScheduleInfoOfDay(toDay)
         })
@@ -1470,21 +1470,21 @@ function presentCheckHandler(e) {
 
     e.target.removeEventListener("click", presentCheckHandler)
 }
-//Thêm sự kiện đổi ngày xem lịch
-let toDayElement = document.querySelector(".view_schedule .schedule_date input")
-toDayElement.addEventListener("change", (e) => {
-    document.querySelectorAll(".view_schedule .view_schedule_shift_type").forEach(item => {
-        if (item.classList.contains("active")) {
+// //Thêm sự kiện đổi ngày xem lịch
+// let toDayElement = document.querySelector(".view_schedule .schedule_date input")
+// toDayElement.addEventListener("change", (e) => {
+//     document.querySelectorAll(".view_schedule .view_schedule_shift_type").forEach(item => {
+//         if (item.classList.contains("active")) {
 
-            item.classList.remove("active")
-            let containerElement = document.querySelector(".view_schedule__shift_type_table")
-            containerElement.classList.add("hide")
-        }
-    })
-    // let changeValueDate = e.target.value;
-    // console.log(changeValue)
-    // getScheduleInfoOfDay(changeValueDate)
-})
+//             item.classList.remove("active")
+//             let containerElement = document.querySelector(".view_schedule__shift_type_table")
+//             containerElement.classList.add("hide")
+//         }
+//     })
+//     // let changeValueDate = e.target.value;
+//     // console.log(changeValue)
+//     // getScheduleInfoOfDay(changeValueDate)
+// })
 async function getScheduleInfoOfDay(date, shiftListId) {
     let apiUrl = `http://localhost:8080/api/manager/employee/schedules?date=${date}`
     let data = await fetch(apiUrl, {

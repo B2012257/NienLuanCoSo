@@ -391,7 +391,7 @@
                     <div class="schedule__shift_type_table">
                         <div class="create_shift hide">
                             <p>Chưa có ca làm! Vui lòng tạo</p>
-                            <textarea placeholder="Mời thêm các công việc cần làm" class="shift_task" name="task" id=""
+                            <textarea placeholder="Mời thêm các công việc cần làm" class="hide shift_task" name="task" id=""
                                 cols="30" rows="4"></textarea>
                             <button>Tạo</button>
                         </div>
@@ -433,7 +433,7 @@
                             <table class="table schedule_list_employee__table table_fixed">
                                 <thead>
                                     <tr>
-                                        <th class="" scope="col">Mã loại ca làm</th>
+                                        <th class="" scope="col">Mã ca làm</th>
                                         <th class="" scope="col">Mã nhân viên</th>
                                         <th class="" scope="col">Họ tên</th>
                                         <th class="" scope="col">Chức vụ</th>
@@ -473,8 +473,8 @@
                 </div>
                 <div class="view_schedule main_content__body__item main_content__body__view_schedule hide">
                     <p class="headerName">Xem lịch làm</p>
-                    <div class="schedule_date">
-                        <input type="date">
+                    <div class="">
+                        <!-- <input type="date"> -->
                     </div>
                     <div class="view_schedule__shift_type_list">
 
@@ -497,7 +497,7 @@
                             <img src="img/content/timetable.png" alt="">
                         </div>
                         <p>Xem theo tuần</p>
-                        <div class="table-responsive hide">
+                        <div class="table-responsive">
                             <table class="table table-bordered text-center">
                                 <thead>
                                     <tr class="bg-light-gray">
@@ -646,7 +646,7 @@
                             </table>
                         </div>
 
-                        <p>Xem ngày hôm nay</p>
+                        <p>Xem theo ngày</p>
                         <div class="table view_schedule_onday">
                             <table class="table table-bordered text-center">
                                 <thead>
@@ -666,7 +666,7 @@
 
                                     </tr>
                                     <tr class="time_line bg-light-gray text-center">
-                                        <th class="employee_title">Tên nhân sự
+                                        <th class="employee_title fixMenu">Tên nhân sự
                                         </th>
                                         <th class="sttOfHour">7:00 - 8:00
                                             <p></p>
@@ -717,93 +717,9 @@
                                     </tr>
 
                                 </thead>
-                                <tbody>
-                                    <tr class="list_employee_work_on_day view_schedule__new_tr_onDay">
-                                        <td class="align-middle employee_work">
-                                           <p>Phạm Quang Thái</p>
-                                        </td>
-                                        <td class="start7 shift_list_iddd schedule_col">
-7
-                                        </td>
-                                        <td class="start8 bg_lightBlue schedule_col">
-8
-                                        </td>
-                                        <td class="start9 bg_lightBlue schedule_col">
-9
-
-
-                                        </td>
-                                        <td class="start10 bg_lightBlue schedule_col">
-10
-
-                                        </td>
-                                        <td class="start11 bg_lightBlue schedule_col">
-                                        </td>
-                                        <td class="start12 bg_lightBlue schedule_col">
-                                        </td>
-                                        <td class="start13 schedule_col">
-                                        </td>
-                                        <td class="start14 schedule_col">
-                                        </td>
-                                        <td class="start15 schedule_col">
-                                        </td>
-                                        <td class="start16 schedule_col">
-                                        </td>
-                                        <td class="start17 bg_lightBlue schedule_col">
-                                        </td>
-                                        <td class="start18 bg_lightBlue schedule_col">
-                                        </td>
-                                        <td class="start19 bg_lightBlue schedule_col">
-                                        </td>
-                                        <td class="start20 bg_lightBlue schedule_col">
-                                        </td>
-                                        <td class="start21 bg_lightBlue schedule_col">
-                                        </td>
-
-                                    </tr>
-                                    <tr class="list_employee_work_on_day view_schedule__new_tr_onDay">
-                                        <td class="align-middle employee_work">
-                                           <p>Lê Thị Trúc Ly</p>
-                                        </td>
-                                        <td class="start7 bg_lightBlue shift_list_iddd schedule_col">
-7
-                                        </td>
-                                        <td class="start8 bg_lightBlue schedule_col">
-8
-                                        </td>
-                                        <td class="start9 bg_lightBlue schedule_col">
-9
-
-
-                                        </td>
-                                        <td class="start10 bg_lightBlue schedule_col">
-10
-
-                                        </td>
-                                        <td class="start11 bg_lightBlue schedule_col">
-                                        </td>
-                                        <td class="start12 schedule_col">
-                                        </td>
-                                        <td class="start13 schedule_col">
-                                        </td>
-                                        <td class="start14 schedule_col">
-                                        </td>
-                                        <td class="start15 schedule_col">
-                                        </td>
-                                        <td class="start16 schedule_col">
-                                        </td>
-                                        <td class="start17 schedule_col">
-                                        </td>
-                                        <td class="start18 schedule_col">
-                                        </td>
-                                        <td class="start19 schedule_col">
-                                        </td>
-                                        <td class="start20 schedule_col">
-                                        </td>
-                                        <td class="start21 schedule_col">
-                                        </td>
-
-                                    </tr>
+                                <tbody class="tbody_viewSchedule_onDay">
+                                   
+                                    
 
                                 </tbody>
                             </table>

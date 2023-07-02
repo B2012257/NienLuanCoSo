@@ -116,6 +116,8 @@ p {
     left: 256px;
     right: 0;
     line-height: 60px;
+    background-color: #f1f5f9;
+    z-index: 999;
 
 }
 
@@ -311,6 +313,7 @@ p {
 .main_content__body__update_employee .add_employee {}
 
 .main_content_add_employee {
+    margin-top:34px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -558,4 +561,8 @@ p {
 }
 .bg_lightBlue {
     background-color: lightblue !important;
+}
+.fixMenu {
+    position: sticky;
+    left: 0;
 }
