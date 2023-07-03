@@ -475,12 +475,27 @@ p {
 }
 
 .schedule_date {
+    padding: 2px 0;
+
     text-align: center;
     border-radius: 12px;
     background-color: #e3e4ed;
     margin: 10px 0;
 }
+.view_schedule_date {
+    padding: 2px 0;
+    text-align: center;
+    border-radius: 12px;
+    background-color: #e3e4ed;
+    margin: 10px 0;
+    display: block;
+}
+.view_schedule_date input {
+    width: 200px;
+    border-radius: 12px;
+    padding: 0 10px;
 
+}
 .schedule_date input {
     width: 200px;
     border-radius: 12px;

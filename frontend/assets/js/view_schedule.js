@@ -318,7 +318,7 @@ async function showShiftList() {
             td_shift_col[index].innerHTML = `
                                     <p>${shiftTypesResponse[index].name}</p>
                                         <span class="hide shift_list_id">${shiftTypesResponse[index].id}</span>
-                                    <p>(${shiftTypesResponse[index].timeline})</p>
+                                    <p class="hide">(${shiftTypesResponse[index].timeline})</p>
             `
 
         }
@@ -472,4 +472,24 @@ async function showListEmployeWorkOnToday(day) {
     })
 }
 //  showListEmployeWorkOnToday("2023-06-30")
-showListEmployeWorkOnToday("2023-07-01")
+
+//Hiển thị ngày hôm nay vào input
+function showTodayToInputDate() {
+    let dnow = new Date()
+    let dateString =  `${dnow.getFullYear()}-${dnow.getMonth()+1}-${dnow.getDate()}`
+    let inputTypeDate = document.querySelector(".view_schedule_new_wrapper .view_schedule_date input")
+    inputTypeDate.value =formatDateString(dateString)
+    // console.log(dateString);
+
+showListEmployeWorkOnToday() //Hiển thj lịch ngày hôm nayy 
+
+}
+showTodayToInputDate()
+
+//Thêm sự kiện đổi ngày xem lịch theo ngày
+let inputTypeDate = document.querySelector(".view_schedule_new_wrapper .view_schedule_date input")
+inputTypeDate.addEventListener("change",(e) => {
+    let changeValueDate = e.target.value
+
+    showListEmployeWorkOnToday(changeValueDate)
+})

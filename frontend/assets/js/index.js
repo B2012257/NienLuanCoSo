@@ -527,18 +527,8 @@ function setUpEditEmployee() {
     let updateEmployee = document.querySelector(".main_content__body__update_employee")
     let formAddEmployee = document.querySelector(".add_employee_popup_wrapper")
     let submitAddEmployee = formAddEmployee.querySelector(".add") // Nút xác nhận thêm nhân viên
-    let fullName = formAddEmployee.querySelector(".fullName")
-    let gender = formAddEmployee.querySelector(".gender")
-    let email = formAddEmployee.querySelector(".email")
-    let phone = formAddEmployee.querySelector(".phone")
-    let identification = formAddEmployee.querySelector(".identification")
-    let roleName = formAddEmployee.querySelector(".roleName")
-    let bank = formAddEmployee.querySelector(".bank")
-    let birthday = formAddEmployee.querySelector(".birthday")
-    let workStartDay = formAddEmployee.querySelector(".workStartDay")
-    let addEmployeeUrl = "http://localhost:8080/api/manager/employee/add"
+    
     let employeeJustAdd = document.querySelector(".edit__list_employee__table")
-    let tBodyEmployeeJustAdd = employeeJustAdd.querySelector("tbody")
     let searchEmployeeTable = document.querySelector(".search__list_employee__table")
     let tbodySearchEmployeeTable = searchEmployeeTable.querySelector("tbody")
     //Gọi api lấy các chức vụ
@@ -601,62 +591,77 @@ function setUpEditEmployee() {
     })
 
 
-    //Khi nhấn xác nhận
-    //Lấy dữ liệu từ form
-    submitAddEmployee.addEventListener("click", () => {
-        let formData = {
-            fullName: fullName.value,
-            email: email.value,
-            phone: phone.value,
-            identification: identification.value,
-            roleName: roleName.value,
-            bank: bank.value,
-            birthday: birthday.value,
-            avatarUrl: "",
-            gender: gender.value,
-            startWorkFromDay: workStartDay.value
-        }
-        console.log(formData);
+    //Khi nhấn xác nhận thêm nhân viên
+    submitAddEmployee.addEventListener("click",addEmployeeHandler)
+}
+//Xử lí xự kiện thêm nhân viên
+function addEmployeeHandler(e) {
+    let formAddEmployee = document.querySelector(".add_employee_popup_wrapper")
+    let fullName = formAddEmployee.querySelector(".fullName")
+    let gender = formAddEmployee.querySelector(".gender")
+    let email = formAddEmployee.querySelector(".email")
+    let phone = formAddEmployee.querySelector(".phone")
+    let identification = formAddEmployee.querySelector(".identification")
+    let roleName = formAddEmployee.querySelector(".roleName")
+    let bank = formAddEmployee.querySelector(".bank")
+    let birthday = formAddEmployee.querySelector(".birthday")
+    let workStartDay = formAddEmployee.querySelector(".workStartDay")
+    let addEmployeeUrl = "http://localhost:8080/api/manager/employee/add"
+    let employeeJustAdd = document.querySelector(".edit__list_employee__table")
+    let tBodyEmployeeJustAdd = employeeJustAdd.querySelector("tbody")
 
-        fetch(addEmployeeUrl, {
-            method: "POST",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(res => {
-                return res.json()
-            })
-            .then((response) => {
-                let data = response;
-                console.log(data);
-                if (data.status === "OK") {
-                    //Thêm 1 trường vào bảng nhân viên mới thêm
-                    let trTemplate = `<tr>
-                                <th class="just__list_employee__uid" scope="row">${data.data.uid}</th>
-                                <td class="just__list_employee__fullname">${data.data.fullName}</td>
-                                <td class="just__list_employee__role">${data.data.roleName} </td>
-                                <td class="just__list_employee__gender">${data.data.gender}</td>
-                                <td class="just__list_employee__phone">${data.data.phone}</td>
-                                <th class="just__list_employee__username">${data.data.userName}</th>
-                                <td class="just__list_employee__password"><input type="text" name="" value="${data.data.password}"
-                                        id=""></td>
-                                <th class="just__list_employee__startWorkFromDay">${data.data.startWorkFromDay} </th>
-                            </tr>`
-                    tBodyEmployeeJustAdd.innerHTML += trTemplate
-                    alert("Thêm thành công")
-                    return;
-                } return;
-                //save data
+    let formData = {
+        fullName: fullName.value,
+        email: email.value,
+        phone: phone.value,
+        identification: identification.value,
+        roleName: roleName.value,
+        bank: bank.value,
+        birthday: birthday.value,
+        avatarUrl: "https://www.svgrepo.com/download/5125/avatar.svg",
+        gender: gender.value,
+        startWorkFromDay: workStartDay.value
+    }
+    console.log(formData);
 
-            })
-            .catch(err => {
-                if (err) console.log(err);
-            })
+    fetch(addEmployeeUrl, {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
     })
+        .then(res => {
+            return res.json()
+        })
+        .then((response) => {
+            let data = response;
+            console.log(data);
+            if (data.status === "OK") {
+                //Thêm 1 trường vào bảng nhân viên mới thêm
+                let trTemplate = `<tr>
+                            <th class="just__list_employee__uid" scope="row">${data.data.uid}</th>
+                            <td class="just__list_employee__fullname">${data.data.fullName}</td>
+                            <td class="just__list_employee__role">${data.data.roleName} </td>
+                            <td class="just__list_employee__gender">${data.data.gender}</td>
+                            <td class="just__list_employee__phone">${data.data.phone}</td>
+                            <th class="just__list_employee__username">${data.data.userName}</th>
+                            <td class="just__list_employee__password"><input type="text" name="" value="${data.data.password}"
+                                    id=""></td>
+                            <th class="just__list_employee__startWorkFromDay">${data.data.startWorkFromDay} </th>
+                        </tr>`
+                tBodyEmployeeJustAdd.innerHTML += trTemplate
+                alert("Thêm thành công")
+                return;
+            } return;
+            //save data
+
+        })
+        .catch(err => {
+            if (err) console.log(err);
+        })
 }
 
 
@@ -1147,38 +1152,12 @@ function setUpShedule() {
                                 <span class="shift_type_id hide">${item.id}</span>
                             </p>`
                 })
-                //Thêm sự kiện khi bấm 1 tab thì gọi api
-                // addSwitchShiftTypeEvent()
             }
 
         })
         .catch(err => {
             if (err) console.log("Có lỗi xảy ra")
         })
-
-    //Gọi api tìm id_shift_type trong ngày này có trong bảng shift hay k
-    // Nếu có thì render 2 bảng ra để sắp lịch
-    //Nếu không thì hiện giao diện tạo ca
-
-    function showCreateShiftForm() {
-        console.log("Gọi hàm hiển thị tạo ca");
-    }
-
-    //Hiển thị 2 bảng để lập lịch làm
-    function showScheduleGui() {
-        console.log("Gọi hàm hiển thị bảng sắp lịch");
-
-    }
-
-    // //Khi nhấn tạo ca trong ngày
-    // createShiftBtn.addEventListener("click", () => {
-
-    // })
-
-
-
-
-
 }
 //Bắt sự kiện khi lưu bảng phân công
 let scheduleEmployeeTable = document.querySelector(".schedule_employee")
