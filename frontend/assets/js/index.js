@@ -527,7 +527,7 @@ function setUpEditEmployee() {
     let updateEmployee = document.querySelector(".main_content__body__update_employee")
     let formAddEmployee = document.querySelector(".add_employee_popup_wrapper")
     let submitAddEmployee = formAddEmployee.querySelector(".add") // Nút xác nhận thêm nhân viên
-    
+
     let employeeJustAdd = document.querySelector(".edit__list_employee__table")
     let searchEmployeeTable = document.querySelector(".search__list_employee__table")
     let tbodySearchEmployeeTable = searchEmployeeTable.querySelector("tbody")
@@ -592,7 +592,7 @@ function setUpEditEmployee() {
 
 
     //Khi nhấn xác nhận thêm nhân viên
-    submitAddEmployee.addEventListener("click",addEmployeeHandler)
+    submitAddEmployee.addEventListener("click", addEmployeeHandler)
 }
 //Xử lí xự kiện thêm nhân viên
 function addEmployeeHandler(e) {
@@ -920,6 +920,50 @@ function removeParentElement(thisElement) {
 
     })
 }
+
+//Tính toán tổng giờ làm khi thay đổi giờ bắt đầu, giờ kết thúc và tăng ca
+function handleChangeUpdateTotalTime(e) {
+  let tr = e.target.parentElement.parentElement
+    console.log(tr);
+    let startInput = tr.querySelector(".timelineStart")
+    let endInput = tr.querySelector(".timelineEnd")
+    let overTime = tr.querySelector(".overTime")
+    let total = tr.querySelector(".timeTotal")
+
+    //Giá trị thay đổi
+    let newStartValue = startInput.value
+    let newEndValue = endInput.value
+    let newOverTimeValue = overTime.value
+
+    let totalValue = (Number(newEndValue) - Number(newStartValue)) + Number(newOverTimeValue)
+    if(typeof(totalValue) === "number" && totalValue >=0) {
+
+        console.log(totalValue);
+        total.innerText =  totalValue
+    }else {
+        total.innerText = 0
+    }
+}
+
+function changeTotalTimeOnInput() {
+    let schedule_list_employee__table = document.querySelector(".schedule_list_employee__table")
+    let startInput = schedule_list_employee__table.querySelectorAll(".timelineStart")
+    let endInput = schedule_list_employee__table.querySelectorAll(".timelineEnd")
+    let overTime = schedule_list_employee__table.querySelectorAll(".overTime")
+
+    startInput.forEach(el => {
+        el.addEventListener("input", handleChangeUpdateTotalTime)
+    })
+
+    overTime.forEach(el => {
+        el.addEventListener("input", handleChangeUpdateTotalTime)
+    })
+
+    endInput.forEach(el => {
+        el.addEventListener("input", handleChangeUpdateTotalTime)
+    })
+
+}
 function copyElementPutToSchuduleTable(thisElement) {
     //Hàng cần copy vào bảng phân công
     let elementToPut = thisElement.parentElement //<tr> </tr> tag
@@ -935,7 +979,7 @@ function copyElementPutToSchuduleTable(thisElement) {
     let timelineStart = timeline.split("-")[0].trim()
     let timelineEnd = timeline.split("-")[1].trim()
     let timeNumber = timelineEnd - timelineStart
-    console.log(uid, fullName, roleName, gender);
+    // console.log(uid, fullName, roleName, gender);
     //Lấy ra các thông tin cần copy
     try {
         let tbodySchedule_list_employee__table = document.querySelector(".schedule_list_employee__table tbody")
@@ -947,10 +991,15 @@ function copyElementPutToSchuduleTable(thisElement) {
                 <th class="schedule_list_employee__fullname">${fullName}</th>
                 <th class="schedule_list_employee__gender">${gender}</th>
                 <th class="schedule_list_employee__role">${roleName}</th>
-                <th class="schedule_list_employee__start text_center">${timelineStart}</th>
-                <th class="schedule_list_employee__end text_center">${timelineEnd}</th>
-                <td onclick="convertToInput(this)" class="schedule_list_employee__overtime text_center">0</td>
-                <th class="schedule_list_employee__totaltime">${timeNumber}</th>
+                <td class="schedule_list_employee__start text_center">
+                    <input class="timelineStart" type="number" min="0" max="22"/ value="${timelineStart}"></td>
+                <td class="schedule_list_employee__end text_center">
+                    <input class="timelineEnd" type="number" min="0" max="22"/ value="${timelineEnd}"></td>
+                </td>
+                <td class="schedule_list_employee__overtime text_center">
+                    <input class="overTime" type="number" min="0" max="22"/ value="0"></td>
+                </td>
+                <th class="schedule_list_employee__totaltime timeTotal">${timeNumber}</th>
                 <td class="schedule_list_employee__note">
                 <textarea style="width: 100%;" rows="3"></textarea>
                 </td>
@@ -958,6 +1007,7 @@ function copyElementPutToSchuduleTable(thisElement) {
                     <button onClick="removeParentElement(this)">Xóa</button>
                 </th>
             </tr>`
+        changeTotalTimeOnInput()
     } catch (error) {
         console.log(error);
     }
@@ -1183,9 +1233,9 @@ saveScheduleBtn.addEventListener("click", () => {
             let shift_type_id = eachItem.querySelector(".schedule_list_employee__shift_id").innerText
             let employee_id = eachItem.querySelector(".schedule_list_employee__user_uid").innerText
             let totaltime = eachItem.querySelector(".schedule_list_employee__totaltime").innerText
-            let start = eachItem.querySelector(".schedule_list_employee__start").innerText
-            let end = eachItem.querySelector(".schedule_list_employee__end").innerText
-            let overtime = eachItem.querySelector(".schedule_list_employee__overtime").innerText
+            let start = eachItem.querySelector(".schedule_list_employee__start .timelineStart").value
+            let end = eachItem.querySelector(".schedule_list_employee__end .timelineEnd").value
+            let overtime = eachItem.querySelector(".schedule_list_employee__overtime .overTime").value
             let note = eachItem.querySelector(".schedule_list_employee__note textarea").value
             console.log(note);
             let data = {
@@ -1372,32 +1422,6 @@ function setUpViewShedule() {
 
 
 
-
-
-    // viewScheduleShiftType.forEach(type => {
-    //     type.addEventListener("click", (e) => {
-    //         viewScheduleShiftType.forEach(item => {
-    //             if (item.classList.contains("active")) {
-    //                 //lấy ra ca element đang active
-    //                 if (item !== e.target) {
-    //                     let dayNow = document.querySelector(".schedule_date input").value
-    //                     //Gọi api để đổ dữ liệu mới cho e.target
-    //                     console.log(e.target);
-
-    //                     console.log("Gọi api để đổ dữ liệu mới");
-    //                     item.classList.remove("active")
-    //                     e.target.classList.add("active")
-
-    //                     //re render
-
-
-    //                 }
-    //             }
-    //         })
-    //     })
-    // })
-
-
     //Chấm công
     let presentCheck = document.querySelector(".presentCheckBtn")
     presentCheck.addEventListener("click", presentCheckHandler)
@@ -1449,21 +1473,7 @@ function presentCheckHandler(e) {
 
     e.target.removeEventListener("click", presentCheckHandler)
 }
-// //Thêm sự kiện đổi ngày xem lịch
-// let toDayElement = document.querySelector(".view_schedule .schedule_date input")
-// toDayElement.addEventListener("change", (e) => {
-//     document.querySelectorAll(".view_schedule .view_schedule_shift_type").forEach(item => {
-//         if (item.classList.contains("active")) {
 
-//             item.classList.remove("active")
-//             let containerElement = document.querySelector(".view_schedule__shift_type_table")
-//             containerElement.classList.add("hide")
-//         }
-//     })
-//     // let changeValueDate = e.target.value;
-//     // console.log(changeValue)
-//     // getScheduleInfoOfDay(changeValueDate)
-// })
 async function getScheduleInfoOfDay(date, shiftListId) {
     let apiUrl = `http://localhost:8080/api/manager/employee/schedules?date=${date}`
     let data = await fetch(apiUrl, {

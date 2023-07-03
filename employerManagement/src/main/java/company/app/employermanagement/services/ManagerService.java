@@ -148,6 +148,21 @@ public class ManagerService {
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */
     public List<Shift_detail> scheduleEmployee(List<Shift_detail> shiftDetails) {
+
+        //Tìm xem thằng này có dđ làm trong ngày hôm nay  chưa
+        //Kiểm tra có bị trùng với các giờ tăng ca khác hay không
+        System.out.println(shiftDetails);
+        //Lấy các ca làm trong ngày đó
+        for(Shift_detail oneShiftDetail : shiftDetails) {
+            String uid = oneShiftDetail.getUser_uid().getUid();
+                    System.out.println(uid);
+            Long shiftId = oneShiftDetail.getShift().getId();
+            System.out.println(shiftId);
+        List<Shift> shiftDbs = this.shiftRepository.findAllByDate(shiftDate);
+            for(Shift shift : shiftDbs) {
+                System.out.println(shift);
+            }
+        }
         return this.shiftDetailRepository.saveAllAndFlush(shiftDetails);
 
     }

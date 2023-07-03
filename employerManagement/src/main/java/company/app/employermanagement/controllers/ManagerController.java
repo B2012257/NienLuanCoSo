@@ -113,6 +113,8 @@ public class ManagerController {
     @LoginRequired
     @PostMapping("/employee/schedule")
     public List<Shift_detail> scheduleEmployee(@RequestBody List<Shift_detail> shiftDetail) {
+
+
         return this.managerService.scheduleEmployee(shiftDetail);
     }
 

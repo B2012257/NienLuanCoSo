@@ -230,4 +230,26 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", userName='" + userName + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", password='" + password + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", identification='" + identification + '\'' +
+                ", bank='" + bank + '\'' +
+                ", roleName='" + roleName + '\'' +
+                ", role=" + role +
+                ", gender='" + gender + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", startWorkFromDay='" + startWorkFromDay + '\'' +
+                ", updatedDateTime=" + updatedDateTime +
+                '}';
+    }
 }

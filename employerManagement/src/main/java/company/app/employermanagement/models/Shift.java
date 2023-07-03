@@ -19,9 +19,9 @@ public class Shift {
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shiftListId", referencedColumnName = "id")
-    private ShiftList shiftList;
-    private String task;
-    private String date;
+    ShiftList shiftList;
+    String task;
+    String date;
     @NotNull
     @ManyToOne()
     @JoinColumn(referencedColumnName = "uid")

@@ -215,7 +215,7 @@ function renderDataToScheduleColumn(listShiftDetail) {
                 // console.log(schedule_col_target);
                 schedule_col_target.innerHTML +=
                     `
-                    <div class="margin-10px-top font-size14 timeline_uid timeline">${oneShiftDetail.start}:00-${oneShiftDetail.end}:00
+                    <div class="margin-10px-top font-size14 timeline_uid timeline">${oneShiftDetail.start}:00-${(Number(oneShiftDetail.end) + Number(oneShiftDetail.overtime))}:00
                         <p class="uid_fullName fullName">${oneShiftDetail.user_uid.fullName}</p>
                         <span class="employee_uid hide">${oneShiftDetail.user_uid.uid}</span>
                     </div>`
@@ -376,7 +376,7 @@ async function showListEmployeWorkOnToday(day) {
     employees.forEach(item => {
         const uid = item.user_uid.uid;
         const fullName = item.user_uid.fullName;
-        const timeline = item.shift.shiftList.timeline;
+        const timeline = item.start + "-" + (Number(item.end) + Number(item.overtime));
         const existingItem = filteredArray.find(e => e.uid === uid);
 
         if (existingItem) {

@@ -44,34 +44,6 @@ public class Shift_detail {
         return shift;
     }
 
-    public void setShift(Shift shift) {
-        this.shift = shift;
-    }
-
-    public boolean isPresent() {
-        return isPresent;
-    }
-
-    public void setPresent(boolean present) {
-        isPresent = present;
-    }
-
-    public LocalDateTime getCreatedDateTime() {
-        return createdDateTime;
-    }
-
-    public void setCreatedDateTime(LocalDateTime createdDateTime) {
-        this.createdDateTime = createdDateTime;
-    }
-
-    public LocalDateTime getUpdatedDateTime() {
-        return updatedDateTime;
-    }
-
-    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
-        this.updatedDateTime = updatedDateTime;
-    }
-
     public Long getId() {
         return id;
     }
@@ -79,7 +51,6 @@ public class Shift_detail {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public User getUser_uid() {
         return user_uid;
@@ -89,12 +60,8 @@ public class Shift_detail {
         this.user_uid = user_uid;
     }
 
-    public Shift getShift_id() {
-        return shift;
-    }
-
-    public void setShift_id(Shift shift_id) {
-        this.shift = shift_id;
+    public void setShift(Shift shift) {
+        this.shift = shift;
     }
 
     public int getOvertime() {
@@ -136,7 +103,47 @@ public class Shift_detail {
     public void setEnd(int end) {
         this.end = end;
     }
-// Constructors, getters, setters
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
+    }
+
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
+    }
+
+    public boolean isPresent() {
+        return isPresent;
+    }
+
+    public void setPresent(boolean present) {
+        isPresent = present;
+    }
+
+    @Override
+    public String toString() {
+        return "Shift_detail{" +
+                "id=" + id +
+                ", user_uid=" + user_uid +
+                ", shift=" + shift +
+                ", overtime=" + overtime +
+                ", note='" + note + '\'' +
+                ", totalTime=" + totalTime +
+                ", start=" + start +
+                ", end=" + end +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedDateTime=" + updatedDateTime +
+                ", isPresent=" + isPresent +
+                '}';
+    }
 }
 
 

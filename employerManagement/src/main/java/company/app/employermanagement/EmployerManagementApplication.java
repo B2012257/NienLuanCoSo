@@ -24,4 +24,5 @@ public class EmployerManagementApplication {
         SpringApplication.run(EmployerManagementApplication.class, args);
     }
 
+
 }
