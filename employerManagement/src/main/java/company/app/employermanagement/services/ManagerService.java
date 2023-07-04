@@ -195,6 +195,7 @@ public class ManagerService {
                 this.shiftDetailRepository.deleteAll(shiftDetails);
                 this.shiftDetailRepository.flush();
                 Shift shiftDb = this.shiftRepository.findOneById(Long.valueOf(shiftId));
+                shiftDb.setDeleted(true);
                 return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công lịch các nhân viên " + shiftDb.getShiftList().getName() + " ngày: " + shiftDb.getDate());
             } catch (Exception e) {
                 return new ErrorResponse(HttpStatus.NOT_FOUND, "Xóa không thành công lịch làm");
@@ -210,8 +211,7 @@ public class ManagerService {
             try {
                 Shift shiftDb = this.shiftRepository.findOneById(Long.valueOf(shiftId));
                 System.out.println(shiftDb);
-                shiftDb.setDeleted(true);
-                this.shiftRepository.save(shiftDb);
+               
                 return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công lịch ca làm" + shiftDb.getShiftList().getName() + " ngày: " + shiftDb.getDate(), shiftDb);
             } catch (Exception e) {
                 return new ErrorResponse(HttpStatus.OK, "Xóa khong thanh cong");

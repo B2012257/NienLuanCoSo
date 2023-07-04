@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"isDeleted", "shiftListId", "date"})
+        @UniqueConstraint(columnNames = {"id","isDeleted", "shiftListId", "date"})
 })
 public class Shift {
     @Id
