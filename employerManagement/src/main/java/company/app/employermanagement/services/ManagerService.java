@@ -260,14 +260,13 @@ public class ManagerService {
         return new SuccessfulResponse(HttpStatus.OK, "Chấm công thành công", shiftDetails);
     }
 
-    /*Chỉnh sửa lại lịch nếu như có thay đổi, ghi chú lại lý do thay đổi*/
-    public void editScheduleEmployee() {
-
-    }
-
-    /*Hủy lịch của 1 nhân viên, ghi chú lại lý do thay đổi*/
-    public void cancelScheduleEmployee() {
-
+    public String totalEmployeeInWorking() {
+        //Tìm số lượng nhân viên làm viiệc hôm nay
+       String dNow = String.valueOf((java.time.LocalDate.now()));
+        // Lấy ra các ca trong ngày
+        List<Shift> shifts = this.shiftRepository.findAllByDateAndIsDeleted(dNow, false);
+        List shift_details = this.shiftDetailRepository.findAllByShiftIn(shifts);
+    return String.valueOf((shift_details.size()));
     }
 
 }

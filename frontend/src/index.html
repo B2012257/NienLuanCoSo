@@ -97,8 +97,8 @@
                     <img class="overview__avatar" src="https://www.svgrepo.com/download/5125/avatar.svg" alt="">
 
                     <div class="body__overview__welcome">Xin chào!</div>
-                    <p class="body__overview__full_name">Your name </p>
-                    <p>Have a nice day!</p>
+                    <p class="body__overview__full_name">Phạm Quang Thái</p>
+                    <p>Chúc một ngày tốt lành!</p>
                     <div class="overview__widget">
                         <div class="overview__employee">
                             <div class="employee__total">
@@ -107,10 +107,10 @@
                                         <span style="font-size: 14px;">-</span>
                                     </div>
 
-                                    <div class="working">Đang trong ca
+                                    <div class="working">Đang trong ca:
                                         <span>-</span>
                                     </div>
-                                    <div class="notWorking">Không trong ca
+                                    <div class="notWorking">Không trong ca:
                                         <span>-</span>
                                     </div>
 
@@ -297,7 +297,7 @@
                                 <th scope="col">Số điện thoại</th>
                                 <th scope="col">Tài khoản</th>
                                 <th scope="col">Mật khẩu</th>
-                                <th scope="col">Ngày vào làm việc</th>
+                                <th scope="col">Ngày vào làm</th>
 
                             </tr>
                         </thead>
@@ -789,7 +789,52 @@
     const ctx2 = document.getElementById('chart_right')
     const ctx1 = document.querySelector("#chart_left")
 
-    //Lấy 6 ngày trước
+    //Lấy 6 ngày trước // trả về cách đây 6 ngày
+    let dayToDay = []
+    function getSexDayAgo() {
+        let dayNow = new Date()
+        let sixDayAgo = new Date()
+        sixDayAgo.setDate(sixDayAgo.getDate() - 6)
+
+        let dateStartString = `${sixDayAgo.getFullYear()}-${sixDayAgo.getMonth() + 1}-${sixDayAgo.getDate()}`
+        let dateEndString = `${dayNow.getFullYear()}-${dayNow.getMonth() + 1}-${dayNow.getDate()}`
+        return dateStartString
+        // console.log(dateStartString + " " + dateEndString)
+    }
+
+    //Lấy dữ liệu trong khoảng 6 ngày
+    async function getTotalWorkOnDay() {
+        return await fetch("http://localhost:8080/api/manager/working/total", {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+        })
+            .then(res => res.json())
+            .then(res => {
+                return res;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+    async function showInfo() {
+
+        let totalWorkOnDay = await getTotalWorkOnDay()
+        console.log(totalWorkOnDay);
+        let totalEmployee = document.querySelector(".employee__total .totalEm span")
+        let totalWorkOnDayElement = document.querySelector(".employee__total .working span")
+        let totalNotWorkOnDayElement = document.querySelector(".employee__total .notWorking span")
+        totalWorkOnDayElement.innerText = totalWorkOnDay
+        console.log(Number(totalEmployee.innerText), Number(totalWorkOnDay));
+        totalNotWorkOnDayElement.innerText = (Number(totalEmployee.innerText) - Number(totalWorkOnDay)) || 0
+
+    }
+    // setTimeout(showInfo, 1000)
+    let lables
     //Đặt ngày vào labels
     //Lấy data đặt vào data
     const config1 = {
@@ -798,8 +843,8 @@
 
             labels: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Chủ nhật"],
             datasets: [{
-                label: 'Tuyển nhân sự mới',
-                data: [12, 11, 3, 5, 2, 3],
+                label: 'Nhân viên làm trong ngày',
+                data: [9, 10, 9, 9, 7, 10],
 
                 borderWidth: 1
             }]
@@ -817,13 +862,13 @@
             labels: ["Thang 1", "Thang 2", "Thang 3", "Thang 4", "Thang 5", "Thang 6"],
             datasets: [{
                 label: 'Tuyển nhân sự mới',
-                data: [12, 11, 3, 5, 2, 3],
+                data: [10, 9, 3, 5, 4, 7],
 
                 borderWidth: 1
             },
             {
                 label: 'Nhân sự thôi việc',
-                data: [1, 10, 10, 4],
+                data: [1, 0, 2, 1, 0, 0],
                 borderColor: 'rgb(75, 192, 192)',
                 borderWidth: 1
             }

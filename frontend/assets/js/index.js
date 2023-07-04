@@ -253,7 +253,7 @@ async function setUpOverView() {
         let totalNumberRes = await getTotalEmployee(api)
         if (totalNumberRes.status === "OK") {
             let total = totalNumberRes.data
-
+            showInfo()
             //render
             document.querySelector(".overview__employee .employee__total .totalEm span").innerText = total
         } else {
@@ -417,7 +417,7 @@ function setUpListEmployee() {
                                 <th class="list_employee__table__phone">${item.phone}</th>
                                 
                                 <th class="list_employee__table__startWorkFromDay">${item.startWorkFromDay || ""}</th>
-                                <th class="list_employee__table__status">${item.status || "none"}</th>
+                                <th class="list_employee__table__status">${item.status || "Không có ca"}</th>
                             </tr>`
                 tbodyListEmployeeTable.innerHTML += trHtmlTemplate
             })

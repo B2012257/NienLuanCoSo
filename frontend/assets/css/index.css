@@ -533,7 +533,7 @@ p {
 }
 
 .view_schedule__new_tr .schedule_col .timeline {
-    background-color: #13de7f;
+    background-color: #5effb487;
     max-width: 100px;
     border-radius: 4px;
     font-size: 12px;
@@ -592,10 +592,10 @@ p {
 }
 
 .bg_lightBlue {
-    background-color: lightblue !important;
+    background-color: #34886caf !important;
 }
 
 .fixMenu {
     position: sticky;
-    left: 0;
+    left: -1px;
 }

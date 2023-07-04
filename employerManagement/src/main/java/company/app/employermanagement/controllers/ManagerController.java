@@ -118,6 +118,12 @@ public class ManagerController {
 
         return this.managerService.deleteShift(shiftId);
     }
+    @LoginRequired
+    @GetMapping("/working/total")
+    public String totalEmployeeInWorking() {
+
+        return this.managerService.totalEmployeeInWorking();
+    }
 
 
 
