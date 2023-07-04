@@ -121,9 +121,10 @@ public class ManagerService {
     public void editEmployee() {
 
     }
-
     public Response deleteEmployee(String uid) {
-        this.userRepository.deleteByUid(uid);
+        User userDb =  this.userRepository.findOneByUid(uid);
+        this.userRepository.delete(userDb);
+        this.userRepository.flush();
         return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công");
     }
 
@@ -196,6 +197,8 @@ public class ManagerService {
                 this.shiftDetailRepository.flush();
                 Shift shiftDb = this.shiftRepository.findOneById(Long.valueOf(shiftId));
                 shiftDb.setDeleted(true);
+                this.shiftRepository.save(shiftDb);
+
                 return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công lịch các nhân viên " + shiftDb.getShiftList().getName() + " ngày: " + shiftDb.getDate());
             } catch (Exception e) {
                 return new ErrorResponse(HttpStatus.NOT_FOUND, "Xóa không thành công lịch làm");
@@ -210,9 +213,11 @@ public class ManagerService {
             //Lấy ra các shiftDetails dựa vào id
             try {
                 Shift shiftDb = this.shiftRepository.findOneById(Long.valueOf(shiftId));
+                shiftDb.setDeleted(true);
+                this.shiftRepository.save(shiftDb);
                 System.out.println(shiftDb);
-               
-                return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công lịch ca làm" + shiftDb.getShiftList().getName() + " ngày: " + shiftDb.getDate(), shiftDb);
+
+                return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công lịch ca làm " + shiftDb.getShiftList().getName() + " ngày: " + shiftDb.getDate(), shiftDb);
             } catch (Exception e) {
                 return new ErrorResponse(HttpStatus.OK, "Xóa khong thanh cong");
 

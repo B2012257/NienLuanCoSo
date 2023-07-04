@@ -79,11 +79,6 @@ public class ManagerController {
 
     }
 
-    @PostMapping("/employee/delete/{uid}")
-    public void deleteEmployee() {
-
-    }
-
     @LoginRequired
     @PostMapping("/shift/create")
     public Object createShift(@RequestBody Shift shift) {
@@ -104,7 +99,12 @@ public class ManagerController {
 
         return this.managerService.getShiftScheduleOfDay(date, id);
     }
+    @LoginRequired
+    @PostMapping("/employee/delete")
+    public Response deleteEmployee(@RequestParam(name = "id") String uid) {
 
+        return this.managerService.deleteEmployee(uid);
+    }
 
     @LoginRequired
     @PostMapping("/shiftDetail/delete")

@@ -278,6 +278,12 @@ p {
     display: inline-block;
 }
 
+.chart_left {
+    margin-top: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
 .overview__widget .overview__employee {
     border: 1px solid #7296c8;
     padding: 20px;
@@ -313,7 +319,7 @@ p {
 .main_content__body__update_employee .add_employee {}
 
 .main_content_add_employee {
-    margin-top:34px;
+    margin-top: 34px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -482,6 +488,7 @@ p {
     background-color: #e3e4ed;
     margin: 10px 0;
 }
+
 .view_schedule_date {
     padding: 2px 0;
     text-align: center;
@@ -490,12 +497,14 @@ p {
     margin: 10px 0;
     display: block;
 }
+
 .view_schedule_date input {
     width: 200px;
     border-radius: 12px;
     padding: 0 10px;
 
 }
+
 .schedule_date input {
     width: 200px;
     border-radius: 12px;
@@ -518,9 +527,11 @@ p {
     color: #363636;
     margin-bottom: 6px;
 }
+
 .schedule_employee__deleteShift {
     background-color: rgb(245, 84, 84);
 }
+
 .view_schedule__new_tr .schedule_col .timeline {
     background-color: #13de7f;
     max-width: 100px;
@@ -567,19 +578,23 @@ p {
 .startToEndDay {
     font-size: 20px;
 }
+
 .view_schedule_onday {
     overflow-x: scroll !important;
 }
-.view_schedule_onday table{
-}
-.view_schedule_onday .time_line .sttOfHour, 
-.view_schedule_onday .time_line .employee_title{
+
+.view_schedule_onday table {}
+
+.view_schedule_onday .time_line .sttOfHour,
+.view_schedule_onday .time_line .employee_title {
     min-width: 150px;
     vertical-align: middle;
 }
+
 .bg_lightBlue {
     background-color: lightblue !important;
 }
+
 .fixMenu {
     position: sticky;
     left: 0;

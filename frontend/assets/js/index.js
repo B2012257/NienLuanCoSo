@@ -924,7 +924,7 @@ function removeParentElement(thisElement) {
 
 //Tính toán tổng giờ làm khi thay đổi giờ bắt đầu, giờ kết thúc và tăng ca
 function handleChangeUpdateTotalTime(e) {
-  let tr = e.target.parentElement.parentElement
+    let tr = e.target.parentElement.parentElement
     console.log(tr);
     let startInput = tr.querySelector(".timelineStart")
     let endInput = tr.querySelector(".timelineEnd")
@@ -937,11 +937,11 @@ function handleChangeUpdateTotalTime(e) {
     let newOverTimeValue = overTime.value
 
     let totalValue = (Number(newEndValue) - Number(newStartValue)) + Number(newOverTimeValue)
-    if(typeof(totalValue) === "number" && totalValue >=0) {
+    if (typeof (totalValue) === "number" && totalValue >= 0) {
 
         console.log(totalValue);
-        total.innerText =  totalValue
-    }else {
+        total.innerText = totalValue
+    } else {
         total.innerText = 0
     }
 }
@@ -987,7 +987,7 @@ function copyElementPutToSchuduleTable(thisElement) {
         console.log(tbodySchedule_list_employee__table);
         tbodySchedule_list_employee__table.innerHTML +=
             `<tr>
-                <th class="schedule_list_employee__shift_id" scope="row">${shiftTypeIdActive}</th>
+                <th class="schedule_list_employee__shift_id" scope="row">#</th>
                 <th class="schedule_list_employee__user_uid">${uid}</th>
                 <th class="schedule_list_employee__fullname">${fullName}</th>
                 <th class="schedule_list_employee__gender">${gender}</th>
@@ -1297,9 +1297,12 @@ saveScheduleBtn.addEventListener("click", () => {
                             //Nhận được các ca + timeline
                             let data = response;
                             //save data
-
+                            console.log(data);
                             if (data) {
                                 alert("Thành công");
+                                document.querySelectorAll(".schedule_list_employee__shift_id").forEach(item => {
+                                    item.innerText = data[0].shift.id
+                                })
                             }
 
                         })
@@ -1560,17 +1563,66 @@ async function deleteHandler(e) {
     let shiftIdToDelete = e.target.parentElement.querySelector(".schedule_list_employee__table .schedule_list_employee__shift_id").innerText
     console.log(shiftIdToDelete);
     //call api
-    let response = await fetch("", {
+    let response = await fetch(`http://localhost:8080/api/manager/shiftDetail/delete?id=${shiftIdToDelete}`, {
         method: "POST",
         mode: "cors",
         credentials: "include",
         headers: {
             "Content-Type": "application/json"
-        },
-        body: JSON.stringify("Hi")
+        }
     })
+        .then(res => res.json())
+        .then(res => {
+            alert(res.message)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+    if (response.status === "OK") {
+        let rs = await fetch(`http://localhost:8080/api/manager/shift/delete?id=${shiftIdToDelete}`, {
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                alert(res.message)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        console.log(rs);
+    }
 }
 
 let schedule_employee__deleteShift = document.querySelector(".schedule_employee__deleteShift")
 
 schedule_employee__deleteShift.addEventListener("click", deleteHandler)
+
+//them su kien xoa nhan vien
+
+let detail_delete = document.querySelector(".detail_delete")
+detail_delete.addEventListener("click", (e) => {
+    //Lấy id thằng cần xóa
+    let uidDelete = e.target.parentElement.querySelector(".details__description_wrapper .uid").innerText
+
+    fetch(`http://localhost:8080/api/manager/employee/delete?id=${uidDelete}`, {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => res.json())
+        .then(res => {
+            alert(res.message)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
