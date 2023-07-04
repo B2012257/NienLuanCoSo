@@ -3,7 +3,6 @@ package company.app.employermanagement.controllers;
 import company.app.employermanagement.models.*;
 import company.app.employermanagement.models.Shift;
 import company.app.employermanagement.repositories.ShiftListRepository;
-import company.app.employermanagement.requests.ScheduleRequest;
 import company.app.employermanagement.requests.UpdatePresent;
 import company.app.employermanagement.responses.Response;
 import company.app.employermanagement.services.ManagerService;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 //Yêu cầu role Nhân viên,
 //Yêu cầu đã đăng nhập mới được truy cập
@@ -106,6 +104,22 @@ public class ManagerController {
 
         return this.managerService.getShiftScheduleOfDay(date, id);
     }
+
+
+    @LoginRequired
+    @PostMapping("/shiftDetail/delete")
+    public Response DeleteShiftDetails(@RequestParam(name = "id") String shiftId) {
+
+        return this.managerService.DeleteShiftDetails(shiftId);
+    }
+    @LoginRequired
+    @PostMapping("/shift/delete")
+    public Response DeleteShift(@RequestParam(name = "id") String shiftId) {
+
+        return this.managerService.deleteShift(shiftId);
+    }
+
+
 
     /* sắp lịch làm (Dự kiến giao diện sẽ hiện ra danh sách các nhân viên,
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.

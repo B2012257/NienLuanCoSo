@@ -193,8 +193,9 @@ async function upWeekHandler(e) {
 function renderDataToScheduleColumn(listShiftDetail) {
     listShiftDetail.forEach(oneShiftDetail => {
         //Lấy ra shift_list_id
-        let shiftList_id = oneShiftDetail.shift_id.shiftList.id;
-        let shiftDate = oneShiftDetail.shift_id.date
+        console.log(oneShiftDetail);
+        let shiftList_id = oneShiftDetail.shift.shiftList.id;
+        let shiftDate = oneShiftDetail.shift.date
 
         //tìm thứ của ca ngày đó
         let sttOfShiftDateInWeek = (new Date(shiftDate).getDay()) === 0 ? 8 : new Date(shiftDate).getDay() + 1;
@@ -217,7 +218,7 @@ function renderDataToScheduleColumn(listShiftDetail) {
                     `
                     <div class="margin-10px-top font-size14 timeline_uid timeline">${oneShiftDetail.start}:00-${(Number(oneShiftDetail.end) + Number(oneShiftDetail.overtime))}:00
                         <p class="uid_fullName fullName">${oneShiftDetail.user_uid.fullName}</p>
-                        <span class="employee_uid hide">${oneShiftDetail.user_uid.uid}</span>
+                        <span class="employee_uid hide">${oneShiftDetail.user_uid.uid}</span>   
                     </div>`
             }
         })

@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"shiftListId", "date"})})
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"isDeleted", "shiftListId", "date"})
+})
 public class Shift {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +31,8 @@ public class Shift {
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
+    @Column
+    private Boolean isDeleted = false;
     @UpdateTimestamp
     private LocalDateTime updatedDateTime;
 
@@ -68,6 +72,14 @@ public class Shift {
 
     }
 
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
     @Override
     public String toString() {
         return "Shift{" +
@@ -76,6 +88,9 @@ public class Shift {
                 ", task='" + task + '\'' +
                 ", date='" + date + '\'' +
                 ", schedule_by=" + schedule_by +
+                ", createdDateTime=" + createdDateTime +
+                ", isDeleted=" + isDeleted +
+                ", updatedDateTime=" + updatedDateTime +
                 '}';
     }
 

@@ -10,8 +10,12 @@ import company.app.employermanagement.responses.Response;
 import company.app.employermanagement.responses.SuccessfulResponse;
 import company.app.employermanagement.untils.JwtTokenUtil;
 import company.app.employermanagement.untils.PasswordGenerator;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Block;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,6 +41,8 @@ public class ManagerService {
     @Autowired
     RoleRepository roleRepository;
     PasswordEncoder encoder;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public ManagerService() {
         this.encoder = new Argon2PasswordEncoder(
@@ -127,16 +133,21 @@ public class ManagerService {
         User us = userRepository.findOneByUid(userUid);
         ShiftList shiftLs = shiftListRepository.findOneById(shiftListId);
         Shift shiftRes = new Shift(shift);
+        System.out.println(shiftRes);
 
         //Kiểm tra có trùng ngày hay không
 //        Boolean isExistByDate = shiftRepository.existsByDate(shift.getDate());
-        if (!this.shiftRepository.existsByShiftListIdAndDate(shiftListId, shift.getDate())) {
+        System.out.println(this.shiftRepository.existsByShiftListIdAndDateAndIsDeleted(shiftListId, shift.getDate(), false) + "test");
+        if (!this.shiftRepository.existsByShiftListIdAndDateAndIsDeleted(shiftListId, shift.getDate(), false)) {
 //            us.setPassword("");
             shiftRes.setShiftList(shiftLs);
             shiftRes.setSchedule_by(us);
+            shiftRes.setDeleted(false);
             Shift rs = shiftRepository.save(shiftRes);
-            if (rs != null)
+            if (rs != null) {
+                System.out.println(rs);
                 return rs;
+            }
             else
                 return new ErrorResponse(HttpStatus.BAD_REQUEST, "Không thành công! Vui lòng thử lại");
         } else {
@@ -148,28 +159,14 @@ public class ManagerService {
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */
     public List<Shift_detail> scheduleEmployee(List<Shift_detail> shiftDetails) {
-
-        //Tìm xem thằng này có dđ làm trong ngày hôm nay  chưa
-        //Kiểm tra có bị trùng với các giờ tăng ca khác hay không
         System.out.println(shiftDetails);
-        //Lấy các ca làm trong ngày đó
-        for(Shift_detail oneShiftDetail : shiftDetails) {
-            String uid = oneShiftDetail.getUser_uid().getUid();
-                    System.out.println(uid);
-            Long shiftId = oneShiftDetail.getShift().getId();
-            System.out.println(shiftId);
-        List<Shift> shiftDbs = this.shiftRepository.findAllByDate(shiftDate);
-            for(Shift shift : shiftDbs) {
-                System.out.println(shift);
-            }
-        }
         return this.shiftDetailRepository.saveAllAndFlush(shiftDetails);
 
     }
 
     public Shift getShiftOfDay(String date, Long typeId) {
         System.out.println(typeId);
-        return this.shiftRepository.findAllByDateAndShiftListId(date, typeId);
+        return this.shiftRepository.findAllByDateAndShiftListIdAndIsDeleted(date, typeId, false);
 
     }
 
@@ -177,7 +174,7 @@ public class ManagerService {
         // Tìm id ca từ ngày start đến ngày end
         //từ id lấy ra details ca
         //Trả về
-        List<Shift> shifts = this.shiftRepository.findByDateBetween(dayStart, dayEnd);
+        List<Shift> shifts = this.shiftRepository.findByDateBetweenAndIsDeleted(dayStart, dayEnd, false);
         if(shifts.size() ==0) {
             return new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy ca!");
         }else {
@@ -188,9 +185,45 @@ public class ManagerService {
         }
     }
 
+    public Response DeleteShiftDetails(String shiftId) {
+        System.out.println(shiftId);
+        //Lấy ra các shiftDetails dựa vào id
+        List<Shift_detail> shiftDetails = this.shiftDetailRepository.findAllByShift_id(Long.valueOf(shiftId));
+
+        if(shiftDetails.size() > 0) {
+            try {
+                this.shiftDetailRepository.deleteAll(shiftDetails);
+                this.shiftDetailRepository.flush();
+                Shift shiftDb = this.shiftRepository.findOneById(Long.valueOf(shiftId));
+                return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công lịch các nhân viên " + shiftDb.getShiftList().getName() + " ngày: " + shiftDb.getDate());
+            } catch (Exception e) {
+                return new ErrorResponse(HttpStatus.NOT_FOUND, "Xóa không thành công lịch làm");
+            }
+        }
+        return new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy ca cần xóa");
+    }
+
+
+        public Response deleteShift(String shiftId) {
+            System.out.println(shiftId);
+            //Lấy ra các shiftDetails dựa vào id
+            try {
+                Shift shiftDb = this.shiftRepository.findOneById(Long.valueOf(shiftId));
+                System.out.println(shiftDb);
+                shiftDb.setDeleted(true);
+                this.shiftRepository.save(shiftDb);
+                return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công lịch ca làm" + shiftDb.getShiftList().getName() + " ngày: " + shiftDb.getDate(), shiftDb);
+            } catch (Exception e) {
+                return new ErrorResponse(HttpStatus.OK, "Xóa khong thanh cong");
+
+            }
+        }
+
     public Object getShiftScheduleOfDay(String date, Long typeId) {
         System.out.println(typeId);
-        Shift shift = this.shiftRepository.findAllByDateAndShiftListId(date, typeId);
+        Shift shift = this.shiftRepository.findAllByDateAndShiftListIdAndIsDeleted(date, typeId, false);
+        System.out.println(shift);
+
         if (shift != null) {
             Long shift_id = shift.getId();
             return this.shiftDetailRepository.findAllByShift_id(shift_id);
@@ -201,7 +234,7 @@ public class ManagerService {
     //Hiển thị danh sách nhân viên làm trong ngày
     public Object getAllScheduleInfo(String date) {
         //Lấy ra các ca trong ngày
-        List<Shift> shifts = this.shiftRepository.findAllByDate(date);
+        List<Shift> shifts = this.shiftRepository.findAllByDateAndIsDeleted(date, false);
         //Lấy các nhân viên trong ca đó
         List<Shift_detail> shiftDetails = this.shiftDetailRepository.findAllByShiftIn(shifts);
 

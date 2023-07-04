@@ -516,8 +516,11 @@ p {
     font-weight: 500;
     text-decoration: underline;
     color: #363636;
+    margin-bottom: 6px;
 }
-
+.schedule_employee__deleteShift {
+    background-color: rgb(245, 84, 84);
+}
 .view_schedule__new_tr .schedule_col .timeline {
     background-color: #13de7f;
     max-width: 100px;

@@ -830,7 +830,8 @@ function createShiftOfDay(shiftTypeId, task, date) {
                 date: date,
                 schedule_by: {
                     uid: userInfo.user.uid
-                }
+                },
+                isDeleted: false
             })
         })
 
@@ -1273,7 +1274,7 @@ saveScheduleBtn.addEventListener("click", () => {
                     let dataToPost = []
                     console.log(dataChange);
                     dataChange.forEach(data => {
-                        data.shift_id = {
+                        data.shift = {
                             id: shiftId
                         }
                     })
@@ -1550,3 +1551,26 @@ async function getScheduleInfoOfDay(date, shiftListId) {
         console.log("Không có dữ liệu");
     }
 }
+
+//Chức năng xóa ca làm của ngày
+// Tìm id ca đang bấm xóa
+// Gữi id lên backend
+async function deleteHandler(e) {
+    //Lấy shift id
+    let shiftIdToDelete = e.target.parentElement.querySelector(".schedule_list_employee__table .schedule_list_employee__shift_id").innerText
+    console.log(shiftIdToDelete);
+    //call api
+    let response = await fetch("", {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify("Hi")
+    })
+}
+
+let schedule_employee__deleteShift = document.querySelector(".schedule_employee__deleteShift")
+
+schedule_employee__deleteShift.addEventListener("click", deleteHandler)

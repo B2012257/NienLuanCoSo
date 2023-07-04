@@ -14,8 +14,10 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
     Shift save(Shift shift);
     Boolean existsByDate(String date);
     Boolean existsByShiftListId(Long id);
-    Boolean existsByShiftListIdAndDate(Long shiftListId, String date);
-    List<Shift> findAllByDate(String date);
-    Shift findAllByDateAndShiftListId(String date, Long id);
-    List<Shift> findByDateBetween(String startDate, String endDate);
+    Boolean existsByShiftListIdAndDateAndIsDeleted(Long shiftListId, String date, Boolean isDeleted);
+    List<Shift> findAllByDateAndIsDeleted(String date, Boolean isDeleted);
+    Shift findAllByDateAndShiftListIdAndIsDeleted(String date, Long id, Boolean isDeleted);
+    List<Shift> findByDateBetweenAndIsDeleted(String startDate, String endDate, Boolean isDeleted);
+
+    Shift findOneById(Long id);
 }
