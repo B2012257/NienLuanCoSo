@@ -21,7 +21,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(isLoginInterceptor);
         registry.addInterceptor(roleInterceptor);
-//                .addPathPatterns("/api/auth/testCookie"); // Áp dụng interceptor cho các URL trong /api
     }
     @Override
     public void addCorsMappings(CorsRegistry registry) {

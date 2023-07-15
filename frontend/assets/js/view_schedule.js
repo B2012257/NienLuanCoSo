@@ -64,8 +64,6 @@ async function callApi(method, url, body) {
 
 //Trả về tuần của ngày hiện tại
 function getWeekList(dayNow) {
-    // console.log(dayNow);
-
     //Tìm ngày đầu tuần
 
     let startOfWeek = new Date(dayNow);
@@ -73,7 +71,6 @@ function getWeekList(dayNow) {
     startOfWeek.setDate(dayNow.getDate() - (dayNow.getDay() + 6) % 7)
 
     //Lặp danh sách từ thứ 2 đến chủ nhật
-    // console.log(startOfWeek);
     let weekList = []
 
     for (let i = 0; i <= 6; i++) {
@@ -113,7 +110,6 @@ function showSttWeekOfMonth(date) {
 
     let weekNumber = getWeekNumberInMonth(date)
     let weekNumberOfMonth = document.querySelector(".weekNumberOfMonth")
-    // console.log(weekNumberOfMonth);
     weekNumberOfMonth.innerText = `Tuần ${weekNumber}`
 }
 
@@ -121,7 +117,6 @@ function showSttWeekOfMonth(date) {
 function showStartAndEndWeek(weekList) {
     let startDay = weekList[0].day
     let endDay = weekList[weekList.length - 1].day
-    // console.log(weekList[0].day + " " + weekList[weekList.length - 1].day);
 
     let startToEndDay = document.querySelector(".startToEndDay")
     startToEndDay.innerText = `${reversedDateString(formatDateString(startDay))} -> ${reversedDateString(formatDateString(endDay))}`
@@ -130,7 +125,6 @@ function showDayUnderSttOfWeekTh(date) {
     //danh sách tuần hiện tại
     //index 0 là thú 2
     let thisWeek = date ? getWeekList(new Date(date)) : getWeekList(new Date())
-    // console.log(thisWeek);
     let thOfWeekElementList = document.querySelectorAll(".sttOfWeek")
     //Mỗi
     thOfWeekElementList.forEach((item, index) => {
@@ -165,13 +159,9 @@ async function upWeekHandler(e) {
 
     //Ngày cuối của tuần hiện tại
     let lastDayofTargetWeek = startToEndDay.substring(index + 2)
-    // console.log(reversedDateString(lastDayofTargetWeek));
     let nextDay = getNextDay(new Date(reversedDateString(lastDayofTargetWeek)))
     //Ngày đầu của tuần kế tiếp
     let nextDayFomat = `${nextDay.getFullYear()}-${nextDay.getMonth() + 1}-${nextDay.getDate()}`
-    //console.log(nextDayFomat);    //Hiển thị số stt tuần của ngày truyền vào
-    // showSttWeekOfMonth(new Date(nextDayFomat))
-    //Hiển thị ngày bắt đầu và kết thúc của tuần hiện tại
     showStartAndEndWeek(getWeekList(new Date(nextDayFomat)))
     // Hiển thị ngày bên dưới thứ trong tuần
     showDayUnderSttOfWeekTh(nextDayFomat)
@@ -182,11 +172,9 @@ async function upWeekHandler(e) {
     let dayStart = formatDateString(nextDayFomat)
     let nextWeekList = getWeekList(new Date(nextDayFomat))
     let dayEnd = (nextWeekList[nextWeekList.length - 1].day)
-    // console.log("Ngay bat dau ", dayEnd + dayStart)
     let apiUrl = `http://localhost:8080/api/manager/schedule/dayToDay?start=${dayStart}&end=${dayEnd}`
     //Nhận lại dữ liệu
     let data = await callApi("GET", apiUrl)
-    // console.log(data);
     renderDataToScheduleColumn(data.data)
 }
 //Thêm tên nhân viên vào cột thứ trong tuần tương ứng
@@ -200,11 +188,8 @@ function renderDataToScheduleColumn(listShiftDetail) {
         //tìm thứ của ca ngày đó
         let sttOfShiftDateInWeek = (new Date(shiftDate).getDay()) === 0 ? 8 : new Date(shiftDate).getDay() + 1;
 
-        // console.log(shiftList_id + " " + sttOfShiftDateInWeek)
-
         //tìm tr có shiftList_id bằng với shiftList id của response
         let trElement = document.querySelectorAll(".view_schedule__new_tr")
-        // console.log(trElement);
         trElement.forEach((one) => {
             let shiftListIdShowed = one.querySelector(".shift_list_id")
             if (Number(shiftListIdShowed.innerText) === shiftList_id) {
@@ -212,8 +197,6 @@ function renderDataToScheduleColumn(listShiftDetail) {
                 let trTarget = firstTd.parentElement
                 let schedule_col = trTarget.querySelectorAll(".schedule_col")
                 let schedule_col_target = schedule_col[sttOfShiftDateInWeek - 2]
-                // console.log(schedule_col[6]);
-                // console.log(schedule_col_target);
                 schedule_col_target.innerHTML +=
                     `
                     <div class="margin-10px-top font-size14 timeline_uid timeline">${oneShiftDetail.start}:00-${(Number(oneShiftDetail.end) + Number(oneShiftDetail.overtime))}:00
@@ -459,9 +442,9 @@ async function showListEmployeWorkOnToday(day) {
                 timeline.forEach(e => {
                     let startTime = e.split("-")[0]
                     let endTime = e.split("-")[1]
-                   console.log(startTime + " " + endTime);
+                    console.log(startTime + " " + endTime);
                     //Lấy danh sách elemnt cần tô màu
-                    for(let i = Number(startTime); i < Number(endTime); i++) {
+                    for (let i = Number(startTime); i < Number(endTime); i++) {
                         let toMakeColor = tr.querySelector(`.start${i}`)
                         toMakeColor.classList.add("bg_lightBlue")
                     }
@@ -477,19 +460,19 @@ async function showListEmployeWorkOnToday(day) {
 //Hiển thị ngày hôm nay vào input
 function showTodayToInputDate() {
     let dnow = new Date()
-    let dateString =  `${dnow.getFullYear()}-${dnow.getMonth()+1}-${dnow.getDate()}`
+    let dateString = `${dnow.getFullYear()}-${dnow.getMonth() + 1}-${dnow.getDate()}`
     let inputTypeDate = document.querySelector(".view_schedule_new_wrapper .view_schedule_date input")
-    inputTypeDate.value =formatDateString(dateString)
+    inputTypeDate.value = formatDateString(dateString)
     // console.log(dateString);
 
-showListEmployeWorkOnToday() //Hiển thj lịch ngày hôm nayy 
+    showListEmployeWorkOnToday() //Hiển thj lịch ngày hôm nayy 
 
 }
 showTodayToInputDate()
 
 //Thêm sự kiện đổi ngày xem lịch theo ngày
 let inputTypeDate = document.querySelector(".view_schedule_new_wrapper .view_schedule_date input")
-inputTypeDate.addEventListener("change",(e) => {
+inputTypeDate.addEventListener("change", (e) => {
     let changeValueDate = e.target.value
 
     showListEmployeWorkOnToday(changeValueDate)

@@ -1,22 +1,5 @@
 let userInfo = JSON.parse(localStorage.getItem("info"));
 
-// let previousFunction = localStorage.getItem("previousFunction")//Lưu thông tin chức năng trước khi reload
-// if (previousFunction) {
-//     console.log(document.querySelector(`.${previousFunction}`));
-//     // document.querySelector(`.${previousFunction}`).classList.add("active")
-//     document.querySelector(".view_scheduleOpen").click()
-//     document.querySelector(`.${previousFunction}`).classList.remove("hide")
-//     // setUpHeaderInfo()
-
-// } else {
-//     localStorage.setItem("previousFunction", "overview")
-//     document.querySelector(".overviewOpen").click()
-//     document.querySelector(`.overview`).classList.remove("hide")
-
-
-// }
-
-
 let cookieSubmit = document.querySelector("#cookie")
 let logoutSubmit = document.querySelector("#logout")
 let addEmployeeBtn = document.querySelector(".main_content__body__update_employee .add_employee")

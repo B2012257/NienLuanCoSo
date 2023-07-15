@@ -9,11 +9,11 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Description project: Use to manager employer in a small company
+ * Description project: Website quản lý lịch làm của quán trà sữa
  * Author: Pham Quang Thai B2012257
  * Class: DI2096A4-KTPM
  * Start: 13:00pm 28/8/2023
- * End:??
+ * End: 7:00am 03/07/2023
  */
 
 @SpringBootApplication

@@ -59,15 +59,14 @@ public class ManagerService {
     public Response addEmployee(User employeeDetail) {
 
         if (employeeDetail != null) {
-
             //Tạo 1 tài khoản cho người dùng random từ tên + mã cb +
             String fullName = employeeDetail.getFullName();
             String uid = employeeDetail.getUid();
             int firstNameIndex = employeeDetail.getFullName().lastIndexOf(" ");
             String firstName = fullName.substring(firstNameIndex + 1);
             String userName = firstName.toLowerCase() + uid.toLowerCase();
-//            String password = new PasswordGenerator().generateRandomPassword();
             String password = "nv123123";
+
             employeeDetail.setUserName(userName);
             employeeDetail.setPassword(encoder.encode(password));
             User userResponse = this.userRepository.save(employeeDetail);
@@ -102,6 +101,7 @@ public class ManagerService {
     //Thông tin chi tiết của 1 nhân viên
     public Response detailEmployee(String uid) {
         User userDb = this.userRepository.findOneByUid(uid);
+
         if (userDb != null) {
             return new SuccessfulResponse(HttpStatus.OK, "Lấy thông tin nhân viên thành công!", userDb);
         } else {
@@ -115,6 +115,7 @@ public class ManagerService {
 
     public Response DeleteShiftTypes(Long id) {
         shiftListRepository.deleteById(id);
+
         return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công");
     }
 
@@ -123,6 +124,7 @@ public class ManagerService {
     }
     public Response deleteEmployee(String uid) {
         User userDb =  this.userRepository.findOneByUid(uid);
+
         this.userRepository.delete(userDb);
         this.userRepository.flush();
         return new SuccessfulResponse(HttpStatus.OK, "Xóa thành công");
@@ -134,17 +136,15 @@ public class ManagerService {
         User us = userRepository.findOneByUid(userUid);
         ShiftList shiftLs = shiftListRepository.findOneById(shiftListId);
         Shift shiftRes = new Shift(shift);
-        System.out.println(shiftRes);
 
-        //Kiểm tra có trùng ngày hay không
-//        Boolean isExistByDate = shiftRepository.existsByDate(shift.getDate());
         System.out.println(this.shiftRepository.existsByShiftListIdAndDateAndIsDeleted(shiftListId, shift.getDate(), false) + "test");
         if (!this.shiftRepository.existsByShiftListIdAndDateAndIsDeleted(shiftListId, shift.getDate(), false)) {
-//            us.setPassword("");
+
             shiftRes.setShiftList(shiftLs);
             shiftRes.setSchedule_by(us);
             shiftRes.setDeleted(false);
             Shift rs = shiftRepository.save(shiftRes);
+
             if (rs != null) {
                 System.out.println(rs);
                 return rs;
@@ -160,13 +160,11 @@ public class ManagerService {
      sau đó chỉ cần chọn ngày làm, giờ bắt đầu, ca, trạng thái làm việc hiện tại.
      Giao diện cho thêm nút chỉnh sửa nếu có cần chỉnh lịch tăng ca */
     public List<Shift_detail> scheduleEmployee(List<Shift_detail> shiftDetails) {
-        System.out.println(shiftDetails);
         return this.shiftDetailRepository.saveAllAndFlush(shiftDetails);
 
     }
 
     public Shift getShiftOfDay(String date, Long typeId) {
-        System.out.println(typeId);
         return this.shiftRepository.findAllByDateAndShiftListIdAndIsDeleted(date, typeId, false);
 
     }
@@ -176,6 +174,7 @@ public class ManagerService {
         //từ id lấy ra details ca
         //Trả về
         List<Shift> shifts = this.shiftRepository.findByDateBetweenAndIsDeleted(dayStart, dayEnd, false);
+
         if(shifts.size() ==0) {
             return new ErrorResponse(HttpStatus.NOT_FOUND, "Không tìm thấy ca!");
         }else {
@@ -187,7 +186,6 @@ public class ManagerService {
     }
 
     public Response DeleteShiftDetails(String shiftId) {
-        System.out.println(shiftId);
         //Lấy ra các shiftDetails dựa vào id
         List<Shift_detail> shiftDetails = this.shiftDetailRepository.findAllByShift_id(Long.valueOf(shiftId));
 
@@ -196,6 +194,7 @@ public class ManagerService {
                 this.shiftDetailRepository.deleteAll(shiftDetails);
                 this.shiftDetailRepository.flush();
                 Shift shiftDb = this.shiftRepository.findOneById(Long.valueOf(shiftId));
+
                 shiftDb.setDeleted(true);
                 this.shiftRepository.save(shiftDb);
 
@@ -225,9 +224,7 @@ public class ManagerService {
         }
 
     public Object getShiftScheduleOfDay(String date, Long typeId) {
-        System.out.println(typeId);
         Shift shift = this.shiftRepository.findAllByDateAndShiftListIdAndIsDeleted(date, typeId, false);
-        System.out.println(shift);
 
         if (shift != null) {
             Long shift_id = shift.getId();
